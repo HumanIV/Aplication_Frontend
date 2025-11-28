@@ -15,7 +15,6 @@ import {
   CTableDataCell,
   CToast,
   CToastBody,
-  CToastHeader,
   CToaster,
   CModal,
   CModalHeader,
@@ -27,78 +26,63 @@ import {
   CCard,
   CCardBody,
   CBadge,
+  CCloseButton,
+  CFormTextarea,
 } from '@coreui/react'
-
 import CIcon from '@coreui/icons-react'
-import { cilTrash, cilPencil, cilPlus, cilSearch, cilFilter, cilSave } from '@coreui/icons'
+import { cilTrash, cilPencil, cilPlus, cilSave, cilCalendar, cilTag, cilNotes } from '@coreui/icons'
 
-const API_BASE = 'http://localhost:4000'
-const API_PRODUCTS = `${API_BASE}/products`
+const API_BASE = 'http://localhost:3001'
+const API_STOCK = `${API_BASE}/api/stock`
 
 export const Stock = () => {
-  // ------------------ ESTADOS ------------------
-  const [toasts, setToasts] = useState([])
+  const [items, setItems] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
   const [modalType, setModalType] = useState(null)
-  const [productos, setProductos] = useState([])
-  const [productoEdit, setProductoEdit] = useState(null)
-  const [busqueda, setBusqueda] = useState('')
-  const [categoriaFiltro, setCategoriaFiltro] = useState('')
+  const [itemEdit, setItemEdit] = useState(null)
 
   const [formData, setFormData] = useState({
-    Nombre: '',
-    Categoria: '',
-    Precio_Unit: '',
-    Cantidad: '',
-    stockMinimo: 0,
-    codigo: '',
-    Estatus: 'Disponible',
+    id_product: '',
+    movement_type: 'Entrada',
+    quantity: '',
+    movement_date: new Date().toISOString().split('T')[0],
+    note_stock: '',
   })
 
-  // ------------------ LOGICA API ------------------
-  const cargarProductos = async () => {
+  const cargarStock = async () => {
     try {
-      const resp = await fetch(API_PRODUCTS)
-      if (!resp.ok) throw new Error()
+      const resp = await fetch(API_STOCK)
       const data = await resp.json()
-      setProductos(data)
+      setItems(Array.isArray(data) ? data : [])
     } catch (err) {
-      showToast('danger', 'Error de conexión con el servidor.')
+      console.error('Error al cargar stock:', err)
     }
   }
 
   useEffect(() => {
-    cargarProductos()
+    cargarStock()
   }, [])
 
-  const showToast = (type, message) => {
-    setToasts((prev) => [...prev, { id: Date.now(), type, message }])
-  }
-
-  // ------------------ MANEJADORES ------------------
-  const openModal = (type, producto = null) => {
+  // MANEJADOR DE APERTURA DE MODAL (Corregido para cargar datos)
+  const openModal = (type, item = null) => {
     setModalType(type)
-    if (type === 'edit' && producto) {
-      setProductoEdit(producto)
+    if (type === 'edit' && item) {
+      setItemEdit(item)
       setFormData({
-        Nombre: producto.Nombre || '',
-        Categoria: producto.Categoria || '',
-        Precio_Unit: producto.Precio_Unit ?? '',
-        Cantidad: producto.Cantidad ?? '',
-        stockMinimo: producto.stockMinimo ?? 0,
-        codigo: producto.codigo || producto.id || '',
-        Estatus: producto.Estatus || 'Disponible',
+        id_product: item.id_product || '',
+        movement_type: item.movement_type || 'Entrada',
+        quantity: item.quantity || '',
+        movement_date: item.movement_date ? item.movement_date.split('T')[0] : '',
+        note_stock: item.note_stock || '',
       })
     } else {
-      setProductoEdit(null)
+      setItemEdit(null)
       setFormData({
-        Nombre: '',
-        Categoria: '',
-        Precio_Unit: '',
-        Cantidad: '',
-        stockMinimo: 0,
-        codigo: '',
-        Estatus: 'Disponible',
+        id_product: '',
+        movement_type: 'Entrada',
+        quantity: '',
+        movement_date: new Date().toISOString().split('T')[0],
+        note_stock: '',
       })
     }
     setModalVisible(true)
@@ -109,346 +93,203 @@ export const Stock = () => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const guardarProducto = async () => {
-    if (!formData.Nombre.trim() || formData.Precio_Unit === '' || formData.Cantidad === '') {
-      showToast('warning', 'Campos obligatorios incompletos.')
-      return
-    }
+  const guardarCambios = async () => {
+    const metodo = modalType === 'edit' ? 'PUT' : 'POST'
+    const url = modalType === 'edit' ? `${API_STOCK}/${itemEdit.id_stock}` : API_STOCK
 
-    const productoData = {
+    // Limpieza de datos antes de enviar
+    const dataAEnviar = {
       ...formData,
-      Precio_Unit: Number(formData.Precio_Unit),
-      Cantidad: Number(formData.Cantidad),
-      stockMinimo: Number(formData.stockMinimo) || 0,
+      id_product: parseInt(formData.id_product),
+      quantity: parseInt(formData.quantity),
     }
 
     try {
-      const method = modalType === 'edit' ? 'PUT' : 'POST'
-      const url = modalType === 'edit' ? `${API_PRODUCTS}/${productoEdit.id}` : API_PRODUCTS
       const resp = await fetch(url, {
-        method,
+        method: metodo,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productoData),
+        body: JSON.stringify(dataAEnviar),
       })
 
       if (resp.ok) {
-        showToast('success', `Producto ${modalType === 'edit' ? 'actualizado' : 'guardado'}.`)
         setModalVisible(false)
-        cargarProductos()
+        cargarStock()
       }
-    } catch (err) {
-      showToast('danger', 'Error al procesar la solicitud.')
+    } catch (error) {
+      console.error('Error al guardar:', error)
     }
   }
 
-  const eliminarProducto = async (id) => {
-    if (!window.confirm('¿Eliminar este producto?')) return
+  const eliminarRegistro = async (id) => {
+    if (!window.confirm('¿Estás seguro de eliminar este registro?')) return
     try {
-      const resp = await fetch(`${API_PRODUCTS}/${id}`, { method: 'DELETE' })
-      if (resp.ok) {
-        showToast('warning', 'Producto eliminado.')
-        cargarProductos()
-      }
+      await fetch(`${API_STOCK}/${id}`, { method: 'DELETE' })
+      cargarStock()
     } catch (err) {
-      showToast('danger', 'Error al eliminar.')
+      console.error('Error al eliminar:', err)
     }
   }
-
-  const productosFiltrados = productos.filter((p) => {
-    const coincideBusqueda =
-      (p.Nombre || '').toLowerCase().includes(busqueda.toLowerCase()) ||
-      String(p.codigo || p.id)
-        .toLowerCase()
-        .includes(busqueda.toLowerCase())
-    const coincideCat = !categoriaFiltro || p.Categoria === categoriaFiltro
-    return coincideBusqueda && coincideCat
-  })
-
-  const categorias = [...new Set(productos.map((p) => p.Categoria).filter(Boolean))]
 
   return (
-    <div className="stock-container">
+    <div className="stock-page-wrapper">
       <CContainer fluid className="py-4">
-        {/* HEADER DINÁMICO */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <div>
-            <h2 className="fw-bold mb-0 text-gradient-primary">Gestión de Inventario</h2>
-            <p className="text-secondary small">Monitoreo de existencias en tiempo real</p>
-          </div>
-          <CButton color="primary" className="shadow-sm fw-bold" onClick={() => openModal('add')}>
-            <CIcon icon={cilPlus} className="me-2" /> Nuevo Producto
+        <div className="header-flex mb-4">
+          <h2 className="text-gradient">Gestión de Movimientos</h2>
+          <CButton color="primary" className="fw-bold shadow-sm" onClick={() => openModal('add')}>
+            <CIcon icon={cilPlus} className="me-2" /> Nuevo Movimiento
           </CButton>
         </div>
 
-        {/* FILTROS TIPO DASHBOARD */}
-        <CCard className="mb-4 border-0 shadow-sm custom-card">
-          <CCardBody>
-            <CRow className="g-3">
-              <CCol md={7}>
-                <CInputGroup>
-                  <CInputGroupText className="bg-transparent border-end-0 text-secondary">
-                    <CIcon icon={cilSearch} />
-                  </CInputGroupText>
-                  <CFormInput
-                    className="border-start-0 ps-0 search-input"
-                    placeholder="Buscar por nombre, código o SKU..."
-                    value={busqueda}
-                    onChange={(e) => setBusqueda(e.target.value)}
-                  />
-                </CInputGroup>
-              </CCol>
-              <CCol md={5}>
-                <CInputGroup>
-                  <CInputGroupText className="bg-transparent border-end-0 text-secondary">
-                    <CIcon icon={cilFilter} />
-                  </CInputGroupText>
-                  <CFormSelect
-                    className="border-start-0 ps-0 filter-select"
-                    value={categoriaFiltro}
-                    onChange={(e) => setCategoriaFiltro(e.target.value)}
-                  >
-                    <option value="">Todas las Categorías</option>
-                    {categorias.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                </CInputGroup>
-              </CCol>
-            </CRow>
-          </CCardBody>
-        </CCard>
-
-        {/* TABLA ESTILIZADA */}
-        <CCard className="border-0 shadow-sm custom-card overflow-hidden">
+        <CCard className="custom-card shadow-sm border-0">
           <CCardBody className="p-0">
-            <div className="table-responsive">
-              <CTable hover align="middle" className="mb-0 custom-table">
-                <CTableHead>
-                  <CTableRow>
-                    <CTableHeaderCell className="ps-4">Código</CTableHeaderCell>
-                    <CTableHeaderCell>Producto</CTableHeaderCell>
-                    <CTableHeaderCell>Categoría</CTableHeaderCell>
-                    <CTableHeaderCell>Precio</CTableHeaderCell>
-                    <CTableHeaderCell>Existencia</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center pe-4">Acciones</CTableHeaderCell>
+            <CTable align="middle" hover responsive className="mb-0">
+              <CTableHead color="light">
+                <CTableRow>
+                  <CTableHeaderCell className="ps-4">ID</CTableHeaderCell>
+                  <CTableHeaderCell>Producto (ID)</CTableHeaderCell>
+                  <CTableHeaderCell>Tipo</CTableHeaderCell>
+                  <CTableHeaderCell>Cantidad</CTableHeaderCell>
+                  <CTableHeaderCell>Fecha</CTableHeaderCell>
+                  <CTableHeaderCell className="text-center">Acciones</CTableHeaderCell>
+                </CTableRow>
+              </CTableHead>
+              <CTableBody>
+                {items.map((item) => (
+                  <CTableRow key={item.id_stock}>
+                    <CTableDataCell className="ps-4 text-secondary small">
+                      #{item.id_stock}
+                    </CTableDataCell>
+                    <CTableDataCell className="fw-bold">{item.id_product}</CTableDataCell>
+                    <CTableDataCell>
+                      <CBadge color={item.movement_type === 'Salida' ? 'danger' : 'success'}>
+                        {item.movement_type}
+                      </CBadge>
+                    </CTableDataCell>
+                    <CTableDataCell className="fw-bold text-primary">
+                      {item.quantity}
+                    </CTableDataCell>
+                    <CTableDataCell className="small">
+                      {item.movement_date
+                        ? new Date(item.movement_date).toLocaleDateString()
+                        : 'N/A'}
+                    </CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      <CButton
+                        variant="ghost"
+                        color="warning"
+                        size="sm"
+                        onClick={() => openModal('edit', item)}
+                      >
+                        <CIcon icon={cilPencil} />
+                      </CButton>
+                      <CButton
+                        variant="ghost"
+                        color="danger"
+                        size="sm"
+                        onClick={() => eliminarRegistro(item.id_stock)}
+                      >
+                        <CIcon icon={cilTrash} />
+                      </CButton>
+                    </CTableDataCell>
                   </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {productosFiltrados.map((producto) => {
-                    const stockBajo = Number(producto.Cantidad) <= Number(producto.stockMinimo)
-                    return (
-                      <CTableRow key={producto.id} className={stockBajo ? 'row-warning' : ''}>
-                        <CTableDataCell className="ps-4">
-                          <span className="text-secondary fw-medium">
-                            {producto.codigo || producto.id}
-                          </span>
-                        </CTableDataCell>
-                        <CTableDataCell>
-                          <div className="fw-bold">{producto.Nombre}</div>
-                        </CTableDataCell>
-                        <CTableDataCell>
-                          <CBadge color="info" variant="outline" className="px-2 py-1">
-                            {producto.Categoria || 'General'}
-                          </CBadge>
-                        </CTableDataCell>
-                        <CTableDataCell className="fw-bold text-success">
-                          ${Number(producto.Precio_Unit ?? 0).toFixed(2)}
-                        </CTableDataCell>
-                        <CTableDataCell>
-                          <div className={`fw-bold ${stockBajo ? 'text-danger' : 'text-primary'}`}>
-                            {producto.Cantidad}
-                            <span className="text-secondary fw-normal small ms-1">
-                              / min: {producto.stockMinimo}
-                            </span>
-                          </div>
-                        </CTableDataCell>
-                        <CTableDataCell className="text-center pe-4">
-                          <CButton
-                            color="warning"
-                            size="sm"
-                            variant="ghost"
-                            className="me-1"
-                            onClick={() => openModal('edit', producto)}
-                          >
-                            <CIcon icon={cilPencil} />
-                          </CButton>
-                          <CButton
-                            color="danger"
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => eliminarProducto(producto.id)}
-                          >
-                            <CIcon icon={cilTrash} />
-                          </CButton>
-                        </CTableDataCell>
-                      </CTableRow>
-                    )
-                  })}
-                </CTableBody>
-              </CTable>
-            </div>
+                ))}
+              </CTableBody>
+            </CTable>
           </CCardBody>
         </CCard>
-
-        {/* MODAL ADAPTATIVO */}
-        <CModal
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          alignment="center"
-          size="lg"
-        >
-          <CModalHeader className="border-0">
-            <CModalTitle className="fw-bold">
-              {modalType === 'edit' ? '✏️ Editar Producto' : '📦 Nuevo Producto'}
-            </CModalTitle>
-          </CModalHeader>
-          <CModalBody className="px-4 pb-4">
-            <CForm className="row g-3">
-              <CCol md={8}>
-                <CFormLabel className="fw-bold small">Nombre del Producto *</CFormLabel>
-                <CFormInput name="Nombre" value={formData.Nombre} onChange={handleInputChange} />
-              </CCol>
-              <CCol md={4}>
-                <CFormLabel className="fw-bold small">Código / SKU</CFormLabel>
-                <CFormInput name="codigo" value={formData.codigo} onChange={handleInputChange} />
-              </CCol>
-              <CCol md={6}>
-                <CFormLabel className="fw-bold small">Categoría</CFormLabel>
-                <CFormInput
-                  name="Categoria"
-                  value={formData.Categoria}
-                  onChange={handleInputChange}
-                />
-              </CCol>
-              <CCol md={6}>
-                <CFormLabel className="fw-bold small">Precio Unitario ($)</CFormLabel>
-                <CFormInput
-                  type="number"
-                  name="Precio_Unit"
-                  value={formData.Precio_Unit}
-                  onChange={handleInputChange}
-                />
-              </CCol>
-              <CCol md={6}>
-                <CFormLabel className="fw-bold small">Stock Actual</CFormLabel>
-                <CFormInput
-                  type="number"
-                  name="Cantidad"
-                  value={formData.Cantidad}
-                  onChange={handleInputChange}
-                />
-              </CCol>
-              <CCol md={6}>
-                <CFormLabel className="fw-bold small">Stock Mínimo Alerta</CFormLabel>
-                <CFormInput
-                  type="number"
-                  name="stockMinimo"
-                  value={formData.stockMinimo}
-                  onChange={handleInputChange}
-                />
-              </CCol>
-              <CCol md={12} className="mt-4">
-                <CButton
-                  color="primary"
-                  className="w-100 fw-bold py-2 shadow-sm"
-                  onClick={guardarProducto}
-                >
-                  <CIcon icon={cilSave} className="me-2" />
-                  {modalType === 'edit' ? 'Guardar Cambios' : 'Registrar en Inventario'}
-                </CButton>
-              </CCol>
-            </CForm>
-          </CModalBody>
-        </CModal>
-
-        {/* TOASTER */}
-        <CToaster placement="top-end">
-          {toasts.map((t) => (
-            <CToast
-              key={t.id}
-              autohide
-              delay={3000}
-              color={t.type}
-              visible
-              className="text-white border-0 shadow"
-            >
-              <div className="d-flex">
-                <CToastBody className="fw-bold">{t.message}</CToastBody>
-                <CButton
-                  close
-                  className="me-2 m-auto"
-                  onClick={() => setToasts(toasts.filter((x) => x.id !== t.id))}
-                />
-              </div>
-            </CToast>
-          ))}
-        </CToaster>
       </CContainer>
 
-      {/* --- ESTILOS DINÁMICOS CLARO/OSCURO --- */}
-      <style jsx>{`
-        .stock-container {
-          min-height: 100vh;
-          background: var(--cui-body-bg);
-          transition: all 0.3s ease;
-        }
+      <CModal visible={modalVisible} onClose={() => setModalVisible(false)} size="lg">
+        <CModalHeader className="border-0">
+          <CModalTitle className="fw-bold">
+            {modalType === 'edit' ? '✏️ Editar Registro' : '📦 Nuevo Movimiento'}
+          </CModalTitle>
+        </CModalHeader>
+        <CModalBody className="px-4 pb-4">
+          <CForm className="row g-3">
+            <CCol md={6}>
+              <CFormLabel className="small fw-bold">ID Producto</CFormLabel>
+              <CInputGroup>
+                <CInputGroupText>
+                  <CIcon icon={cilTag} />
+                </CInputGroupText>
+                <CFormInput
+                  name="id_product"
+                  value={formData.id_product}
+                  onChange={handleInputChange}
+                />
+              </CInputGroup>
+            </CCol>
+            <CCol md={6}>
+              <CFormLabel className="small fw-bold">Tipo de Movimiento</CFormLabel>
+              <CFormSelect
+                name="movement_type"
+                value={formData.movement_type}
+                onChange={handleInputChange}
+              >
+                <option value="entrada">Entrada</option>
+                <option value="salida">Salida</option>
+              </CFormSelect>
+            </CCol>
+            <CCol md={6}>
+              <CFormLabel className="small fw-bold">Cantidad</CFormLabel>
+              <CFormInput
+                type="number"
+                name="quantity"
+                value={formData.quantity}
+                onChange={handleInputChange}
+              />
+            </CCol>
+            <CCol md={6}>
+              <CFormLabel className="small fw-bold">Fecha</CFormLabel>
+              <CInputGroup>
+                <CInputGroupText>
+                  <CIcon icon={cilCalendar} />
+                </CInputGroupText>
+                <CFormInput
+                  type="date"
+                  name="movement_date"
+                  value={formData.movement_date}
+                  onChange={handleInputChange}
+                />
+              </CInputGroup>
+            </CCol>
+            <CCol md={12}>
+              <CFormLabel className="small fw-bold">Notas</CFormLabel>
+              <CFormTextarea
+                name="note_stock"
+                rows={2}
+                value={formData.note_stock}
+                onChange={handleInputChange}
+              />
+            </CCol>
+            <CCol md={12} className="mt-4">
+              <CButton
+                color="primary"
+                className="w-100 fw-bold py-2 shadow-sm"
+                onClick={guardarCambios}
+              >
+                <CIcon icon={cilSave} className="me-2" /> Guardar Cambios
+              </CButton>
+            </CCol>
+          </CForm>
+        </CModalBody>
+      </CModal>
 
-        .text-gradient-primary {
-          background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .custom-card {
-          background: var(--cui-card-bg);
-          border: 1px solid var(--cui-border-color) !important;
-          border-radius: 12px;
-        }
-
-        .custom-table thead th {
-          background-color: var(--cui-tertiary-bg);
-          color: var(--cui-secondary-color);
-          text-transform: uppercase;
-          font-size: 0.75rem;
-          letter-spacing: 1px;
-          border-bottom: 1px solid var(--cui-border-color);
-          padding: 15px 10px;
-        }
-
-        .custom-table tbody td {
-          padding: 15px 10px;
-          color: var(--cui-body-color);
-          border-bottom: 1px solid var(--cui-border-color);
-        }
-
-        .row-warning {
-          background-color: rgba(255, 193, 7, 0.05) !important;
-        }
-
-        /* Ajuste para inputs en modo oscuro */
-        .search-input,
-        .filter-select,
-        .form-control {
-          background-color: var(--cui-input-bg) !important;
-          color: var(--cui-input-color) !important;
-          border-color: var(--cui-input-border-color) !important;
-        }
-
-        .search-input:focus {
-          border-color: #20c997 !important;
-          box-shadow: 0 0 0 0.25rem rgba(32, 201, 151, 0.2) !important;
-        }
-
-        [data-coreui-theme='dark'] .row-warning {
-          background-color: rgba(255, 193, 7, 0.1) !important;
-        }
-
-        [data-coreui-theme='dark'] .custom-card {
-          background: #1d1e22;
-        }
-      `}</style>
+      <style>
+        {`
+          .stock-page-wrapper { background-color: var(--cui-body-bg); min-height: 100vh; }
+          .text-gradient {
+            background: linear-gradient(90deg, #20c997, #0dcaf0);
+            -webkit-background-clip: text;
+            -webkit-fill-color: transparent;
+            font-weight: 800;
+          }
+          .header-flex { display: flex; justify-content: space-between; align-items: center; }
+          .custom-card { border-radius: 15px; overflow: hidden; background-color: var(--cui-card-bg); }
+          [data-coreui-theme='dark'] .custom-card { background-color: #21222d; border: 1px solid #2f303d !important; }
+        `}
+      </style>
     </div>
   )
 }
