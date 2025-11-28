@@ -1,32 +1,153 @@
-    import React, { useState, useEffect } from 'react'
-    import {
-    CContainer, CAvatar, CCard, CCardBody, CFormInput,
-    CButton, CCardHeader, CToaster, CToast, CToastBody,
-    CToastHeader, CModal, CModalBody, CModalHeader,
-    CModalTitle, CForm
-    } from '@coreui/react'
-    import CIcon from '@coreui/icons-react'
-    import { cilUser, cilEnvelopeOpen, cilLockLocked, cilClock } from '@coreui/icons'
+import React, { useState, useEffect } from 'react'
+import {
+    CContainer,
+    CAvatar,
+    CCard,
+    CCardBody,
+    CFormInput,
+    CButton,
+    CCardHeader,
+    CToaster,
+    CToast,
+    CToastBody,
+    CToastHeader,
+    CModal,
+    CModalBody,
+    CModalHeader,
+    CModalTitle,
+    CForm,
+    CFormSelect
+} from '@coreui/react'
 
-    export const Users = () => {
+import CIcon from '@coreui/icons-react'
+import { cilUser, cilEnvelopeOpen, cilLockLocked, cilClock, cibAddthis } from '@coreui/icons'
 
-    const API = 'http://localhost:4000/users'
-    const [user, setUser] = useState(null)
+export const Users = () => {
 
-    const [modalVisible, setModalVisible] = useState(false)
+    // ---------------------- TOAST ---------------------- //
     const [toasts, setToasts] = useState([])
 
     const showToast = (type, message) => {
         setToasts((prev) => [...prev, { type, message, id: Date.now() }])
     }
 
-    // CARGA DE USUARIO
+    // ---------------------- MODAL / FORM ---------------------- //
+    const [modalVisible, setModalVisible] = useState(false)
+    const [editingId, setEditingId] = useState(null) // null => crear, id => editar
+    const [user, setUser] = useState(null) // usuario logueado (guardado en localStorage)
+    const [usersList, setUsersList] = useState([]) // lista desde json-server
+    const API = 'http://localhost:4000/users'
+
+    const emptyForm = {
+        dni: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        address: '',
+        role: '',
+        username: '',
+        password: ''
+    }
+    const [formUser, setFormUser] = useState(emptyForm)
+
+    // CARGA DE USUARIO (logueado) y lista inicial
     useEffect(() => {
         const loggedUser = JSON.parse(localStorage.getItem("user"))
         if (loggedUser) {
-        setUser(loggedUser)
+            setUser(loggedUser)
         }
+        fetchUsers()
     }, [])
+
+    const fetchUsers = async () => {
+        try {
+            const res = await fetch(API)
+            if (!res.ok) throw new Error('Error al cargar usuarios')
+            const data = await res.json()
+            setUsersList(data)
+        } catch (err) {
+            showToast('danger', 'No se pudieron cargar los usuarios')
+            console.error(err)
+        }
+    }
+
+    // ABRIR MODAL PARA NUEVO USUARIO
+    const handleNew = () => {
+        setEditingId(null)
+        setFormUser(emptyForm)
+        setModalVisible(true)
+    }
+
+    // ABRIR MODAL PARA EDITAR
+    const handleEdit = (u) => {
+        setEditingId(u.id)
+        setFormUser({
+            dni: u.dni || '',
+            firstName: u.firstName || '',
+            lastName: u.lastName || '',
+            email: u.email || '',
+            address: u.address || '',
+            role: u.role || '',
+            username: u.username || '',
+            password: '' // no mostrar password original
+        })
+        setModalVisible(true)
+    }
+
+    // GUARDAR (crear o actualizar)
+    const handleSave = async (e) => {
+        e.preventDefault()
+        // validación mínima
+        if (!formUser.dni || !formUser.firstName || !formUser.username) {
+            showToast('warning', 'Complete DNI, nombre y usuario')
+            return
+        }
+        try {
+            if (editingId) {
+                // actualizar
+                const res = await fetch(`${API}/${editingId}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formUser)
+                })
+                if (!res.ok) throw new Error('Error al actualizar')
+                const updated = await res.json()
+                setUsersList((prev) => prev.map((p) => (p.id === editingId ? updated : p)))
+                showToast('success', 'Usuario actualizado correctamente')
+            } else {
+                // crear
+                const res = await fetch(API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formUser)
+                })
+                if (!res.ok) throw new Error('Error al crear usuario')
+                const created = await res.json()
+                setUsersList((prev) => [...prev, created])
+                showToast('success', 'Usuario creado correctamente')
+            }
+            setModalVisible(false)
+            setFormUser(emptyForm)
+            setEditingId(null)
+        } catch (err) {
+            showToast('danger', 'Ocurrió un error al guardar')
+            console.error(err)
+        }
+    }
+
+    // ELIMINAR
+    const handleDelete = async (id) => {
+        if (!window.confirm('¿Eliminar este usuario?')) return
+        try {
+            const res = await fetch(`${API}/${id}`, { method: 'DELETE' })
+            if (!res.ok) throw new Error('Error al eliminar')
+            setUsersList((prev) => prev.filter((u) => u.id !== id))
+            showToast('success', 'Usuario eliminado')
+        } catch (err) {
+            showToast('danger', 'No se pudo eliminar el usuario')
+            console.error(err)
+        }
+    }
 
     const updatePassword = () => {
         showToast('success', 'Contraseña actualizada correctamente')
@@ -39,170 +160,97 @@
 
     return (
         <>
+            <CToaster position="top-end">
+                {toasts.map((t) => (
+                    <CToast key={t.id} autohide={true} delay={3000}>
+                        <CToastHeader closeButton={false}>{t.type}</CToastHeader>
+                        <CToastBody>{t.message}</CToastBody>
+                    </CToast>
+                ))}
+            </CToaster>
 
-        {/* BIENVENIDA */}
-        <div className="d-flex justify-content-center align-items-center mt-4">
-            <CCard className="shadow-sm border-0 px-4 py-3 text-center" style={{ maxWidth: 400 }}>
-            <h5 className="fw-bold mb-1">Bienvenido</h5>
-            <p className="text-primary fw-semibold fs-5">{user.name}</p>
-            </CCard>
-        </div>
-
-        {/* CONTENEDOR PRINCIPAL */}
-        <CContainer fluid className="mt-4">
-            <div className="row g-4 justify-content-center">
-
-            {/* PERFIL */}
-            <div className="col-md-4 col-lg-3">
-                <CCard className="shadow-lg border-0 text-center rounded-4">
-                <CCardHeader className="bg-dark text-white fw-semibold rounded-top-4 py-3">
-                    <CIcon icon={cilUser} className="me-2" />
-                    Perfil
-                </CCardHeader>
-                <CCardBody className="pt-4">
-                    <CAvatar size="xl" src={user.avatar} className="mb-3 shadow" />
-                    <h4 className="fw-bold mb-1">{user.name}</h4>
-                    <p className="text-muted mb-0">{user.email}</p>
-                    <span className="badge bg-secondary mt-2 px-3 py-2 fs-6 text-uppercase">
-                    {user.role}
-                    </span>
-                </CCardBody>
-                </CCard>
-            </div>
-
-            {/* DATOS DEL USUARIO */}
-            <div className="col-md-6 col-lg-5">
-                <CCard className="shadow-sm rounded-4 border-light">
-                <CCardHeader className="bg-primary text-white fw-semibold rounded-top-4">
-                    <CIcon icon={cilUser} className="me-2" />
-                    Información del Usuario
-                </CCardHeader>
-
-                <CCardBody className="pt-3 fs-6">
-                    <div className="d-flex align-items-center mb-3">
-                    <CIcon icon={cilUser} className="me-3 text-primary fs-4" />
-                    <p className="m-0"><strong>Nombre:</strong> {user.name}</p>
-                    </div>
-                    <div className="d-flex align-items-center mb-3">
-                    <CIcon icon={cilEnvelopeOpen} className="me-3 text-success fs-4" />
-                    <p className="m-0"><strong>Email:</strong> {user.email}</p>
-                    </div>
-                    <div className="d-flex align-items-center">
-                    <CIcon icon={cilClock} className="me-3 text-warning fs-4" />
-                    <p className="m-0"><strong>Último acceso:</strong> {user.lastLogin}</p>
-                    </div>
-                </CCardBody>
-                </CCard>
-            </div>
-
-            {/* ACCIONES */}
-            <div className="col-md-4 col-lg-3">
-
-                {/* Seguridad */}
-                <CCard className="shadow border-0 text-center rounded-4 mb-3">
-                <CCardHeader className="bg-warning text-dark fw-semibold rounded-top-4">
-                    <CIcon icon={cilLockLocked} className="me-2" />
-                    Seguridad
-                </CCardHeader>
-
-                <CCardBody>
-                    <p className="text-muted mb-3">
-                    Cambia tu contraseña regularmente para mantener tu cuenta segura.
-                    </p>
-
-                    <CButton
-                    color="warning"
-                    className="w-100 fw-bold text-dark shadow-sm"
-                    onClick={() => setModalVisible(true)}
-                    >
-                    Cambiar Contraseña
+            <div className="table-responsive">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h4>Usuarios</h4>
+                    <CButton color="primary" onClick={handleNew}>
+                        Nuevo Usuario
+                        <CIcon className="ms-2" icon={cibAddthis} />
                     </CButton>
-                </CCardBody>
-                </CCard>
+                </div>
 
-                {/* OPCIONES POR ROL */}
-                {user.role === "admin" && (
-                <CCard className="shadow border-0 text-center rounded-4">
-                    <CCardHeader className="bg-danger text-white rounded-top-4">
-                    Panel de Administrador
-                    </CCardHeader>
-                    <CCardBody>
-                    <p>Gestionar usuarios, reportes, inventarios...</p>
-                    </CCardBody>
-                </CCard>
-                )}
+                <table className="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Password</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
 
-                {user.role === "employee" && (
-                <CCard className="shadow border-0 text-center rounded-4">
-                    <CCardHeader className="bg-info text-white rounded-top-4">
-                    Panel de Empleado
-                    </CCardHeader>
-                    <CCardBody>
-                    <p>Registrar ventas, ver pedidos, editar perfil...</p>
-                    </CCardBody>
-                </CCard>
-                )}
+                    <tbody className="table-group-divider">
+                        {usersList.map((u, idx) => (
+                            <tr key={u.id || idx}>
+                                <th scope="row">{idx + 1}</th>
+                                <td>{u.dni}</td>
+                                <td>{u.firstName}</td>
+                                <td>{u.lastName}</td>
+                                <td>{u.email}</td>
+                                <td>{u.address}</td>
+                                <td>{u.role}</td>
+                                <td>{u.username}</td>
+                                <td>{u.password}</td>
+                                <td>
+                                    <CButton color="primary" size="sm" onClick={() => handleEdit(u)}>Editar</CButton>{' '}
+                                    <CButton color="danger" size="sm" onClick={() => handleDelete(u.id)}>Eliminar</CButton>
+                                </td>
+                            </tr>
+                        ))}
 
+                        {/* Si no hay usuarios */}
+                        {usersList.length === 0 && (
+                            <tr>
+                                <td colSpan="10" className="text-center">No hay usuarios</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
-            </div>
-        </CContainer>
 
-        {/* TOASTS */}
-        <CToaster placement="top-end">
-            {toasts.map((t) => (
-            <CToast
-                key={t.id}
-                autohide
-                delay={2500}
-                color={t.type}
-                visible
-                className="rounded-3 shadow"
-            >
-                <CToastHeader closeButton>
-                <strong className="me-auto">{t.message}</strong>
-                </CToastHeader>
-                <CToastBody>¡Operación realizada con éxito!</CToastBody>
-            </CToast>
-            ))}
-        </CToaster>
+            <CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+                <CModalHeader onClose={() => setModalVisible(false)}>
+                    <CModalTitle>{editingId ? 'Editar Usuario' : 'Nuevo Usuario'}</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <CForm onSubmit={handleSave}>
+                        <CFormInput className="mb-2" value={formUser.dni} onChange={(e) => setFormUser({ ...formUser, dni: e.target.value })} placeholder="DNI" />
+                        <CFormInput className="mb-2" value={formUser.firstName} onChange={(e) => setFormUser({ ...formUser, firstName: e.target.value })} placeholder="First Name" />
+                        <CFormInput className="mb-2" value={formUser.lastName} onChange={(e) => setFormUser({ ...formUser, lastName: e.target.value })} placeholder="Last Name" />
+                        <CFormInput className="mb-2" value={formUser.email} onChange={(e) => setFormUser({ ...formUser, email: e.target.value })} placeholder="Email" />
+                        <CFormInput className="mb-2" value={formUser.address} onChange={(e) => setFormUser({ ...formUser, address: e.target.value })} placeholder="Address" />
+                        <CFormSelect className="mb-2" value={formUser.role} onChange={(e) => setFormUser({ ...formUser, role: e.target.value })}>
+                            <option value="">Seleccione rol</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Empleado">Empleado</option>
+                        </CFormSelect>
+                        <CFormInput className="mb-2" value={formUser.username} onChange={(e) => setFormUser({ ...formUser, username: e.target.value })} placeholder="Username" />
+                        <CFormInput className="mb-3" type="password" value={formUser.password} onChange={(e) => setFormUser({ ...formUser, password: e.target.value })} placeholder="Password (dejar vacío si no cambia)" />
 
-        {/* MODAL */}
-        <CModal
-            size="lg"
-            visible={modalVisible}
-            onClose={() => setModalVisible(false)}
-            className="rounded-4"
-        >
-            <CModalHeader className="rounded-top-4">
-            <CModalTitle>
-                <CIcon icon={cilLockLocked} className="me-2" />
-                Cambiar Contraseña
-            </CModalTitle>
-            </CModalHeader>
-
-            <CModalBody>
-            <CForm>
-                <CFormInput
-                className="mb-3"
-                type="password"
-                placeholder="Contraseña Actual"
-                label="Contraseña Actual"
-                />
-                <CFormInput
-                className="mb-3"
-                type="password"
-                placeholder="Nueva Contraseña"
-                label="Nueva Contraseña"
-                />
-                <CButton color="success" onClick={updatePassword} className="mt-2 w-100 fw-semibold">
-                Guardar Cambios
-                </CButton>
-            </CForm>
-            </CModalBody>
-        </CModal>
-
+                        <div className="d-flex justify-content-end">
+                            <CButton color="secondary" onClick={() => setModalVisible(false)} className="me-2">Cancelar</CButton>
+                            <CButton color="primary" type="submit">{editingId ? 'Guardar cambios' : 'Crear usuario'}</CButton>
+                        </div>
+                    </CForm>
+                </CModalBody>
+            </CModal>
         </>
     )
-    }
+}
 
-    export default Users
+export default Users

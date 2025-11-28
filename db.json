@@ -1,12 +1,6 @@
 {
   "users": [
     {
-      "id": "4a42",
-      "username": "HumanIV",
-      "email": "HumanIV",
-      "password": "admin1234"
-    },
-    {
       "id": "084f",
       "username": "HumanV",
       "email": "Anfer",
@@ -38,6 +32,28 @@
       "email": "fer@gmail.com",
       "password": "123",
       "role": "empleado"
+    },
+    {
+      "id": "8a17",
+      "username": "valenZ",
+      "email": "Valentina@gmail.com",
+      "password": "1234",
+      "role": "Admin",
+      "dni": "30523852",
+      "firstName": "Valentina",
+      "lastName": "Zambrano",
+      "address": "Junco "
+    },
+    {
+      "id": "ed21",
+      "dni": "24775494",
+      "firstName": "Arzubek",
+      "lastName": "Ortiz",
+      "email": "oarzubek@gmail.com",
+      "address": "Torbes",
+      "role": "Empleado",
+      "username": "arzubekO",
+      "password": "12345"
     }
   ],
   "clients": [
@@ -98,6 +114,30 @@
       "Estatus": "Disponible",
       "Cantidad": "1212",
       "Precio_Unit": "100 "
+    },
+    {
+      "id": "b2ea",
+      "Nombre": "Silla",
+      "Categoria": "Mobiliario",
+      "Estatus": "Disponible",
+      "Cantidad": "10",
+      "Precio_Unit": "100"
+    },
+    {
+      "id": "73c6",
+      "Nombre": "Mesa",
+      "Categoria": "Mobiliario",
+      "Estatus": "Disponible",
+      "Cantidad": "9",
+      "Precio_Unit": "200"
+    },
+    {
+      "id": "825e",
+      "Nombre": "Samsung S40 Ultra",
+      "Categoria": "Tecnología",
+      "Estatus": "Disponible",
+      "Cantidad": "15",
+      "Precio_Unit": "1200"
     }
   ],
   "pedidos": [
@@ -126,6 +166,32 @@
         }
       ],
       "fechaCreacion": "2025-11-21T05:01:39.408Z"
+    },
+    {
+      "id": "2b33",
+      "clienteId": "2",
+      "cliente": "Cliente B",
+      "rif": "V-99988877",
+      "direccionFactura": "",
+      "direccionEntrega": "",
+      "sucursal": "Valencia",
+      "fechaCancelacion": "",
+      "expiracion": "",
+      "terminosPago": "Contado",
+      "tasa": "BCV",
+      "transporte": "Tealca",
+      "lines": [
+        {
+          "id": 1764335578698,
+          "productoId": "63aa",
+          "nombre": "mueble",
+          "categoria": "Mobiliario",
+          "precio": 250,
+          "cantidad": 1,
+          "subtotal": 250
+        }
+      ],
+      "fechaCreacion": "2025-11-28T13:13:06.874Z"
     }
   ],
   "facturas": [

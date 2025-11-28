@@ -34,6 +34,10 @@ const Pedidos = React.lazy(() => import('./views/Pedidos/Pedidos'))
 
 const Facturacion = React.lazy(() => import('./views/Facturacion/Facturacion'))
 
+//INVENTARIO-STOCK
+
+const Stock = React.lazy(() => import('./views/Stock/Stock'))
+
 //Reportes y Estadísticas
 
 const Reports = React.lazy(() => import('./views/Reportes/Reports'))
@@ -65,7 +69,8 @@ const routes = [
   {path: '/Products', name: 'Products', element: Products}, // Productos
   {path: '/Pedidos', name: 'Pedidos', element: Pedidos}, // Pedidos
   {path: '/Reports', name: 'Reports', element: Reports}, // Reportes y Estadísticas
-  {path: '/Facturacion', name: 'Facturacion', element: Facturacion}
+  {path: '/Facturacion', name: 'Facturacion', element: Facturacion},
+  {path: '/Stock', name: 'Stock', element: Stock}, // Inventario-Stock
   //FIN RUTAS AGG
 
 

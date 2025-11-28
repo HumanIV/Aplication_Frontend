@@ -10,7 +10,9 @@ import {
   cilSatelite,
   cilCart,
   cilDollar,
-  cilCash
+  cilCash,
+  cilUser,
+  cilLibraryAdd,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -25,6 +27,13 @@ const _nav = [
   {
     component: CNavTitle,
     name: 'MODULES',
+  },
+
+  {
+    component: CNavItem,
+    name: 'Users',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    to: '/Users',
   },
 
   {
@@ -66,7 +75,14 @@ const _nav = [
     ]
   },
 
-/*  {
+  {
+    component: CNavItem,
+    name: 'Stock',
+    icon: <CIcon icon={cilLibraryAdd} customClassName="nav-icon" />,
+    to: '/Stock',
+  },
+
+  {
     component: CNavGroup,
     name: 'Reportes y Estadísticas',
     icon: <CIcon icon={cilReportSlash} customClassName="nav-icon" />,
@@ -79,8 +95,8 @@ const _nav = [
     ],
   },
 
-  Provisional Falta implementar esta logica
-*/
+  //Provisional Falta implementar esta logica
+
   {
     component: CNavGroup,
     name: 'Login',
