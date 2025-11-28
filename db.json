@@ -3,32 +3,35 @@
     {
       "id": "4a42",
       "username": "HumanIV",
-      "email": "HumanIV",
-      "password": "admin1234"
+      "email": "humaniv@mail.com",
+      "password": "admin1234",
+      "role": "empleado"
     },
     {
       "id": "084f",
       "username": "HumanV",
-      "email": "Anfer",
-      "password": "123"
+      "email": "anfer@gmail.com",
+      "password": "123",
+      "role": "empleado"
     },
     {
       "id": "a78d",
       "username": "Angel",
-      "email": "HumanV",
-      "password": "111"
+      "email": "angel@gmail.com",
+      "password": "111",
+      "role": "empleado"
     },
     {
       "id": "f2a2",
       "username": "ANGELASDASDA",
-      "email": "ADMIN ",
+      "email": "admin@mail.com",
       "password": "ADMIN123",
       "role": "administrador"
     },
     {
       "id": "09f0",
       "username": "fernando",
-      "email": "Anfer09@gmaill.com",
+      "email": "anfer09@gmail.com",
       "password": "111",
       "role": "administrador"
     },
@@ -38,6 +41,34 @@
       "email": "fer@gmail.com",
       "password": "123",
       "role": "empleado"
+    },
+    {
+      "id": "e745",
+      "username": "Valentina",
+      "email": "valentina@gmail.com",
+      "password": "123",
+      "role": "administrador"
+    },
+    {
+      "id": "4b14",
+      "username": "asdsa",
+      "email": "asdsa@mail.com",
+      "password": "1234",
+      "role": "empleado"
+    },
+    {
+      "id": "u101",
+      "username": "carlos",
+      "email": "carlos@mail.com",
+      "password": "1234",
+      "role": "empleado"
+    },
+    {
+      "id": "u102",
+      "username": "laura",
+      "email": "laura@mail.com",
+      "password": "1234",
+      "role": "administrador"
     }
   ],
   "clients": [
@@ -61,9 +92,43 @@
       "id": "1aee",
       "nombre": "Ángel",
       "rif": "J-12345678-9",
-      "direccion": "1211",
+      "direccionFactura": "1211",
+      "direccionEntrega": "1211",
       "sucursal": "Caracas",
       "telefono": "1012121"
+    },
+    {
+      "id": "6167",
+      "nombre": "Ángel",
+      "rif": "12312213",
+      "direccionFactura": "5001",
+      "direccionEntrega": "5001",
+      "sucursal": "San Cristóbal",
+      "telefono": "0412534324"
+    },
+    {
+      "id": "c101",
+      "nombre": "Constructora Delta",
+      "rif": "J-87654321-0",
+      "direccionFactura": "Zona Norte",
+      "direccionEntrega": "Zona Norte",
+      "sucursal": "Maracay"
+    },
+    {
+      "id": "c102",
+      "nombre": "Tech Solutions",
+      "rif": "J-12398765-4",
+      "direccionFactura": "Parque Tecnológico",
+      "direccionEntrega": "Parque Tecnológico",
+      "sucursal": "Barquisimeto"
+    },
+    {
+      "id": "c103",
+      "nombre": "Distribuidora Los Andes",
+      "rif": "J-11223344-5",
+      "direccionFactura": "Av Libertador",
+      "direccionEntrega": "Centro",
+      "sucursal": "Mérida"
     }
   ],
   "products": [
@@ -72,38 +137,70 @@
       "Nombre": "LAPTOP 5",
       "Categoria": "Tecnología",
       "Estatus": "Disponible",
-      "Cantidad": "20",
-      "Precio_Unit": "120"
+      "Cantidad": 20,
+      "Precio_Unit": 120
     },
     {
       "id": "b8e1",
       "Nombre": "Samsung 23412",
       "Categoria": "Tecnología",
       "Estatus": "Disponible",
-      "Cantidad": "100",
-      "Precio_Unit": "1000"
+      "Cantidad": 100,
+      "Precio_Unit": 1000
     },
     {
       "id": "865e",
       "Nombre": "Iphone",
       "Categoria": "Tecnología",
       "Estatus": "Disponible",
-      "Cantidad": "12312",
-      "Precio_Unit": "1110"
+      "Cantidad": 12312,
+      "Precio_Unit": 1110
     },
     {
       "id": "58be",
-      "Nombre": "mueble",
+      "Nombre": "Mueble",
       "Categoria": "Mobiliario",
       "Estatus": "Disponible",
-      "Cantidad": "1212",
-      "Precio_Unit": "100 "
+      "Cantidad": 1212,
+      "Precio_Unit": 100
+    },
+    {
+      "id": "3c22",
+      "Nombre": "Mesa",
+      "Categoria": "Mobiliario",
+      "Estatus": "Disponible",
+      "Cantidad": 10,
+      "Precio_Unit": 150
+    },
+    {
+      "id": "p101",
+      "Nombre": "Monitor 24\"",
+      "Categoria": "Tecnología",
+      "Estatus": "Disponible",
+      "Cantidad": 40,
+      "Precio_Unit": 180
+    },
+    {
+      "id": "p102",
+      "Nombre": "Silla Gamer",
+      "Categoria": "Mobiliario",
+      "Estatus": "Disponible",
+      "Cantidad": 60,
+      "Precio_Unit": 95
+    },
+    {
+      "id": "p103",
+      "Nombre": "Router WiFi 6",
+      "Categoria": "Tecnología",
+      "Estatus": "Disponible",
+      "Cantidad": 80,
+      "Precio_Unit": 70
     }
   ],
   "pedidos": [
     {
       "id": "bdb0",
-      "clienteId": 1,
+      "clienteId": "1",
       "cliente": "Empresa A",
       "rif": "J-12345678-9",
       "direccionFactura": "Av. Principal",
@@ -126,6 +223,254 @@
         }
       ],
       "fechaCreacion": "2025-11-21T05:01:39.408Z"
+    },
+    {
+      "id": "544b",
+      "clienteId": "2",
+      "cliente": "Cliente B",
+      "rif": "V-99988877",
+      "direccionFactura": "",
+      "direccionEntrega": "",
+      "sucursal": "Valencia",
+      "fechaCancelacion": "",
+      "expiracion": "",
+      "terminosPago": "Contado",
+      "tasa": "BCV",
+      "transporte": "Tealca",
+      "lines": [
+        {
+          "id": 1763744277149,
+          "productoId": "b8e1",
+          "nombre": "Samsung 23412",
+          "categoria": "Tecnología",
+          "precio": 1000,
+          "cantidad": 1,
+          "subtotal": 1000
+        },
+        {
+          "id": 1763744280790,
+          "productoId": "865e",
+          "nombre": "Iphone",
+          "categoria": "Tecnología",
+          "precio": 1110,
+          "cantidad": 1,
+          "subtotal": 1110
+        }
+      ],
+      "fechaCreacion": "2025-11-21T16:58:05.955Z"
+    },
+    {
+      "id": "4d1a",
+      "clienteId": "6167",
+      "cliente": "Ángel",
+      "rif": "12312213",
+      "direccionFactura": "5001",
+      "direccionEntrega": "5001",
+      "sucursal": "San Cristóbal",
+      "fechaCancelacion": "",
+      "expiracion": "",
+      "terminosPago": "Contado",
+      "tasa": "BCV",
+      "transporte": "Tealca",
+      "lines": [
+        {
+          "id": 1763746178182,
+          "productoId": "b8e1",
+          "nombre": "Samsung 23412",
+          "categoria": "Tecnología",
+          "precio": 1000,
+          "cantidad": 1,
+          "subtotal": 1000
+        }
+      ],
+      "fechaCreacion": "2025-11-21T17:29:42.186Z"
+    },
+    {
+      "id": "p501",
+      "clienteId": "c101",
+      "cliente": "Constructora Delta",
+      "rif": "J-87654321-0",
+      "direccionFactura": "Zona Norte",
+      "direccionEntrega": "Zona Norte",
+      "sucursal": "Maracay",
+      "terminosPago": "Crédito 30 días",
+      "tasa": "BCV",
+      "transporte": "MRW",
+      "lines": [
+        {
+          "id": 5001,
+          "productoId": "p101",
+          "nombre": "Monitor 24\"",
+          "categoria": "Tecnología",
+          "precio": 180,
+          "cantidad": 4,
+          "subtotal": 720
+        },
+        {
+          "id": 5002,
+          "productoId": "p102",
+          "nombre": "Silla Gamer",
+          "categoria": "Mobiliario",
+          "precio": 95,
+          "cantidad": 2,
+          "subtotal": 190
+        }
+      ],
+      "fechaCreacion": "2025-11-25T10:01:00.000Z"
+    },
+    {
+      "id": "p502",
+      "clienteId": "c102",
+      "cliente": "Tech Solutions",
+      "rif": "J-12398765-4",
+      "direccionFactura": "Parque Tecnológico",
+      "direccionEntrega": "Parque Tecnológico",
+      "sucursal": "Barquisimeto",
+      "terminosPago": "Contado",
+      "tasa": "BCV",
+      "transporte": "Zoom",
+      "lines": [
+        {
+          "id": 5003,
+          "productoId": "p103",
+          "nombre": "Router WiFi 6",
+          "categoria": "Tecnología",
+          "precio": 70,
+          "cantidad": 5,
+          "subtotal": 350
+        }
+      ],
+      "fechaCreacion": "2025-11-25T11:15:00.000Z"
+    },
+    {
+      "id": "p503",
+      "clienteId": "c103",
+      "cliente": "Distribuidora Los Andes",
+      "rif": "J-11223344-5",
+      "direccionFactura": "Av Libertador",
+      "direccionEntrega": "Centro",
+      "sucursal": "Mérida",
+      "terminosPago": "Contado",
+      "tasa": "BCV",
+      "transporte": "Tealca",
+      "lines": [
+        {
+          "id": 5004,
+          "productoId": "58be",
+          "nombre": "Mueble",
+          "categoria": "Mobiliario",
+          "precio": 100,
+          "cantidad": 10,
+          "subtotal": 1000
+        }
+      ],
+      "fechaCreacion": "2025-11-25T12:00:00.000Z"
+    },
+    {
+      "id": "e2e3",
+      "clienteId": "c101",
+      "cliente": "Constructora Delta",
+      "rif": "J-87654321-0",
+      "direccionFactura": "",
+      "direccionEntrega": "",
+      "sucursal": "Maracay",
+      "fechaCancelacion": "",
+      "expiracion": "",
+      "terminosPago": "Contado",
+      "tasa": "BCV",
+      "transporte": "Tealca",
+      "lines": [
+        {
+          "id": 1764291598509,
+          "productoId": "fc61",
+          "nombre": "LAPTOP 5",
+          "categoria": "Tecnología",
+          "precio": 120,
+          "cantidad": 1,
+          "subtotal": 120
+        },
+        {
+          "id": 1764291601028,
+          "productoId": "b8e1",
+          "nombre": "Samsung 23412",
+          "categoria": "Tecnología",
+          "precio": 1000,
+          "cantidad": 1,
+          "subtotal": 1000
+        },
+        {
+          "id": 1764291602796,
+          "productoId": "3c22",
+          "nombre": "Mesa",
+          "categoria": "Mobiliario",
+          "precio": 150,
+          "cantidad": 2,
+          "subtotal": 300
+        },
+        {
+          "id": 1764291605164,
+          "productoId": "p103",
+          "nombre": "Router WiFi 6",
+          "categoria": "Tecnología",
+          "precio": 70,
+          "cantidad": 1,
+          "subtotal": 70
+        },
+        {
+          "id": 1764291608956,
+          "productoId": "58be",
+          "nombre": "Mueble",
+          "categoria": "Mobiliario",
+          "precio": 100,
+          "cantidad": 1,
+          "subtotal": 100
+        }
+      ],
+      "fechaCreacion": "2025-11-28T01:00:12.684Z"
+    },
+    {
+      "id": "aee6",
+      "clienteId": "2",
+      "cliente": "Cliente B",
+      "rif": "V-99988877",
+      "direccionFactura": "Calle 10",
+      "direccionEntrega": "Centro",
+      "sucursal": "Valencia",
+      "fechaCancelacion": "",
+      "expiracion": "",
+      "terminosPago": "Crédito 15 días",
+      "tasa": "Divisa",
+      "transporte": "Opcional",
+      "lines": [
+        {
+          "id": 1764291791806,
+          "productoId": "58be",
+          "nombre": "Mueble",
+          "categoria": "Mobiliario",
+          "precio": 100,
+          "cantidad": 2,
+          "subtotal": 200
+        },
+        {
+          "id": 1764291796375,
+          "productoId": "865e",
+          "nombre": "Iphone",
+          "categoria": "Tecnología",
+          "precio": 1110,
+          "cantidad": 1,
+          "subtotal": 1110
+        },
+        {
+          "id": 1764291798892,
+          "productoId": "p101",
+          "nombre": "Monitor 24\"",
+          "categoria": "Tecnología",
+          "precio": 180,
+          "cantidad": 1,
+          "subtotal": 180
+        }
+      ],
+      "fechaCreacion": "2025-11-28T01:03:22.024Z"
     }
   ],
   "facturas": [
@@ -183,6 +528,126 @@
       "impuesto": 57.6,
       "total": 417.6,
       "fecha": "2025-11-21T05:02:11.636Z"
+    },
+    {
+      "id": "3cf1",
+      "pedidoId": "544b",
+      "productos": [
+        {
+          "nombre": "Samsung 23412",
+          "cantidad": 1,
+          "precio": 1000
+        },
+        {
+          "nombre": "Iphone",
+          "cantidad": 1,
+          "precio": 1110
+        }
+      ],
+      "subtotal": 2110,
+      "impuesto": 337.6,
+      "total": 2447.6,
+      "fecha": "2025-11-21T16:58:34.868Z"
+    },
+    {
+      "id": "2642",
+      "pedidoId": "4d1a",
+      "productos": [
+        {
+          "nombre": "Samsung 23412",
+          "cantidad": 1,
+          "precio": 1000
+        }
+      ],
+      "subtotal": 1000,
+      "impuesto": 160,
+      "total": 1160,
+      "fecha": "2025-11-21T17:30:01.572Z"
+    },
+    {
+      "id": "f501",
+      "pedidoId": "p501",
+      "productos": [
+        {
+          "nombre": "Monitor 24\"",
+          "cantidad": 4,
+          "precio": 180
+        },
+        {
+          "nombre": "Silla Gamer",
+          "cantidad": 2,
+          "precio": 95
+        }
+      ],
+      "subtotal": 910,
+      "impuesto": 145.6,
+      "total": 1055.6,
+      "fecha": "2025-11-25T10:10:00.000Z"
+    },
+    {
+      "id": "f502",
+      "pedidoId": "p502",
+      "productos": [
+        {
+          "nombre": "Router WiFi 6",
+          "cantidad": 5,
+          "precio": 70
+        }
+      ],
+      "subtotal": 350,
+      "impuesto": 56,
+      "total": 406,
+      "fecha": "2025-11-25T11:20:00.000Z"
+    },
+    {
+      "id": "3db7",
+      "pedidoId": "e2e3",
+      "productos": [
+        {
+          "nombre": "LAPTOP 5",
+          "cantidad": 1,
+          "precio": 120
+        },
+        {
+          "nombre": "Samsung 23412",
+          "cantidad": 1,
+          "precio": 1000
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 2,
+          "precio": 150
+        },
+        {
+          "nombre": "Router WiFi 6",
+          "cantidad": 1,
+          "precio": 70
+        },
+        {
+          "nombre": "Mueble",
+          "cantidad": 1,
+          "precio": 100
+        }
+      ],
+      "subtotal": 1590,
+      "impuesto": 254.4,
+      "total": 1844.4,
+      "fecha": "2025-11-28T01:01:30.415Z"
+    },
+    {
+      "id": "3fc6",
+      "pedidoId": "p502",
+      "productos": [
+        {
+          "nombre": "Router WiFi 6",
+          "cantidad": 5,
+          "precio": 70
+        }
+      ],
+      "subtotal": 350,
+      "impuesto": 56,
+      "total": 406,
+      "fecha": "2025-11-28T01:03:55.902Z"
     }
   ],
   "reportes": []

@@ -148,8 +148,8 @@
         clienteId: client.id,
         cliente: client.nombre,
         rif: client.rif,
-        direccionFactura: client.direccion || '',
-        direccionEntrega: client.direccion || '', // Asumimos misma dirección por defecto
+        direccionFactura: client.direccionFactura || '',
+        direccionEntrega: client.direccionEntrega || '', // Asumimos misma dirección por defecto
         sucursal: client.sucursal || '',
         // Estos valores vienen del cliente si existen, sino default
         terminosPago: client.terminosPago || 'Contado',
