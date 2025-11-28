@@ -2,7 +2,7 @@
     import {
     CContainer, CAvatar, CCard, CCardBody, CFormInput,
     CButton, CCardHeader, CToaster, CToast, CToastBody,
-    CToastHeader, CModal, CModalBody, CModalHeader,
+    CToastHeader, CModal, CModalHeader,
     CModalTitle, CForm
     } from '@coreui/react'
     import CIcon from '@coreui/icons-react'
@@ -10,7 +10,7 @@
 
     export const Users = () => {
 
-    const API = 'http://localhost:4000/users'
+    const API = 'http://localhost:5000/users'
     const [user, setUser] = useState(null)
 
     const [modalVisible, setModalVisible] = useState(false)
@@ -170,7 +170,7 @@
         <CModal
             size="lg"
             visible={modalVisible}
-            onClose={() => setModalVisible(false)}
+            onClose={() => setModalVisble(false)}
             className="rounded-4"
         >
             <CModalHeader className="rounded-top-4">
