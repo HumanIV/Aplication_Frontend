@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
     CContainer,
     CAvatar,
-    CCard,
     CCardBody,
     CFormInput,
     CButton,
@@ -36,7 +35,7 @@ export const Users = () => {
     const [editingId, setEditingId] = useState(null) // null => crear, id => editar
     const [user, setUser] = useState(null) // usuario logueado (guardado en localStorage)
     const [usersList, setUsersList] = useState([]) // lista desde json-server
-    const API = 'http://localhost:4000/users'
+    const API = 'http://localhost:5000/users'
 
     const emptyForm = {
         dni: '',
@@ -56,7 +55,6 @@ export const Users = () => {
         if (loggedUser) {
             setUser(loggedUser)
         }
-        fetchUsers()
     }, [])
 
     const fetchUsers = async () => {
@@ -154,9 +152,6 @@ export const Users = () => {
         setModalVisible(false)
     }
 
-    if (!user) {
-        return <p className="text-center mt-5">Cargando información...</p>
-    }
 
     return (
         <>
@@ -189,7 +184,6 @@ export const Users = () => {
                             <th scope="col">Address</th>
                             <th scope="col">Role</th>
                             <th scope="col">Username</th>
-                            <th scope="col">Password</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -205,7 +199,6 @@ export const Users = () => {
                                 <td>{u.address}</td>
                                 <td>{u.role}</td>
                                 <td>{u.username}</td>
-                                <td>{u.password}</td>
                                 <td>
                                     <CButton color="primary" size="sm" onClick={() => handleEdit(u)}>Editar</CButton>{' '}
                                     <CButton color="danger" size="sm" onClick={() => handleDelete(u.id)}>Eliminar</CButton>

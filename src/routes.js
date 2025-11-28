@@ -14,7 +14,7 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
 
 //Users
-const Users = React.lazy(() => import('./views/users/users'))
+const Users = React.lazy(() => import('./views/users'))
 
 //RUTAS
 
