@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     CContainer,
     CAvatar,
@@ -35,7 +35,7 @@ export const Users = () => {
     const [editingId, setEditingId] = useState(null) // null => crear, id => editar
     const [user, setUser] = useState(null) // usuario logueado (guardado en localStorage)
     const [usersList, setUsersList] = useState([]) // lista desde json-server
-    const API = 'http://localhost:5000/users'
+    const API = 'http://localhost:4000/users'
 
     const emptyForm = {
         dni: '',
@@ -55,6 +55,7 @@ export const Users = () => {
         if (loggedUser) {
             setUser(loggedUser)
         }
+        fetchUsers()
     }, [])
 
     const fetchUsers = async () => {
