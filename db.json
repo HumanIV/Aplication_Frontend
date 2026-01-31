@@ -69,6 +69,13 @@
       "email": "laura@mail.com",
       "password": "1234",
       "role": "administrador"
+    },
+    {
+      "id": "2d37",
+      "username": "angel",
+      "email": "aga@gmail.com",
+      "password": "1234",
+      "role": "empleado"
     }
   ],
   "clients": [
@@ -129,33 +136,17 @@
       "direccionFactura": "Av Libertador",
       "direccionEntrega": "Centro",
       "sucursal": "Mérida"
+    },
+    {
+      "id": "0cbc",
+      "nombre": "Angel Fernando",
+      "rif": "J-12312213",
+      "direccion": "5001",
+      "sucursal": "san cristobal",
+      "telefono": "1012121"
     }
   ],
   "products": [
-    {
-      "id": "fc61",
-      "Nombre": "LAPTOP 5",
-      "Categoria": "Tecnología",
-      "Estatus": "Disponible",
-      "Cantidad": 20,
-      "Precio_Unit": 120
-    },
-    {
-      "id": "b8e1",
-      "Nombre": "Samsung 23412",
-      "Categoria": "Tecnología",
-      "Estatus": "Disponible",
-      "Cantidad": 100,
-      "Precio_Unit": 1000
-    },
-    {
-      "id": "865e",
-      "Nombre": "Iphone",
-      "Categoria": "Tecnología",
-      "Estatus": "Disponible",
-      "Cantidad": 12312,
-      "Precio_Unit": 1110
-    },
     {
       "id": "58be",
       "Nombre": "Mueble",
@@ -167,9 +158,9 @@
     {
       "id": "3c22",
       "Nombre": "Mesa",
-      "Categoria": "Mobiliario",
+      "Categoria": "Tecnología",
       "Estatus": "Disponible",
-      "Cantidad": 10,
+      "Cantidad": "1000",
       "Precio_Unit": 150
     },
     {
@@ -195,35 +186,25 @@
       "Estatus": "Disponible",
       "Cantidad": 80,
       "Precio_Unit": 70
+    },
+    {
+      "id": "2c35",
+      "Nombre": "asa",
+      "Categoria": "Tecnología",
+      "Estatus": "Disponible",
+      "Cantidad": "112",
+      "Precio_Unit": "100"
+    },
+    {
+      "id": "79a9",
+      "Nombre": "TELEFONO",
+      "Categoria": "Tecnología",
+      "Estatus": "Disponible",
+      "Cantidad": "100",
+      "Precio_Unit": "1000"
     }
   ],
   "pedidos": [
-    {
-      "id": "bdb0",
-      "clienteId": "1",
-      "cliente": "Empresa A",
-      "rif": "J-12345678-9",
-      "direccionFactura": "Av. Principal",
-      "direccionEntrega": "Zona Industrial",
-      "sucursal": "",
-      "fechaCancelacion": "",
-      "expiracion": "",
-      "terminosPago": "Opcional",
-      "tasa": "",
-      "transporte": "",
-      "lines": [
-        {
-          "id": 1763701292972,
-          "productoId": "fc61",
-          "nombre": "LAPTOP 5",
-          "categoria": "Tecnología",
-          "precio": 120,
-          "cantidad": 3,
-          "subtotal": 360
-        }
-      ],
-      "fechaCreacion": "2025-11-21T05:01:39.408Z"
-    },
     {
       "id": "544b",
       "clienteId": "2",
@@ -317,54 +298,6 @@
         }
       ],
       "fechaCreacion": "2025-11-25T10:01:00.000Z"
-    },
-    {
-      "id": "p502",
-      "clienteId": "c102",
-      "cliente": "Tech Solutions",
-      "rif": "J-12398765-4",
-      "direccionFactura": "Parque Tecnológico",
-      "direccionEntrega": "Parque Tecnológico",
-      "sucursal": "Barquisimeto",
-      "terminosPago": "Contado",
-      "tasa": "BCV",
-      "transporte": "Zoom",
-      "lines": [
-        {
-          "id": 5003,
-          "productoId": "p103",
-          "nombre": "Router WiFi 6",
-          "categoria": "Tecnología",
-          "precio": 70,
-          "cantidad": 5,
-          "subtotal": 350
-        }
-      ],
-      "fechaCreacion": "2025-11-25T11:15:00.000Z"
-    },
-    {
-      "id": "p503",
-      "clienteId": "c103",
-      "cliente": "Distribuidora Los Andes",
-      "rif": "J-11223344-5",
-      "direccionFactura": "Av Libertador",
-      "direccionEntrega": "Centro",
-      "sucursal": "Mérida",
-      "terminosPago": "Contado",
-      "tasa": "BCV",
-      "transporte": "Tealca",
-      "lines": [
-        {
-          "id": 5004,
-          "productoId": "58be",
-          "nombre": "Mueble",
-          "categoria": "Mobiliario",
-          "precio": 100,
-          "cantidad": 10,
-          "subtotal": 1000
-        }
-      ],
-      "fechaCreacion": "2025-11-25T12:00:00.000Z"
     },
     {
       "id": "e2e3",
@@ -471,6 +404,41 @@
         }
       ],
       "fechaCreacion": "2025-11-28T01:03:22.024Z"
+    },
+    {
+      "id": "9452",
+      "clienteId": "1",
+      "cliente": "Empresa A",
+      "rif": "J-12345678-9",
+      "direccionFactura": "Av. Principal",
+      "direccionEntrega": "Zona Industrial",
+      "sucursal": "Caracas",
+      "fechaCancelacion": "",
+      "expiracion": "",
+      "terminosPago": "Contado",
+      "tasa": "BCV",
+      "transporte": "Tealca",
+      "lines": [
+        {
+          "id": 1764351301550,
+          "productoId": "p101",
+          "nombre": "Monitor 24\"",
+          "categoria": "Tecnología",
+          "precio": 180,
+          "cantidad": 2,
+          "subtotal": 360
+        },
+        {
+          "id": 1764351306516,
+          "productoId": "3c22",
+          "nombre": "Mesa",
+          "categoria": "Mobiliario",
+          "precio": 150,
+          "cantidad": 1,
+          "subtotal": 150
+        }
+      ],
+      "fechaCreacion": "2025-11-28T17:35:08.384Z"
     }
   ],
   "facturas": [
@@ -516,7 +484,7 @@
     },
     {
       "id": "1053",
-      "pedidoId": "bdb0",
+      "pedidoId": null,
       "productos": [
         {
           "nombre": "LAPTOP 5",
@@ -586,7 +554,7 @@
     },
     {
       "id": "f502",
-      "pedidoId": "p502",
+      "pedidoId": null,
       "productos": [
         {
           "nombre": "Router WiFi 6",
@@ -636,7 +604,7 @@
     },
     {
       "id": "3fc6",
-      "pedidoId": "p502",
+      "pedidoId": null,
       "productos": [
         {
           "nombre": "Router WiFi 6",
@@ -648,6 +616,116 @@
       "impuesto": 56,
       "total": 406,
       "fecha": "2025-11-28T01:03:55.902Z"
+    },
+    {
+      "id": "9bee",
+      "pedidoId": "e2e3",
+      "productos": [
+        {
+          "nombre": "LAPTOP 5",
+          "cantidad": 1,
+          "precio": 120
+        },
+        {
+          "nombre": "Samsung 23412",
+          "cantidad": 1,
+          "precio": 1000
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 2,
+          "precio": 150
+        },
+        {
+          "nombre": "Router WiFi 6",
+          "cantidad": 1,
+          "precio": 70
+        },
+        {
+          "nombre": "Mueble",
+          "cantidad": 1,
+          "precio": 100
+        }
+      ],
+      "subtotal": 1590,
+      "impuesto": 254.4,
+      "total": 1844.4,
+      "fecha": "2025-11-28T17:32:58.914Z"
+    },
+    {
+      "id": "5b3b",
+      "pedidoId": "e2e3",
+      "productos": [
+        {
+          "nombre": "LAPTOP 5",
+          "cantidad": 1,
+          "precio": 120
+        },
+        {
+          "nombre": "Router WiFi 6",
+          "cantidad": 1,
+          "precio": 70
+        },
+        {
+          "nombre": "Mueble",
+          "cantidad": 1,
+          "precio": 100
+        }
+      ],
+      "subtotal": 290,
+      "impuesto": 46.4,
+      "total": 336.4,
+      "fecha": "2025-11-28T17:33:27.997Z"
+    },
+    {
+      "id": "a9e8",
+      "pedidoId": "9452",
+      "productos": [
+        {
+          "nombre": "Monitor 24\"",
+          "cantidad": 2,
+          "precio": 180
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 1,
+          "precio": 150
+        }
+      ],
+      "subtotal": 510,
+      "impuesto": 81.60000000000001,
+      "total": 591.6,
+      "fecha": "2025-11-28T17:35:28.014Z"
+    },
+    {
+      "id": "ae68",
+      "pedidoId": "e2e3",
+      "productos": [
+        {
+          "nombre": "Samsung 23412",
+          "cantidad": 1,
+          "precio": 1000
+        },
+        {
+          "nombre": "Mesa",
+          "cantidad": 2,
+          "precio": 150
+        },
+        {
+          "nombre": "Router WiFi 6",
+          "cantidad": 1,
+          "precio": 70
+        },
+        {
+          "nombre": "Mueble",
+          "cantidad": 1,
+          "precio": 100
+        }
+      ],
+      "subtotal": 1470,
+      "impuesto": 235.20000000000002,
+      "total": 1705.2,
+      "fecha": "2025-11-28T17:41:30.353Z"
     }
   ],
   "reportes": []

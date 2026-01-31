@@ -27,7 +27,7 @@
     import { cilTrash } from "@coreui/icons"
 
     const API_BASE = 'http://localhost:4000'
-    const API_PEDIDOS = `${API_BASE}/pedido`
+    const API_PEDIDOS = `${API_BASE}/pedidos`
     const API_FACTURAS = `${API_BASE}/facturas`
 
     export const Facturacion = () => {

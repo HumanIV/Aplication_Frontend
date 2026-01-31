@@ -12,7 +12,7 @@ import {
   cilDollar,
   cilCash
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNav, CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
   {
@@ -37,6 +37,11 @@ const _nav = [
         name: 'Productos',
         to: '/Products',
       },
+      {
+        component:CNavItem,
+        name:'USERS',
+        to:'/users'
+      }
     ],
   },
 

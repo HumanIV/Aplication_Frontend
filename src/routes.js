@@ -14,7 +14,7 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
 
 //Users
-const Users = React.lazy(() => import('./views/user/users'))
+const users = React.lazy(() => import('./views/users/users'))
 
 //RUTAS
 
@@ -53,19 +53,19 @@ const routes = [
   { path: '/base/tabs', name: 'Tabs', element: Tabs },
 
   // Login y Register
-  { path: '/login', name: 'Login', element: Login },
-  { path: '/register', name: 'Register', element: Register },
+  { path: '/Login', name: 'Login', element: Login },
+  { path: '/Register', name: 'Register', element: Register },
   //RUTA
   {path: '/buttons/buttons', name: 'Buttons', element: Buttons},
   //Users
-  {path: '/users', name: 'Users', element: Users},
+  {path: '/users', name: 'users', element: users},
 
   //RUTAS
   {path: '/Inicio', name: 'Inicio', element: Inicio},
   {path: '/Products', name: 'Products', element: Products}, // Productos
   {path: '/Pedidos', name: 'Pedidos', element: Pedidos}, // Pedidos
   {path: '/Reports', name: 'Reports', element: Reports}, // Reportes y Estadísticas
-  {path: '/Facturacio', name: 'Facturacion', element: Facturacion}
+  {path: '/Facturacion', name: 'Facturacion', element: Facturacion}
   //FIN RUTAS AGG
 
 
