@@ -70,6 +70,18 @@ const _nav = [
       }
     ]
   },
+  {
+    component: CNavGroup,
+    name: 'Inventario',
+    icon:<CIcon icon={cilLibraryBuilding} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name:'Inventario',
+        to:'/Inventario'
+      }
+    ]
+  },
 
 {
     component: CNavGroup,

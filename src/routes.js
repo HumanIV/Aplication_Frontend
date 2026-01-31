@@ -20,6 +20,10 @@ const users = React.lazy(() => import('./views/users/users'))
 
 //Inicio
 
+//inventario
+
+const Inventario = React.lazy(() => import ('./views/inventario/inventario'))
+
 const Inicio = React.lazy(() => import ('./views/Inicio/Inicio'))
 
 //PRODUCTOS
@@ -65,7 +69,8 @@ const routes = [
   {path: '/Products', name: 'Products', element: Products}, // Productos
   {path: '/Pedidos', name: 'Pedidos', element: Pedidos}, // Pedidos
   {path: '/Reports', name: 'Reports', element: Reports}, // Reportes y Estadísticas
-  {path: '/Facturacion', name: 'Facturacion', element: Facturacion}
+  {path: '/Facturacion', name: 'Facturacion', element: Facturacion},
+  {path: '/Inventario', name: 'Inventario', element: Inventario}, // Inventario
   //FIN RUTAS AGG
 
 
