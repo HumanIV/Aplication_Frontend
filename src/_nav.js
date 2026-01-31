@@ -14,7 +14,7 @@ import {
   cilUser,
   cilLibraryAdd,
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNav, CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
   {
@@ -46,6 +46,11 @@ const _nav = [
         name: 'Productos',
         to: '/Products',
       },
+      {
+        component: CNavItem,
+        name: 'USERS',
+        to: '/users',
+      },
     ],
   },
 
@@ -65,14 +70,26 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Facturacion',
-    icon:<CIcon icon={cilCash} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCash} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name:'Facturacion',
-        to:'/Facturacion'
-      }
-    ]
+        name: 'Facturacion',
+        to: '/Facturacion',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Inventario',
+    icon: <CIcon icon={cilLibraryBuilding} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Inventario',
+        to: '/Inventario',
+      },
+    ],
   },
 
   {
@@ -96,7 +113,6 @@ const _nav = [
   },
 
   //Provisional Falta implementar esta logica
-
   {
     component: CNavGroup,
     name: 'Login',
@@ -113,6 +129,13 @@ const _nav = [
         to: '/register',
       },
     ],
+  },
+
+  {
+    component: CNavItem,
+    name: 'Porfile',
+    icon: <CIcon icon={cilSatelite} customClassName="nav-icon" />,
+    to: '/Porfile',
   },
 ]
 

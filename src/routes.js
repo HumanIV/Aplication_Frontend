@@ -14,13 +14,17 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
 
 //Users
-const Users = React.lazy(() => import('./views/users/users'))
+const users = React.lazy(() => import('./views/users/users'))
 
 //RUTAS
 
 //Inicio
 
-const Inicio = React.lazy(() => import ('./views/Inicio/Inicio'))
+//inventario
+
+const Inventario = React.lazy(() => import('./views/inventario/inventario'))
+
+const Inicio = React.lazy(() => import('./views/Inicio/Inicio'))
 
 //PRODUCTOS
 
@@ -42,9 +46,10 @@ const Stock = React.lazy(() => import('./views/Stock/Stock'))
 
 const Reports = React.lazy(() => import('./views/Reportes/Reports'))
 
+//perfil
+const Porfile = React.lazy(() => import('./views/Porfile/Porfile'))
 
 //FIN RUTAS AGG
-
 
 const routes = [
   // Página principal
@@ -57,26 +62,26 @@ const routes = [
   { path: '/base/tabs', name: 'Tabs', element: Tabs },
 
   // Login y Register
-  { path: '/login', name: 'Login', element: Login },
-  { path: '/register', name: 'Register', element: Register },
+  { path: '/Login', name: 'Login', element: Login },
+  { path: '/Register', name: 'Register', element: Register },
   //RUTA
-  {path: '/buttons/buttons', name: 'Buttons', element: Buttons},
+  { path: '/buttons/buttons', name: 'Buttons', element: Buttons },
   //Users
-  {path: '/users', name: 'Users', element: Users},
+  { path: '/users', name: 'users', element: users },
 
   //RUTAS
-  {path: '/Inicio', name: 'Inicio', element: Inicio},
-  {path: '/Products', name: 'Products', element: Products}, // Productos
-  {path: '/Pedidos', name: 'Pedidos', element: Pedidos}, // Pedidos
-  {path: '/Reports', name: 'Reports', element: Reports}, // Reportes y Estadísticas
-  {path: '/Facturacion', name: 'Facturacion', element: Facturacion},
-  {path: '/Stock', name: 'Stock', element: Stock}, // Inventario-Stock
+  { path: '/Inicio', name: 'Inicio', element: Inicio },
+  { path: '/Products', name: 'Products', element: Products }, // Productos
+  { path: '/Pedidos', name: 'Pedidos', element: Pedidos }, // Pedidos
+  { path: '/Reports', name: 'Reports', element: Reports }, // Reportes y Estadísticas
+  { path: '/Facturacion', name: 'Facturacion', element: Facturacion },
+  { path: '/Stock', name: 'Stock', element: Stock }, // Inventario-Stock
+  { path: '/Inventario', name: 'Inventario', element: Inventario }, // Inventario
+
+  //perfil
+  { path: '/Porfile', name: 'Porfile', element: Porfile },
+
   //FIN RUTAS AGG
-
-
-
-
-
 ]
 
 export default routes

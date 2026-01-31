@@ -1,578 +1,457 @@
-import React, { useState, useEffect } from "react"
+/** PANEL DE ESTADÍSTICAS DE VENTAS — DISEÑO PREMIUM **/
+import React, { useState, useEffect, useRef } from 'react'
 import {
-  CContainer,
-  CRow,
-  CCol,
-  CForm,
-  CFormLabel,
-  CFormInput,
-  CFormSelect,
   CButton,
   CCard,
   CCardBody,
-  CCardHeader,
+  CCardFooter,
+  CContainer,
+  CCol,
+  CRow,
+  CWidgetStatsA,
+  CDropdown,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle,
+  CForm,
+  CFormInput,
+  CFormLabel,
+  CFormSelect,
   CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
   CTableBody,
+  CTableHead,
+  CTableHeaderCell,
+  CTableRow,
   CTableDataCell,
-  CToast,
-  CToastBody,
-  CToastHeader,
-  CToaster,
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CInputGroup,
-  CInputGroupText,
-  CSpinner,
-  CBadge
-} from "@coreui/react"
+} from '@coreui/react'
 
-// Importar iconos CORRECTAMENTE desde @coreui/icons
-import { 
-  cilCalendar,
-  cilFilter,
-  cilChart,
-  cilPrint,
-} from "@coreui/icons"
-
-import CIcon from "@coreui/icons-react"
-
-const API_BASE = 'http://localhost:4000'
-const API_REPORTS = `${API_BASE}/reports`
-const API_VENTAS = `${API_BASE}/ventas`
-const API_STOCK = `${API_BASE}/stock`
-const API_TRABAJADORES = `${API_BASE}/trabajadores`
-const API_PRODUCCION = `${API_BASE}/produccion`
+import { CChartBar, CChartLine } from '@coreui/react-chartjs'
+import CIcon from '@coreui/icons-react'
+import { cilArrowTop, cilOptions, cilMagnifyingGlass, cilCloudDownload } from '@coreui/icons'
+import { getStyle } from '@coreui/utils'
 
 export const Reports = () => {
+  const [search, setSearch] = useState('')
+  const [categoria, setCategoria] = useState('')
+  const [ventas, setVentas] = useState([])
 
-  // ------------------ TOAST ------------------
-  const [toasts, setToasts] = useState([])
+  const lineChartRef = useRef(null)
 
-  const showToast = (type, message) => {
-    setToasts((prev) => [...prev, { id: Date.now(), type, message }])
+  // 🟦 UTILITY: agrupar ventas por meses
+  const groupByMonth = (ventas) => {
+    const months = Array(12).fill(0)
+
+    ventas.forEach((v) => {
+      const mes = new Date(v.fecha).getMonth()
+      months[mes] += Number(v.monto)
+    })
+
+    return months.slice(0, 6) // solo 6 meses
   }
 
-  // ------------------ ESTADOS ------------------
-  const [tipoReporte, setTipoReporte] = useState("general")
-  const [fechaInicio, setFechaInicio] = useState("")
-  const [fechaFin, setFechaFin] = useState("")
-  const [areaFiltro, setAreaFiltro] = useState("")
-  const [cargando, setCargando] = useState(false)
-  const [datosReporte, setDatosReporte] = useState(null)
-  const [modalVisible, setModalVisible] = useState(false)
+  useEffect(() => {
+    const cargarDatos = async () => {
+      const facturasRes = await fetch('http://localhost:4000/facturas')
+      const facturas = await facturasRes.json()
 
-  // ------------------ DATOS DE EJEMPLO ------------------
-  const areas = ["Almacén", "Producción", "Ventas", "Administración", "Calidad"]
-  const categoriasProductos = ["Electrónicos", "Ropa", "Alimentos", "Herramientas", "Hogar"]
+      const pedidosRes = await fetch('http://localhost:4000/pedidos')
+      const pedidos = await pedidosRes.json()
 
-  // ------------------ CARGAR REPORTE ------------------
-  const generarReporte = async () => {
-    if (!fechaInicio || !fechaFin) {
-      showToast("warning", "Seleccione un rango de fechas.")
-      return
+      const ventasCompletas = facturas.map((f) => {
+        const pedido = pedidos.find((p) => p.id === f.pedidoId)
+
+        return {
+          id: f.id,
+          fecha: f.fecha.split('T')[0],
+          subtotal: Number(f.subtotal),
+          impuesto: Number(f.impuesto),
+          monto: Number(f.total),
+
+          productosTotal: f.productos.reduce((acc, p) => acc + p.cantidad, 0),
+          productosDiferentes: f.productos.length,
+
+          descripcion:
+            f.productos.length === 1 ? f.productos[0].nombre : `${f.productos.length} productos`,
+
+          cliente: pedido ? pedido.cliente : 'Sin pedido asociado',
+          rif: pedido ? pedido.rif : '',
+          sucursal: pedido ? pedido.sucursal : '',
+          categoria: 'Factura',
+          productos: f.productos,
+        }
+      })
+
+      setVentas(ventasCompletas)
     }
 
-    setCargando(true)
-    try {
-      // Simular llamada a la API
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      let datos
-      switch (tipoReporte) {
-        case "general":
-          datos = await generarReporteGeneral()
-          break
-        case "ventas":
-          datos = await generarReporteVentas()
-          break
-        case "trabajadores":
-          datos = await generarReporteTrabajadores()
-          break
-        case "produccion":
-          datos = await generarReporteProduccion()
-          break
-        case "stock":
-          datos = await generarReporteStock()
-          break
-        default:
-          datos = null
-      }
+    cargarDatos()
+  }, [])
 
-      setDatosReporte(datos)
-      showToast("success", "Reporte generado correctamente.")
-      
-    } catch (err) {
-      console.error(err)
-      showToast("danger", "Error al generar el reporte.")
-    } finally {
-      setCargando(false)
-    }
+  // 🎨 Ajustes visuales del gráfico
+  useEffect(() => {
+    const chart = lineChartRef.current
+    if (!chart) return
+
+    chart.options.plugins.legend.labels.color = getStyle('--cui-body-color')
+    chart.options.scales.x.ticks.color = getStyle('--cui-body-color')
+    chart.options.scales.y.ticks.color = getStyle('--cui-body-color')
+    chart.update()
+  }, [])
+
+  // 📈 Construcción dinámica del gráfico
+  const ingresosPorMes = groupByMonth(ventas)
+
+  const lineChartData = {
+    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+    datasets: [
+      {
+        label: 'Ingresos ($)',
+        borderColor: '#4bc0c0',
+        backgroundColor: 'rgba(75,192,192,0.25)',
+        data: ingresosPorMes,
+        fill: true,
+        tension: 0.4,
+      },
+    ],
   }
 
-  // ------------------ REPORTE GENERAL ------------------
-  const generarReporteGeneral = async () => {
-    return {
-      titulo: "Reporte General",
-      periodo: `${fechaInicio} a ${fechaFin}`,
-      metricas: [
-        { nombre: "Ventas Totales", valor: "$45,680.00", tendencia: "+12%" },
-        { nombre: "Productos Vendidos", valor: "1,245", tendencia: "+8%" },
-        { nombre: "Clientes Nuevos", valor: "45", tendencia: "+15%" },
-        { nombre: "Órdenes Completadas", valor: "89", tendencia: "+5%" }
-      ],
-      datos: [
-        { categoria: "Ventas Diarias Promedio", valor: "$2,284.00" },
-        { categoria: "Productos en Stock", valor: "567" },
-        { categoria: "Trabajadores Activos", valor: "23" },
-        { categoria: "Órdenes de Producción", valor: "34" }
-      ]
-    }
-  }
-
-  // ------------------ REPORTE VENTAS ------------------
-  const generarReporteVentas = async () => {
-    return {
-      titulo: "Reporte de Ventas",
-      periodo: `${fechaInicio} a ${fechaFin}`,
-      metricas: [
-        { nombre: "Ventas Totales", valor: "$45,680.00", tendencia: "+12%" },
-        { nombre: "Costo de Ventas", valor: "$28,450.00", tendencia: "+10%" },
-        { nombre: "Margen Bruto", valor: "$17,230.00", tendencia: "+15%" },
-        { nombre: "Ventas Promedio/Día", valor: "$1,522.67", tendencia: "+8%" }
-      ],
-      datos: [
-        { producto: "Laptop HP", cantidad: 45, total: "$22,500.00" },
-        { producto: "Mouse Inalámbrico", cantidad: 120, total: "$2,400.00" },
-        { producto: "Teclado Mecánico", cantidad: 78, total: "$5,460.00" },
-        { producto: "Monitor 24\"", cantidad: 34, total: "$6,800.00" },
-        { producto: "Impresora Laser", cantidad: 23, total: "$4,600.00" }
-      ]
-    }
-  }
-
-  // ------------------ REPORTE TRABAJADORES ------------------
-  const generarReporteTrabajadores = async () => {
-    return {
-      titulo: "Reporte de Trabajadores",
-      periodo: `${fechaInicio} a ${fechaFin}`,
-      metricas: [
-        { nombre: "Total Trabajadores", valor: "23", tendencia: "+2" },
-        { nombre: "Horas Trabajadas", valor: "920", tendencia: "+5%" },
-        { nombre: "Productividad Promedio", valor: "89%", tendencia: "+3%" },
-        { nombre: "Ausencias", valor: "4", tendencia: "-1" }
-      ],
-      datos: [
-        { nombre: "Juan Pérez", area: "Producción", horas: 40, productividad: "95%" },
-        { nombre: "María García", area: "Ventas", horas: 42, productividad: "88%" },
-        { nombre: "Carlos López", area: "Almacén", horas: 38, productividad: "92%" },
-        { nombre: "Ana Martínez", area: "Calidad", horas: 40, productividad: "96%" },
-        { nombre: "Pedro Rodríguez", area: "Producción", horas: 36, productividad: "85%" }
-      ]
-    }
-  }
-
-  // ------------------ REPORTE PRODUCCIÓN ------------------
-  const generarReporteProduccion = async () => {
-    return {
-      titulo: "Reporte de Producción",
-      periodo: `${fechaInicio} a ${fechaFin}`,
-      metricas: [
-        { nombre: "Unidades Producidas", valor: "1,567", tendencia: "+12%" },
-        { nombre: "Tasa de Defectos", valor: "2.3%", tendencia: "-0.5%" },
-        { nombre: "Eficiencia", valor: "87%", tendencia: "+4%" },
-        { nombre: "Órdenes Completadas", valor: "45", tendencia: "+8%" }
-      ],
-      datos: [
-        { producto: "Laptop HP", producidas: 500, defectos: 8, eficiencia: "94%" },
-        { producto: "Monitor 24\"", producidas: 350, defectos: 12, eficiencia: "85%" },
-        { producto: "Teclado Mecánico", producidas: 450, defectos: 5, eficiencia: "96%" },
-        { producto: "Mouse Inalámbrico", producidas: 267, defectos: 3, eficiencia: "98%" }
-      ]
-    }
-  }
-
-  // ------------------ REPORTE STOCK ------------------
-  const generarReporteStock = async () => {
-    return {
-      titulo: "Reporte de Stock por Áreas",
-      periodo: `Actualizado al ${new Date().toLocaleDateString()}`,
-      metricas: [
-        { nombre: "Total Productos", valor: "567", tendencia: "+23" },
-        { nombre: "Stock Bajo", valor: "12", tendencia: "-3" },
-        { nombre: "Stock Crítico", valor: "3", tendencia: "-1" },
-        { nombre: "Valor Total Inventario", valor: "$156,780.00", tendencia: "+8%" }
-      ],
-      datos: [
-        { area: "Almacén Principal", productos: 234, valor: "$89,450.00", stockBajo: 4 },
-        { area: "Producción", productos: 156, valor: "$45,670.00", stockBajo: 5 },
-        { area: "Ventas", productos: 89, valor: "$12,450.00", stockBajo: 2 },
-        { area: "Calidad", productos: 67, valor: "$8,210.00", stockBajo: 1 },
-        { area: "Despacho", productos: 21, valor: "$1,000.00", stockBajo: 0 }
-      ]
-    }
-  }
-
-  // ------------------ EXPORTAR REPORTE ------------------
-  const exportarReporte = (formato) => {
-    if (!datosReporte) {
-      showToast("warning", "Genere un reporte primero.")
-      return
-    }
-
-    // Simular exportación
-    showToast("success", `Reporte exportado en formato ${formato.toUpperCase()}`)
-    console.log(`Exportando reporte en formato ${formato}:`, datosReporte)
-  }
-
-  // ------------------ IMPRIMIR REPORTE ------------------
-  const imprimirReporte = () => {
-    if (!datosReporte) {
-      showToast("warning", "Genere un reporte primero.")
-      return
-    }
-
-    window.print()
-    showToast("success", "Enviando a impresión...")
-  }
-
-  // ------------------ RENDERIZAR TABLA SEGÚN REPORTE ------------------
-  const renderizarTabla = () => {
-    if (!datosReporte || !datosReporte.datos) return null
-
-    switch (tipoReporte) {
-      case "general":
-        return (
-          <CTable bordered hover>
-            <CTableHead>
-              <CTableRow>
-                <CTableHeaderCell>Categoría</CTableHeaderCell>
-                <CTableHeaderCell>Valor</CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              {datosReporte.datos.map((item, index) => (
-                <CTableRow key={index}>
-                  <CTableDataCell>{item.categoria}</CTableDataCell>
-                  <CTableDataCell>{item.valor}</CTableDataCell>
-                </CTableRow>
-              ))}
-            </CTableBody>
-          </CTable>
-        )
-
-      case "ventas":
-        return (
-          <CTable bordered hover>
-            <CTableHead>
-              <CTableRow>
-                <CTableHeaderCell>Producto</CTableHeaderCell>
-                <CTableHeaderCell>Cantidad</CTableHeaderCell>
-                <CTableHeaderCell>Total</CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              {datosReporte.datos.map((item, index) => (
-                <CTableRow key={index}>
-                  <CTableDataCell>{item.producto}</CTableDataCell>
-                  <CTableDataCell>{item.cantidad}</CTableDataCell>
-                  <CTableDataCell>{item.total}</CTableDataCell>
-                </CTableRow>
-              ))}
-            </CTableBody>
-          </CTable>
-        )
-
-      case "trabajadores":
-        return (
-          <CTable bordered hover>
-            <CTableHead>
-              <CTableRow>
-                <CTableHeaderCell>Nombre</CTableHeaderCell>
-                <CTableHeaderCell>Área</CTableHeaderCell>
-                <CTableHeaderCell>Horas</CTableHeaderCell>
-                <CTableHeaderCell>Productividad</CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              {datosReporte.datos.map((item, index) => (
-                <CTableRow key={index}>
-                  <CTableDataCell>{item.nombre}</CTableDataCell>
-                  <CTableDataCell>{item.area}</CTableDataCell>
-                  <CTableDataCell>{item.horas}</CTableDataCell>
-                  <CTableDataCell>
-                    <CBadge color={item.productividad >= "90%" ? "success" : "warning"}>
-                      {item.productividad}
-                    </CBadge>
-                  </CTableDataCell>
-                </CTableRow>
-              ))}
-            </CTableBody>
-          </CTable>
-        )
-
-      case "produccion":
-        return (
-          <CTable bordered hover>
-            <CTableHead>
-              <CTableRow>
-                <CTableHeaderCell>Producto</CTableHeaderCell>
-                <CTableHeaderCell>Producidas</CTableHeaderCell>
-                <CTableHeaderCell>Defectos</CTableHeaderCell>
-                <CTableHeaderCell>Eficiencia</CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              {datosReporte.datos.map((item, index) => (
-                <CTableRow key={index}>
-                  <CTableDataCell>{item.producto}</CTableDataCell>
-                  <CTableDataCell>{item.producidas}</CTableDataCell>
-                  <CTableDataCell>{item.defectos}</CTableDataCell>
-                  <CTableDataCell>
-                    <CBadge color={item.eficiencia >= "90%" ? "success" : "warning"}>
-                      {item.eficiencia}
-                    </CBadge>
-                  </CTableDataCell>
-                </CTableRow>
-              ))}
-            </CTableBody>
-          </CTable>
-        )
-
-      case "stock":
-        return (
-          <CTable bordered hover>
-            <CTableHead>
-              <CTableRow>
-                <CTableHeaderCell>Área</CTableHeaderCell>
-                <CTableHeaderCell>Productos</CTableHeaderCell>
-                <CTableHeaderCell>Valor</CTableHeaderCell>
-                <CTableHeaderCell>Stock Bajo</CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              {datosReporte.datos.map((item, index) => (
-                <CTableRow key={index}>
-                  <CTableDataCell>{item.area}</CTableDataCell>
-                  <CTableDataCell>{item.productos}</CTableDataCell>
-                  <CTableDataCell>{item.valor}</CTableDataCell>
-                  <CTableDataCell>
-                    <CBadge color={item.stockBajo > 0 ? "warning" : "success"}>
-                      {item.stockBajo}
-                    </CBadge>
-                  </CTableDataCell>
-                </CTableRow>
-              ))}
-            </CTableBody>
-          </CTable>
-        )
-
-      default:
-        return null
-    }
-  }
-
-  // ------------------ RENDERIZAR MÉTRICAS ------------------
-  const renderizarMetricas = () => {
-    if (!datosReporte || !datosReporte.metricas) return null
-
-    return (
-      <CRow className="mb-4">
-        {datosReporte.metricas.map((metrica, index) => (
-          <CCol md={3} key={index} className="mb-3">
-            <CCard className="h-100">
-              <CCardBody className="text-center">
-                <h6 className="card-title text-muted">{metrica.nombre}</h6>
-                <h4 className="text-primary">{metrica.valor}</h4>
-                <small className={`text-${metrica.tendencia.includes('+') ? 'success' : 'danger'}`}>
-                  {metrica.tendencia} vs período anterior
-                </small>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        ))}
-      </CRow>
-    )
+  const barChartData = {
+    labels: ['Tecnología', 'Muebles', 'Hogar'],
+    datasets: [
+      {
+        label: 'Ventas ($)',
+        backgroundColor: ['#36A2EB', '#FF9F40', '#4BC0C0'],
+        data: [4650, 1450, 180],
+      },
+    ],
   }
 
   return (
     <>
-      <CContainer className="mt-4">
+      <h1 className="mb-4 fw-bold" style={{ letterSpacing: '1px' }}>
+        Panel de Ventas
+      </h1>
+      <CContainer>
+        {/* ================= WIDGETS ================= */}
+        <CRow className="mb-4 gy-4">
+          {/* INGRESOS DEL MES (solo mes actual) */}
+          <CCol sm={6} md={4}>
+            <CWidgetStatsA
+              className="rounded-4 border shadow-sm"
+              style={{
+                padding: '18px',
+                background: 'var(--cui-card-bg)',
+                borderColor: 'var(--cui-border-color)',
+              }}
+              value={
+                <span className="fs-4 fw-semibold">
+                  $
+                  {(
+                    ventas
+                      .filter((v) => {
+                        const d = new Date(v.fecha)
+                        const now = new Date()
+                        return (
+                          d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+                        )
+                      })
+                      .reduce((acc, v) => acc + Number(v.monto || 0), 0) || 0
+                  ).toFixed(2)}
+                </span>
+              }
+              title={<span className="text-muted">Ingresos (Mes actual)</span>}
+            />
+          </CCol>
 
-        {/* ------------------ FILTROS DE REPORTE ------------------ */}
-        <CCard className="mb-4">
-          <CCardHeader>
-            <h5 className="mb-0">
-              <CIcon icon={cilFilter} className="me-2" />
-              Parámetros del Reporte
-            </h5>
-          </CCardHeader>
+          {/* VENTAS REALIZADAS (mes actual) */}
+          <CCol sm={6} md={4}>
+            <CWidgetStatsA
+              className="rounded-4 border shadow-sm"
+              style={{
+                padding: '18px',
+                background: 'var(--cui-card-bg)',
+                borderColor: 'var(--cui-border-color)',
+              }}
+              value={
+                <span className="fs-4 fw-semibold">
+                  {
+                    ventas.filter((v) => {
+                      const d = new Date(v.fecha)
+                      const now = new Date()
+                      return (
+                        d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+                      )
+                    }).length
+                  }
+                </span>
+              }
+              title={<span className="text-muted">Ventas (Mes actual)</span>}
+            />
+          </CCol>
+
+          {/* CATEGORÍA / PRODUCTO MÁS VENDIDO (mes actual) */}
+          <CCol sm={6} md={4}>
+            <CWidgetStatsA
+              className="rounded-4 border shadow-sm"
+              style={{
+                padding: '18px',
+                background: 'var(--cui-card-bg)',
+                borderColor: 'var(--cui-border-color)',
+              }}
+              value={
+                <span className="fs-5 fw-semibold">
+                  {(() => {
+                    const counts = {}
+                    const now = new Date()
+                    ventas
+                      .filter((v) => {
+                        const d = new Date(v.fecha)
+                        return (
+                          d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+                        )
+                      })
+                      .forEach((v) => {
+                        ;(v.productos || []).forEach((p) => {
+                          const key = p.categoria || p.nombre || 'Sin categoría'
+                          counts[key] = (counts[key] || 0) + (Number(p.cantidad) || 0)
+                        })
+                      })
+
+                    if (Object.keys(counts).length === 0) return '—'
+                    const [name, qty] = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]
+                    return `${name} (${qty} uds)`
+                  })()}
+                </span>
+              }
+              title={<span className="text-muted">Top (Mes actual)</span>}
+            />
+          </CCol>
+        </CRow>
+
+        {/* ================= GRÁFICOS ================= */}
+        <CRow className="gy-4">
+          <CCol md={7}>
+            <CCard className="shadow-sm" style={{ borderRadius: '16px' }}>
+              <CCardBody>
+                <h5 className="fw-bold mb-3">Ingresos Últimos 6 Meses</h5>
+                <CChartLine
+                  ref={lineChartRef}
+                  data={{
+                    // labels dinámicos: últimos 6 meses (abreviados)
+                    labels: (() => {
+                      const labels = []
+                      const now = new Date()
+                      for (let i = 5; i >= 0; i--) {
+                        const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+                        labels.push(d.toLocaleString(undefined, { month: 'short' }))
+                      }
+                      return labels
+                    })(),
+                    datasets: [
+                      {
+                        label: 'Ingresos ($)',
+                        borderColor: getStyle('--cui-info') || '#4bc0c0',
+                        backgroundColor:
+                          (getStyle('--cui-info') || '#4bc0c0') + '33' /* semitransp */,
+                        data: (() => {
+                          // calcular totales por mes dinámicamente
+                          const totals = Array(6).fill(0)
+                          const now = new Date()
+                          ventas.forEach((v) => {
+                            const d = new Date(v.fecha)
+                            const diffMonths =
+                              (now.getFullYear() - d.getFullYear()) * 12 +
+                              (now.getMonth() - d.getMonth())
+                            if (diffMonths >= 0 && diffMonths < 6) {
+                              totals[5 - diffMonths] += Number(v.monto || 0)
+                            }
+                          })
+                          return totals
+                        })(),
+                        fill: true,
+                        tension: 0.35,
+                      },
+                    ],
+                  }}
+                  style={{ height: '300px' }}
+                  options={{
+                    plugins: {
+                      legend: { display: false, labels: { color: getStyle('--cui-body-color') } },
+                    },
+                    scales: {
+                      x: {
+                        ticks: { color: getStyle('--cui-body-color') },
+                        grid: { display: false },
+                      },
+                      y: {
+                        ticks: { color: getStyle('--cui-body-color') },
+                        grid: { color: getStyle('--cui-border-color') },
+                      },
+                    },
+                    maintainAspectRatio: false,
+                  }}
+                />
+              </CCardBody>
+            </CCard>
+          </CCol>
+
+          <CCol md={5}>
+            <CCard className="shadow-sm" style={{ borderRadius: '16px' }}>
+              <CCardBody>
+                <h5 className="fw-bold mb-3">Ventas por Categoría</h5>
+
+                {/* Bar chart construido desde ventas reales si existen, si no usa fallback */}
+                <CChartBar
+                  data={{
+                    labels: (() => {
+                      const counts = {}
+                      ventas.forEach((v) => {
+                        ;(v.productos || []).forEach((p) => {
+                          const key = p.categoria || p.nombre || 'Sin categoría'
+                          counts[key] = (counts[key] || 0) + (Number(p.cantidad) || 0)
+                        })
+                      })
+                      const keys = Object.keys(counts)
+                      return keys.length ? keys : ['Tecnología', 'Muebles', 'Hogar']
+                    })(),
+                    datasets: [
+                      {
+                        label: 'Productos vendidos',
+                        backgroundColor: (() => {
+                          const colors = [
+                            'rgba(54,162,235,0.8)',
+                            'rgba(255,159,64,0.8)',
+                            'rgba(75,192,192,0.8)',
+                          ]
+                          return colors
+                        })(),
+                        data: (() => {
+                          const counts = {}
+                          ventas.forEach((v) => {
+                            ;(v.productos || []).forEach((p) => {
+                              const key = p.categoria || p.nombre || 'Sin categoría'
+                              counts[key] = (counts[key] || 0) + (Number(p.cantidad) || 0)
+                            })
+                          })
+                          const vals = Object.values(counts)
+                          return vals.length ? vals : [4650, 1450, 180]
+                        })(),
+                      },
+                    ],
+                  }}
+                  style={{ height: '300px' }}
+                  options={{
+                    plugins: { legend: { display: false } },
+                    scales: {
+                      x: {
+                        ticks: { color: getStyle('--cui-body-color') },
+                        grid: { display: false },
+                      },
+                      y: {
+                        ticks: { color: getStyle('--cui-body-color') },
+                        grid: { color: getStyle('--cui-border-color') },
+                      },
+                    },
+                    maintainAspectRatio: false,
+                  }}
+                />
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+
+        {/* ================= TABLA ================= */}
+        <CCard className="mt-4 shadow-sm" style={{ borderRadius: '16px' }}>
           <CCardBody>
-            <CForm>
-              <CRow className="g-3 align-items-end">
-                <CCol md={3}>
-                  <CFormLabel>Tipo de Reporte</CFormLabel>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h4 className="fw-bold">Historial de Ventas</h4>
+
+              <CDropdown>
+                <CDropdownToggle color="primary" className="px-4">
+                  Exportar
+                </CDropdownToggle>
+                <CDropdownMenu>
+                  <CDropdownItem>PDF</CDropdownItem>
+                  <CDropdownItem>Excel</CDropdownItem>
+                </CDropdownMenu>
+              </CDropdown>
+            </div>
+
+            <CForm className="mb-4">
+              <CRow className="g-3">
+                <CCol xs={12} md={4}>
+                  <CFormLabel>Buscar venta</CFormLabel>
+                  <CFormInput
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Buscar..."
+                    className="shadow-sm"
+                  />
+                </CCol>
+
+                <CCol xs={12} md={4}>
+                  <CFormLabel>Categoría</CFormLabel>
                   <CFormSelect
-                    value={tipoReporte}
-                    onChange={(e) => setTipoReporte(e.target.value)}
+                    value={categoria}
+                    onChange={(e) => setCategoria(e.target.value)}
+                    className="shadow-sm"
                   >
-                    <option value="general">Reporte General</option>
-                    <option value="ventas">Reporte de Ventas</option>
-                    <option value="trabajadores">Reporte de Trabajadores</option>
-                    <option value="produccion">Reporte de Producción</option>
-                    <option value="stock">Reporte de Stock</option>
+                    <option value="">Todas</option>
+                    <option value="Factura">Factura</option>
                   </CFormSelect>
                 </CCol>
 
-                <CCol md={2}>
-                  <CFormLabel>Fecha Inicio</CFormLabel>
-                  <CInputGroup>
-                    <CInputGroupText>
-                      <CIcon icon={cilCalendar} />
-                    </CInputGroupText>
-                    <CFormInput
-                      type="date"
-                      value={fechaInicio}
-                      onChange={(e) => setFechaInicio(e.target.value)}
-                    />
-                  </CInputGroup>
-                </CCol>
-
-                <CCol md={2}>
-                  <CFormLabel>Fecha Fin</CFormLabel>
-                  <CInputGroup>
-                    <CInputGroupText>
-                      <CIcon icon={cilCalendar} />
-                    </CInputGroupText>
-                    <CFormInput
-                      type="date"
-                      value={fechaFin}
-                      onChange={(e) => setFechaFin(e.target.value)}
-                    />
-                  </CInputGroup>
-                </CCol>
-
-                {tipoReporte === "stock" && (
-                  <CCol md={2}>
-                    <CFormLabel>Área</CFormLabel>
-                    <CFormSelect
-                      value={areaFiltro}
-                      onChange={(e) => setAreaFiltro(e.target.value)}
-                    >
-                      <option value="">Todas las áreas</option>
-                      {areas.map(area => (
-                        <option key={area} value={area}>{area}</option>
-                      ))}
-                    </CFormSelect>
-                  </CCol>
-                )}
-
-                <CCol md={3} className="text-end">
-                  <CButton
-                    color="primary"
-                    onClick={generarReporte}
-                    disabled={cargando}
-                  >
-                    {cargando ? (
-                      <>
-                        <CSpinner size="sm" className="me-2" />
-                        Generando...
-                      </>
-                    ) : (
-                      <>
-                        <CIcon icon={cilChart} className="me-2" />
-                        Generar Reporte
-                      </>
-                    )}
+                <CCol xs={12} md={4}>
+                  <CButton color="secondary" className="w-100 mt-4 shadow-sm">
+                    Filtrar <CIcon icon={cilMagnifyingGlass} className="ms-2" />
                   </CButton>
                 </CCol>
               </CRow>
             </CForm>
+
+            <CTable hover responsive className="shadow-sm">
+              <CTableHead>
+                <CTableRow style={{ background: 'rgba(0,0,0,0.05)' }}>
+                  <CTableHeaderCell>ID</CTableHeaderCell>
+                  <CTableHeaderCell>Cliente</CTableHeaderCell>
+                  <CTableHeaderCell>Descripción</CTableHeaderCell>
+                  <CTableHeaderCell>Fecha</CTableHeaderCell>
+                  <CTableHeaderCell>Monto ($)</CTableHeaderCell>
+                  <CTableHeaderCell>Acciones</CTableHeaderCell>
+                </CTableRow>
+              </CTableHead>
+
+              <CTableBody>
+                {ventas.map((v) => (
+                  <CTableRow key={v.id}>
+                    <CTableDataCell>{v.id}</CTableDataCell>
+                    <CTableDataCell>{v.cliente}</CTableDataCell>
+                    <CTableDataCell>
+                      {v.descripcion} ({v.productosTotal} uds)
+                    </CTableDataCell>
+                    <CTableDataCell>{v.fecha}</CTableDataCell>
+                    <CTableDataCell>${v.monto}</CTableDataCell>
+
+                    <CTableDataCell>
+                      <CButton color="primary" size="sm" className="me-2">
+                        Descargar <CIcon icon={cilCloudDownload} className="ms-2" />
+                      </CButton>
+
+                      <CButton color="info" size="sm">
+                        Opciones <CIcon icon={cilOptions} className="ms-2" />
+                      </CButton>
+                    </CTableDataCell>
+                  </CTableRow>
+                ))}
+              </CTableBody>
+            </CTable>
           </CCardBody>
+
+          <CCardFooter className="text-center fw-semibold py-3">
+            Mostrando {ventas.length} ventas
+          </CCardFooter>
         </CCard>
-
-{/* { ------------------ RESULTADOS DEL REPORTE ------------------ }
-        {datosReporte && (
-          <CCard>
-            <CCardHeader>
-              <CRow className="align-items-center">
-                <CCol>
-                  <h5 className="mb-0">
-                    <CIcon icon={cilChart} className="me-2" />
-                    {datosReporte.titulo}
-                  </h5>
-                  <small className="text-muted">Período: {datosReporte.periodo}</small>
-                </CCol>
-                <CCol xs="auto">
-                  <CButton
-                    color="outline-secondary"
-                    size="sm"
-                    className="me-2"
-                    onClick={() => exportarReporte('pdf')}
-                  >
-                    <CIcon icon={cilDownload} className="me-1" />
-                    PDF
-                  </CButton>
-                  <CButton
-                    color="outline-secondary"
-                    size="sm"
-                    className="me-2"
-                    onClick={() => exportarReporte('excel')}
-                  >
-                    <CIcon icon={cilDownload} className="me-1" />
-                    Excel
-                  </CButton>
-                  <CButton
-                    color="outline-secondary"
-                    size="sm"
-                    onClick={imprimirReporte}
-                  >
-                    <CIcon icon={cilPrint} className="me-1" />
-                    Imprimir
-                  </CButton>
-                </CCol>
-              </CRow>
-            </CCardHeader>
-            <CCardBody>
-              { Métricas }
-              {renderizarMetricas()}
-
-              { Tabla de datos }
-              <h6 className="mb-3">Detalles del Reporte</h6>
-              {renderizarTabla()}
-            </CCardBody>
-          </CCard>
-        )} */}
-
-        {/* Mensaje cuando no hay datos */}
-        {!datosReporte && !cargando && (
-          <CCard>
-            <CCardBody className="text-center py-5">
-              <CIcon icon={cilChart} size="3xl" className="text-muted mb-3" />
-              <h5 className="text-muted">Seleccione los parámetros y genere un reporte</h5>
-              <p className="text-muted">
-                Use los filtros arriba para configurar el tipo de reporte y el período deseado.
-              </p>
-            </CCardBody>
-          </CCard>
-        )}
       </CContainer>
-
-      {/* ------------------ TOASTER ------------------ */}
-      <CToaster placement="top-end">
-        {toasts.map((t) => (
-          <CToast key={t.id} autohide delay={3000} color={t.type} visible>
-            <CToastHeader closeButton>
-              <strong>{t.message}</strong>
-            </CToastHeader>
-            <CToastBody>Operación completada.</CToastBody>
-          </CToast>
-        ))}
-      </CToaster>
     </>
   )
 }
