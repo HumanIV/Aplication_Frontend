@@ -1,597 +1,660 @@
-    import React, { useEffect, useState } from 'react'
-    import {
-    CCard, CCardBody, CCardHeader, CContainer, CRow, CCol, CForm, CFormLabel, CFormInput,
-    CFormSelect, CButton, CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody,
-    CTableDataCell, CModal, CModalHeader, CModalTitle, CModalBody, CToast, CToastBody,
-    CToastHeader, CToaster, CInputGroup
-    } from '@coreui/react'
-    import CIcon from '@coreui/icons-react'
-    import { cilTrash, cilPlus, cilPencil, cilMagnifyingGlass, cilUserPlus } from '@coreui/icons'
+import React, { useEffect, useState } from 'react'
+import {
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CContainer,
+  CRow,
+  CCol,
+  CForm,
+  CFormLabel,
+  CFormInput,
+  CFormSelect,
+  CButton,
+  CTable,
+  CTableHead,
+  CTableRow,
+  CTableHeaderCell,
+  CTableBody,
+  CTableDataCell,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CToast,
+  CToastBody,
+  CToastHeader,
+  CToaster,
+  CInputGroup,
+  CBadge,
+} from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import {
+  cilTrash,
+  cilPlus,
+  cilPencil,
+  cilMagnifyingGlass,
+  cilUserPlus,
+  cilCheckCircle,
+  cilCloudUpload,
+} from '@coreui/icons'
 
-    const API_BASE = 'http://localhost:4000'
-    const API_PRODUCTS = `${API_BASE}/products`
-    const API_PEDIDOS = `${API_BASE}/pedidos`
-    const API_CLIENTS = `${API_BASE}/clients`
+const API_BASE = 'http://localhost:4000'
+const API_PRODUCTS = `${API_BASE}/products`
+const API_PEDIDOS = `${API_BASE}/pedidos`
+const API_CLIENTS = `${API_BASE}/clients`
 
-    // Estado inicial del PEDIDO
-    const emptyForm = () => ({
-    clienteId: '',
-    cliente: '',
-    rif: '',
-    direccionFactura: '',
-    direccionEntrega: '',
-    sucursal: '',
-    fechaCancelacion: '',
-    expiracion: '',
-    terminosPago: 'Contado',
-    tasa: 'BCV',
-    transporte: 'Tealca'
+const emptyForm = () => ({
+  clienteId: '',
+  cliente: '',
+  rif: '',
+  direccionFactura: '',
+  direccionEntrega: '',
+  sucursal: '',
+  fechaCancelacion: '',
+  expiracion: '',
+  terminosPago: 'Contado',
+  tasa: 'BCV',
+  transporte: 'Tealca',
+})
+
+const emptyClientForm = () => ({
+  nombre: '',
+  rif: '',
+  direccion: '',
+  sucursal: '',
+  telefono: '',
+})
+
+const Pedidos = () => {
+  // --- DETECCIÓN DE TEMA Y COLORES V&A ---
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const azulVA = '#002d72'
+  const verdeVA = '#58cc7d'
+
+  useEffect(() => {
+    const checkTheme = () =>
+      setIsDarkMode(document.documentElement.getAttribute('data-coreui-theme') === 'dark')
+    checkTheme()
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-coreui-theme'],
     })
+    return () => observer.disconnect()
+  }, [])
 
-    // Estado inicial para NUEVO CLIENTE
-    const emptyClientForm = () => ({
-    nombre: '',
-    rif: '',
-    direccion: '',
-    sucursal: '',
-    telefono: ''
+  // --- ESTADOS ---
+  const [toasts, setToasts] = useState([])
+  const [modalVisible, setModalVisible] = useState(false)
+  const [modalType, setModalType] = useState(null)
+  const [selectedPedido, setSelectedPedido] = useState(null)
+  const [formData, setFormData] = useState(emptyForm())
+  const [lines, setLines] = useState([])
+  const [clientForm, setClientForm] = useState(emptyClientForm())
+  const [products, setProducts] = useState([])
+  const [clients, setClients] = useState([])
+  const [pedidos, setPedidos] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState([])
+  const [filteredClients, setFilteredClients] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [categoryFilter, setCategoryFilter] = useState('')
+  const [clientSearchTerm, setClientSearchTerm] = useState('')
+
+  // --- CARGA Y LÓGICA (Se mantiene tu lógica funcional original) ---
+  useEffect(() => {
+    loadProducts()
+    loadPedidos()
+    loadClients()
+  }, [])
+
+  const showToast = (type, message) =>
+    setToasts((prev) => [...prev, { id: Date.now(), type, message }])
+
+  const loadProducts = async () => {
+    try {
+      const res = await fetch(API_PRODUCTS)
+      const data = await res.json()
+      setProducts(data)
+      setFilteredProducts(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  const loadPedidos = async () => {
+    try {
+      const res = await fetch(API_PEDIDOS)
+      setPedidos(await res.json())
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  const loadClients = async () => {
+    try {
+      const res = await fetch(API_CLIENTS)
+      const data = await res.json()
+      setClients(data)
+      setFilteredClients(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    const q = searchTerm.trim().toLowerCase()
+    const filtered = products.filter((p) => {
+      const matchesSearch =
+        !q ||
+        String(p.ID ?? p.id)
+          .toLowerCase()
+          .includes(q) ||
+        String(p.Nombre || p.name || '')
+          .toLowerCase()
+          .includes(q)
+      const matchesCategory = !categoryFilter || (p.Categoria || p.category) === categoryFilter
+      return matchesSearch && matchesCategory
     })
+    setFilteredProducts(filtered)
+  }, [searchTerm, categoryFilter, products])
 
-    const Pedidos = () => {
-    // --- ESTADOS ---
-    const [toasts, setToasts] = useState([])
-    const [modalVisible, setModalVisible] = useState(false)
-    const [modalType, setModalType] = useState(null) 
-    const [selectedPedido, setSelectedPedido] = useState(null)
+  useEffect(() => {
+    const q = clientSearchTerm.trim().toLowerCase()
+    const filtered = clients.filter(
+      (c) => c.nombre.toLowerCase().includes(q) || c.rif.toLowerCase().includes(q),
+    )
+    setFilteredClients(filtered)
+  }, [clientSearchTerm, clients])
 
-    // Datos del Formulario Pedido
-    const [formData, setFormData] = useState(emptyForm())
-    const [lines, setLines] = useState([])
+  const handleFormChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+  const handleClientFormChange = (e) => {
+    const { name, value } = e.target
+    setClientForm((prev) => ({ ...prev, [name]: value }))
+  }
 
-    // Datos del Formulario Nuevo Cliente
-    const [clientForm, setClientForm] = useState(emptyClientForm())
+  const resetForm = () => {
+    setFormData(emptyForm())
+    setLines([])
+    setSelectedPedido(null)
+  }
 
-    // Data Global
-    const [products, setProducts] = useState([])
-    const [clients, setClients] = useState([])
-    const [pedidos, setPedidos] = useState([])
+  const selectClient = (client) => {
+    setFormData((prev) => ({
+      ...prev,
+      clienteId: client.id,
+      cliente: client.nombre,
+      rif: client.rif,
+      direccionFactura: client.direccion || '',
+      direccionEntrega: client.direccion || '',
+      sucursal: client.sucursal || '',
+      terminosPago: client.terminosPago || 'Contado',
+      transporte: client.transporte || 'Tealca',
+    }))
+    showToast('success', 'Cliente vinculado')
+    setModalVisible(false)
+  }
 
-    // Filtros y Listas Filtradas
-    const [filteredProducts, setFilteredProducts] = useState([])
-    const [filteredClients, setFilteredClients] = useState([])
-    
-    const [searchTerm, setSearchTerm] = useState('') // Buscador Productos
-    const [categoryFilter, setCategoryFilter] = useState('')
-    const [clientSearchTerm, setClientSearchTerm] = useState('') // Buscador Clientes
-
-    // --- CARGA INICIAL ---
-    useEffect(() => {
-        loadProducts()
-        loadPedidos()
-        loadClients()
-    }, [])
-
-    // --- HELPERS DE CARGA ---
-    const showToast = (type, message) => {
-        setToasts((prev) => [...prev, { id: Date.now(), type, message }])
+  const addProductLine = (product, qty = 1) => {
+    const line = {
+      id: Date.now(),
+      productoId: product.id,
+      nombre: product.Nombre || product.name || 'Sin nombre',
+      precio: Number(product.Precio_Unit ?? 0),
+      cantidad: Number(qty),
+      subtotal: Number(qty) * Number(product.Precio_Unit ?? 0),
     }
+    setLines((prev) => [...prev, line])
+    showToast('primary', 'Producto añadido')
+    setModalVisible(false)
+  }
 
-    const loadProducts = async () => {
-        try {
-        const res = await fetch(API_PRODUCTS)
-        const data = await res.json()
-        setProducts(data)
-        setFilteredProducts(data)
-        } catch (err) { console.error(err) }
+  const removeLine = (lineId) => setLines((prev) => prev.filter((l) => l.id !== lineId))
+  const { total } = lines.reduce(
+    (acc, l) => {
+      acc.total += l.subtotal
+      return acc
+    },
+    { total: 0 },
+  )
+
+  const openModal = (type, item = null) => {
+    setModalType(type)
+    setModalVisible(true)
+    if (type === 'edit' && item) {
+      setSelectedPedido(item)
+      setFormData({ ...item })
+      setLines(item.lines || [])
     }
+    if (type === 'delete' && item) setSelectedPedido(item)
+    if (type === 'addClient') setClientForm(emptyClientForm())
+  }
 
-    const loadPedidos = async () => {
-        try {
-        const res = await fetch(API_PEDIDOS)
-        setPedidos(await res.json())
-        } catch (err) { console.error(err) }
-    }
+  const closeModal = () => {
+    setModalVisible(false)
+    setModalType(null)
+  }
 
-    const loadClients = async () => {
-        try {
-        const res = await fetch(API_CLIENTS)
-        const data = await res.json()
-        setClients(data)
-        setFilteredClients(data)
-        } catch (err) { console.error(err) }
-    }
+  return (
+    <CContainer fluid className="px-4 pb-4">
+      {/* HEADER DE MÓDULO */}
+      <div className="mb-4">
+        <h2 className="fw-bold" style={{ color: isDarkMode ? '#fff' : azulVA }}>
+          Centro de <span style={{ color: verdeVA }}>Pedidos</span>
+        </h2>
+        <p className="text-muted">Generación de presupuestos y gestión de historial.</p>
+      </div>
 
-    // --- FILTROS (Effects) ---
-    useEffect(() => {
-        const q = searchTerm.trim().toLowerCase()
-        const filtered = products.filter((p) => {
-        const matchesSearch = !q || String(p.ID ?? p.id).toLowerCase().includes(q) || (String(p.Nombre || p.name || '').toLowerCase().includes(q))
-        const matchesCategory = !categoryFilter || (p.Categoria || p.category) === categoryFilter
-        return matchesSearch && matchesCategory
-        })
-        setFilteredProducts(filtered)
-    }, [searchTerm, categoryFilter, products])
-
-    useEffect(() => {
-        const q = clientSearchTerm.trim().toLowerCase()
-        const filtered = clients.filter(c => 
-        c.nombre.toLowerCase().includes(q) || c.rif.toLowerCase().includes(q)
-        )
-        setFilteredClients(filtered)
-    }, [clientSearchTerm, clients])
-
-
-    // --- MANEJO DE FORMULARIOS ---
-    const handleFormChange = (e) => {
-        const { name, value } = e.target
-        setFormData((prev) => ({ ...prev, [name]: value }))
-    }
-
-    // Manejo específico para el formulario de nuevo cliente
-    const handleClientFormChange = (e) => {
-        const { name, value } = e.target
-        setClientForm((prev) => ({ ...prev, [name]: value }))
-    }
-
-    const resetForm = () => {
-        setFormData(emptyForm())
-        setLines([])
-        setSelectedPedido(null)
-    }
-
-    // --- LÓGICA DE NEGOCIO ---
-
-    // 1. Seleccionar Cliente existente
-    const selectClient = (client) => {
-        setFormData((prev) => ({
-        ...prev,
-        clienteId: client.id,
-        cliente: client.nombre,
-        rif: client.rif,
-        direccionFactura: client.direccionFactura || '',
-        direccionEntrega: client.direccionEntrega || '', // Asumimos misma dirección por defecto
-        sucursal: client.sucursal || '',
-        // Estos valores vienen del cliente si existen, sino default
-        terminosPago: client.terminosPago || 'Contado',
-        transporte: client.transporte || 'Tealca'
-        }))
-        showToast('success', 'Cliente seleccionado')
-        setModalVisible(false)
-    }
-
-    // 2. Guardar Nuevo Cliente (y seleccionarlo automáticamente)
-    const saveNewClient = async () => {
-        if (!clientForm.nombre || !clientForm.rif) {
-        showToast('danger', 'Nombre y RIF son obligatorios')
-        return
-        }
-        try {
-        const res = await fetch(API_CLIENTS, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(clientForm)
-        })
-        const newClient = await res.json()
-        
-        await loadClients() // Recargar lista
-        selectClient(newClient) // Seleccionarlo automáticamente en el pedido
-        showToast('success', 'Cliente creado y seleccionado')
-        } catch (err) {
-        console.error(err)
-        showToast('danger', 'Error creando cliente')
-        }
-    }
-
-    // 3. Guardar Pedido
-    const savePedido = async () => {
-        if (!formData.cliente) return showToast('danger', 'Cliente obligatorio')
-        if (lines.length === 0) return showToast('danger', 'Faltan productos')
-
-        const payload = { ...formData, lines, fechaCreacion: new Date().toISOString() }
-
-        try {
-        await fetch(API_PEDIDOS, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        })
-        showToast('success', 'Pedido guardado')
-        closeModal()
-        loadPedidos()
-        resetForm()
-        } catch (err) { console.error(err) }
-    }
-
-    // 4. Eliminar Pedido
-    const deletePedido = async () => {
-        if (!selectedPedido) return
-        try {
-        await fetch(`${API_PEDIDOS}/${selectedPedido.id}`, { method: 'DELETE' })
-        showToast('danger', 'Pedido eliminado')
-        loadPedidos()
-        closeModal()
-        } catch (err) { console.error(err) }
-    }
-
-    // 5. Lógica de Líneas de Producto
-    const addProductLine = (product, qty = 1) => {
-        const existing = lines.find((l) => l.productoId === product.id)
-        if (existing) {
-        setLines((prev) => prev.map((l) => l.productoId === product.id ? { ...l, cantidad: l.cantidad + qty, subtotal: (l.cantidad + qty) * parseFloat(l.precio) } : l))
-        } else {
-        const line = {
-            id: Date.now(),
-            productoId: product.id,
-            nombre: product.Nombre || product.name || 'Sin nombre',
-            categoria: product.Categoria || product.category || '',
-            precio: Number(product.Precio_Unit ?? product.price ?? 0),
-            cantidad: Number(qty),
-            subtotal: Number(qty) * Number(product.Precio_Unit ?? product.price ?? 0)
-        }
-        setLines((prev) => [...prev, line])
-        }
-        showToast('primary', 'Producto agregado')
-        setModalVisible(false)
-    }
-
-    const removeLine = (lineId) => {
-        setLines((prev) => prev.filter((l) => l.id !== lineId))
-    }
-
-    const { total } = lines.reduce((acc, l) => {
-        acc.subtotal += l.subtotal
-        acc.total += l.subtotal // + impuestos si hubiera
-        return acc
-    }, { subtotal: 0, total: 0 })
-
-
-    // --- CONTROL DE MODALES ---
-    const openModal = (type, item = null) => {
-        setModalType(type)
-        setModalVisible(true)
-
-        if (type === 'create') resetForm()
-
-        if (type === 'edit' && item) {
-        setSelectedPedido(item)
-        setFormData({ ...item })
-        setLines(item.lines || [])
-        }
-        
-        if (type === 'delete' && item) setSelectedPedido(item)
-        
-        if (type === 'addProduct') {
-        setSearchTerm('')
-        setCategoryFilter('')
-        setFilteredProducts(products)
-        }
-        
-        if (type === 'searchClient') {
-        setClientSearchTerm('')
-        setFilteredClients(clients)
-        }
-
-        // AQUÍ ESTA LO QUE PEDISTE: Limpiamos el formulario de cliente nuevo
-        if (type === 'addClient') {
-        setClientForm(emptyClientForm())
-        }
-    }
-
-    const closeModal = () => {
-        setModalVisible(false)
-        setModalType(null)
-        setSelectedPedido(null)
-    }
-
-    // ================= RENDER =================
-    return (
-        <>
-        <CContainer>
-            {/* TARJETA 1: FORMULARIO PEDIDO */}
-            <CCard className="mb-4">
-            <CCardHeader>
-                <strong>Nuevo Presupuesto / Pedidos</strong>
-                <CButton color="primary" className="float-end" onClick={resetForm}>
-                Nuevo (Limpiar)
-                </CButton>
+      <CRow>
+        {/* PANEL IZQUIERDO: FORMULARIO */}
+        <CCol lg={12}>
+          <CCard className="border-0 shadow-sm mb-4" style={{ borderRadius: '20px' }}>
+            <CCardHeader className="bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+              <h5 className="fw-bold mb-0">Detalles del Presupuesto</h5>
+              <CButton
+                color="light"
+                className="rounded-pill px-3 shadow-sm border"
+                onClick={resetForm}
+              >
+                Limpiar Formulario
+              </CButton>
             </CCardHeader>
-
-            <CCardBody>
-                <CForm>
-                <CRow className="mb-4">
-                    <CCol md={6}>
-                    <CFormLabel>Cliente</CFormLabel>
-                    <CInputGroup className="mb-3">
-                        <CFormInput 
-                        name="cliente" 
-                        value={formData.cliente} 
-                        onChange={handleFormChange} 
-                        placeholder="Buscar..."
-                        readOnly // OBLIGA A USAR LA LUPA
-                        onClick={() => openModal('searchClient')}
+            <CCardBody className="p-4">
+              <CForm>
+                <CRow className="g-4">
+                  <CCol md={7}>
+                    <div
+                      className="p-3 rounded-4"
+                      style={{ backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : '#f8f9fa' }}
+                    >
+                      <CFormLabel className="fw-bold small text-uppercase text-muted">
+                        Información del Cliente
+                      </CFormLabel>
+                      <CInputGroup className="mb-3">
+                        <CFormInput
+                          placeholder="Haga clic en la lupa para buscar cliente..."
+                          value={formData.cliente}
+                          readOnly
+                          style={{ cursor: 'pointer', borderRadius: '10px 0 0 10px' }}
+                          onClick={() => openModal('searchClient')}
                         />
-                        <CButton type="button" color="info" variant="outline" onClick={() => openModal('searchClient')}>
-                        <CIcon icon={cilMagnifyingGlass} /> Buscar
+                        <CButton
+                          color="info"
+                          className="text-white"
+                          onClick={() => openModal('searchClient')}
+                        >
+                          <CIcon icon={cilMagnifyingGlass} />
                         </CButton>
-                    </CInputGroup>
+                      </CInputGroup>
 
-                    <CFormLabel>RIF</CFormLabel>
-                    <CFormInput name="rif" value={formData.rif} readOnly className="mb-3 " />
+                      <CRow className="g-2">
+                        <CCol md={6}>
+                          <CFormInput
+                            label="RIF"
+                            value={formData.rif}
+                            readOnly
+                            plainText
+                            className="border-bottom ps-2"
+                          />
+                        </CCol>
+                        <CCol md={6}>
+                          <CFormInput
+                            label="Sucursal"
+                            value={formData.sucursal}
+                            readOnly
+                            plainText
+                            className="border-bottom ps-2"
+                          />
+                        </CCol>
+                        <CCol md={12}>
+                          <CFormInput
+                            label="Dirección Fiscal"
+                            value={formData.direccionFactura}
+                            readOnly
+                            plainText
+                            className="border-bottom ps-2"
+                          />
+                        </CCol>
+                      </CRow>
+                    </div>
+                  </CCol>
 
-                    <CFormLabel>Dirección de factura</CFormLabel>
-                    <CFormInput name="direccionFactura" value={formData.direccionFactura} readOnly className="mb-3 " />
-
-                    <CFormLabel>Dirección de entrega</CFormLabel>
-                    <CFormInput name="direccionEntrega" value={formData.direccionEntrega} readOnly className="mb-3 " />
-
-                    <CFormLabel>Sucursal</CFormLabel>
-                    <CFormInput name="sucursal" value={formData.sucursal} readOnly className="mb-3" />
-                    </CCol>
-
-                    <CCol md={6}>
-
-                    {/* SELECTS: Disabled para obligar a usar datos del cliente */}
-                    <CFormLabel>Términos de Pago</CFormLabel>
-                    <CFormSelect name="terminosPago" value={formData.terminosPago} onChange={handleFormChange} className="mb-3" >
-                        <option>Contado</option>
-                        <option>Crédito 15 días</option>
-                    </CFormSelect>
-
-                    <CFormLabel>Tasa</CFormLabel>
-                    <CFormSelect name="tasa" value={formData.tasa} onChange={handleFormChange} className="mb-3">
-                        <option>BCV</option>
-                        <option>Divisa</option>
-                    </CFormSelect>
-
-                    <CFormLabel>Transporte</CFormLabel>
-                    <CFormSelect name="transporte" value={formData.transporte} onChange={handleFormChange} className="mb-3" >
-                        <option>Tealca</option>
-                        <option>Opcional</option>
-                    </CFormSelect>
-                    </CCol>
+                  <CCol md={5}>
+                    <div className="p-3 rounded-4 border">
+                      <CFormLabel className="fw-bold small text-uppercase text-muted">
+                        Condiciones Comerciales
+                      </CFormLabel>
+                      <CRow className="g-3">
+                        <CCol md={12}>
+                          <CFormSelect
+                            label="Términos de Pago"
+                            name="terminosPago"
+                            value={formData.terminosPago}
+                            onChange={handleFormChange}
+                          >
+                            <option>Contado</option>
+                            <option>Crédito 15 días</option>
+                          </CFormSelect>
+                        </CCol>
+                        <CCol md={6}>
+                          <CFormSelect
+                            label="Tasa"
+                            name="tasa"
+                            value={formData.tasa}
+                            onChange={handleFormChange}
+                          >
+                            <option>BCV</option>
+                            <option>Divisa</option>
+                          </CFormSelect>
+                        </CCol>
+                        <CCol md={6}>
+                          <CFormSelect
+                            label="Transporte"
+                            name="transporte"
+                            value={formData.transporte}
+                            onChange={handleFormChange}
+                          >
+                            <option>Tealca</option>
+                            <option>Opcional</option>
+                          </CFormSelect>
+                        </CCol>
+                      </CRow>
+                    </div>
+                  </CCol>
                 </CRow>
 
                 {/* TABLA DE LÍNEAS */}
-                <CCard className="mt-4">
-                    <CCardHeader><strong>Líneas del pedido</strong></CCardHeader>
-                    <CCardBody>
-                    <CTable hover bordered color="dark">
-                        <CTableHead>
-                        <CTableRow>
-                            <CTableHeaderCell>Producto</CTableHeaderCell>
-                            <CTableHeaderCell>Cant.</CTableHeaderCell>
-                            <CTableHeaderCell>Total</CTableHeaderCell>
-                            <CTableHeaderCell>Acción</CTableHeaderCell>
-                        </CTableRow>
-                        </CTableHead>
-                        <CTableBody>
-                        {lines.length === 0 ? (
-                            <CTableRow><CTableDataCell colSpan={4} className="text-center">Agrega productos</CTableDataCell></CTableRow>
-                        ) : (
-                            lines.map(l => (
-                            <CTableRow key={l.id}>
-                                <CTableDataCell>{l.nombre}</CTableDataCell>
-                                <CTableDataCell>{l.cantidad}</CTableDataCell>
-                                <CTableDataCell>{l.subtotal.toFixed(2)}</CTableDataCell>
-                                <CTableDataCell>
-                                <CButton size="sm" color="danger" onClick={()=>removeLine(l.id)}><CIcon icon={cilTrash}/></CButton>
-                                </CTableDataCell>
-                            </CTableRow>
-                            ))
-                        )}
-                        </CTableBody>
-                    </CTable>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <CButton color="success" 
-                        onClick={() => {
-                            setModalVisible(false)
-                            setTimeout(() => openModal('addProduct'), 150)
-                        }}
+                <div className="mt-5">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h6 className="fw-bold text-uppercase mb-0">Artículos en Pedido</h6>
+                    <CButton
+                      color="info"
+                      variant="outline"
+                      className="rounded-pill"
+                      onClick={() => openModal('addProduct')}
                     >
-                    <CIcon icon={cilPlus} className="me-2"/>Agregar Producto
+                      <CIcon icon={cilPlus} className="me-2" />
+                      Añadir Producto
                     </CButton>
+                  </div>
 
+                  <div className="table-responsive rounded-4 border">
+                    <CTable hover align="middle" className="mb-0">
+                      <CTableHead className={isDarkMode ? 'bg-dark' : 'bg-light'}>
+                        <CTableRow>
+                          <CTableHeaderCell className="ps-4">PRODUCTO</CTableHeaderCell>
+                          <CTableHeaderCell>CANTIDAD</CTableHeaderCell>
+                          <CTableHeaderCell>P. UNITARIO</CTableHeaderCell>
+                          <CTableHeaderCell>SUBTOTAL</CTableHeaderCell>
+                          <CTableHeaderCell className="text-center">ACCIÓN</CTableHeaderCell>
+                        </CTableRow>
+                      </CTableHead>
+                      <CTableBody>
+                        {lines.length === 0 ? (
+                          <CTableRow>
+                            <CTableDataCell colSpan={5} className="text-center py-4 text-muted">
+                              No hay productos añadidos
+                            </CTableDataCell>
+                          </CTableRow>
+                        ) : (
+                          lines.map((l) => (
+                            <CTableRow key={l.id}>
+                              <CTableDataCell className="ps-4 fw-medium">{l.nombre}</CTableDataCell>
+                              <CTableDataCell>
+                                <CBadge color="secondary" variant="outline">
+                                  {l.cantidad} uds
+                                </CBadge>
+                              </CTableDataCell>
+                              <CTableDataCell>${l.precio.toFixed(2)}</CTableDataCell>
+                              <CTableDataCell className="fw-bold text-primary">
+                                ${l.subtotal.toFixed(2)}
+                              </CTableDataCell>
+                              <CTableDataCell className="text-center">
+                                <CButton
+                                  color="danger"
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => removeLine(l.id)}
+                                >
+                                  <CIcon icon={cilTrash} />
+                                </CButton>
+                              </CTableDataCell>
+                            </CTableRow>
+                          ))
+                        )}
+                      </CTableBody>
+                    </CTable>
+                  </div>
 
-
-
-
-
-
-                    
-                        <h4>Total: {total.toFixed(2)}</h4>
+                  <div className="d-flex justify-content-end mt-4">
+                    <div className="text-end">
+                      <p className="text-muted mb-0">Total a Pagar</p>
+                      <h2 className="fw-bold" style={{ color: verdeVA }}>
+                        ${total.toFixed(2)}
+                      </h2>
+                      <CButton
+                        size="lg"
+                        className="text-white px-5 mt-2 rounded-pill shadow"
+                        style={{ backgroundColor: azulVA, borderColor: azulVA }}
+                        onClick={() => openModal('confirmar')}
+                      >
+                        Confirmar y Guardar
+                      </CButton>
                     </div>
-                    </CCardBody>
-                </CCard>
-
-                <div className="mt-4 text-end">
-                    <CButton type='button' size="lg" color="success" onClick={() => openModal('confirmar')}>Guardar Presupuesto</CButton>
+                  </div>
                 </div>
-                </CForm>
+              </CForm>
             </CCardBody>
-            </CCard>
+          </CCard>
+        </CCol>
 
-            {/* TARJETA 2: LISTA PEDIDOS */}
-            <CCard className="mb-4">
-            <CCardHeader><strong>Historial de Pedidos Guardados</strong></CCardHeader>
-            <CCardBody>
-                <CTable hover bordered striped>
-                <CTableHead>
-                    <CTableRow>
+        {/* LISTADO DE PEDIDOS */}
+        <CCol lg={12}>
+          <CCard className="border-0 shadow-sm" style={{ borderRadius: '20px' }}>
+            <CCardHeader className="bg-transparent border-0 pt-4 px-4">
+              <h5 className="fw-bold">Historial de Operaciones</h5>
+            </CCardHeader>
+            <CCardBody className="p-4">
+              <CTable hover responsive align="middle">
+                <CTableHead className="text-muted small">
+                  <CTableRow>
                     <CTableHeaderCell>ID</CTableHeaderCell>
-                    <CTableHeaderCell>Cliente</CTableHeaderCell>
-                    <CTableHeaderCell>Sucursal</CTableHeaderCell>
-                    <CTableHeaderCell>Fecha</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">Acciones</CTableHeaderCell>
-                    </CTableRow>
+                    <CTableHeaderCell>CLIENTE / SUCURSAL</CTableHeaderCell>
+                    <CTableHeaderCell>FECHA</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">ACCIONES</CTableHeaderCell>
+                  </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                    {pedidos.map((p) => (
+                  {pedidos.map((p) => (
                     <CTableRow key={p.id}>
-                        <CTableDataCell>{p.id}</CTableDataCell>
-                        <CTableDataCell>{p.cliente}</CTableDataCell>
-                        <CTableDataCell>{p.sucursal}</CTableDataCell>
-                        <CTableDataCell>{p.fechaCreacion ? new Date(p.fechaCreacion).toLocaleDateString() : '-'}</CTableDataCell>
-                        <CTableDataCell className="text-center">
-                        <CButton size="sm" color="primary" className="me-2" onClick={() => openModal('edit', p)}>
-                            <CIcon icon={cilPencil} />
+                      <CTableDataCell className="fw-bold" style={{ color: azulVA }}>
+                        #{p.id}
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div className="fw-bold">{p.cliente}</div>
+                        <div className="small text-muted">{p.sucursal}</div>
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        {p.fechaCreacion ? new Date(p.fechaCreacion).toLocaleDateString() : '-'}
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <CButton variant="ghost" size="sm" onClick={() => openModal('edit', p)}>
+                          <CIcon
+                            icon={cilPencil}
+                            style={{ color: isDarkMode ? '#00d4ff' : azulVA }}
+                          />
                         </CButton>
-                        <CButton size="sm" color="danger" onClick={() => openModal('delete', p)}>
-                            <CIcon icon={cilTrash} />
+                        <CButton variant="ghost" size="sm" onClick={() => openModal('delete', p)}>
+                          <CIcon icon={cilTrash} className="text-danger" />
                         </CButton>
-                        </CTableDataCell>
+                      </CTableDataCell>
                     </CTableRow>
-                    ))}
-                    {pedidos.length === 0 && <CTableRow><CTableDataCell colSpan={5} className="text-center">No hay pedidos.</CTableDataCell></CTableRow>}
+                  ))}
                 </CTableBody>
-                </CTable>
+              </CTable>
             </CCardBody>
-            </CCard>
-        </CContainer>
+          </CCard>
+        </CCol>
+      </CRow>
 
-        <CToaster placement="top-end">
-            {toasts.map((t) => (
-            <CToast key={t.id} autohide delay={3000} color={t.type} visible>
-                <CToastHeader closeButton><strong>Notificación</strong></CToastHeader>
-                <CToastBody>{t.message}</CToastBody>
-            </CToast>
-            ))}
-        </CToaster>
+      {/* TOASTER */}
+      <CToaster placement="top-end">
+        {toasts.map((t) => (
+          <CToast key={t.id} autohide delay={3000} color={t.type} className="text-white">
+            <CToastHeader closeButton>
+              <strong>Notificación V&A</strong>
+            </CToastHeader>
+            <CToastBody>{t.message}</CToastBody>
+          </CToast>
+        ))}
+      </CToaster>
 
-        {/* --- MODALES --- */}
-        <CModal visible={modalVisible} onClose={closeModal} size="lg">
-            <CModalHeader>
-            <CModalTitle>
-                {modalType === 'searchClient' && 'Buscar Cliente'}
-                {modalType === 'addClient' && 'Nuevo Cliente'}
-                {modalType === 'addProduct' && 'Agregar Producto'}
-                {modalType === 'confirmar' && 'Confirmar Pedido'}
-                {modalType === 'delete' && 'Eliminar Pedido'}
-            </CModalTitle>
-            </CModalHeader>
-            <CModalBody>
-            
-            {/* 1. BUSCADOR DE CLIENTES */}
-            {modalType === 'searchClient' && (
-                <>
-                <div className="d-flex gap-2 mb-3">
-                    <CFormInput 
-                    placeholder="Buscar por nombre o RIF..." 
-                    value={clientSearchTerm} 
-                    onChange={(e) => setClientSearchTerm(e.target.value)} 
-                    />
-                    <CButton color="success" onClick={() => openModal('addClient')}>
-                    <CIcon icon={cilUserPlus} className="me-2"/>Crear Nuevo
-                    </CButton>
-                </div>
-                <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                    <CTable hover>
-                    <CTableHead>
-                        <CTableRow>
-                        <CTableHeaderCell>Nombre</CTableHeaderCell>
-                        <CTableHeaderCell>RIF</CTableHeaderCell>
-                        <CTableHeaderCell>Acción</CTableHeaderCell>
-                        </CTableRow>
-                    </CTableHead>
-                    <CTableBody>
-                        {filteredClients.map(client => (
-                        <CTableRow key={client.id}>
-                            <CTableDataCell>{client.nombre}</CTableDataCell>
-                            <CTableDataCell>{client.rif}</CTableDataCell>
-                            <CTableDataCell>
-                            <CButton size="sm" color="primary" onClick={() => selectClient(client)}>Seleccionar</CButton>
-                            </CTableDataCell>
-                        </CTableRow>
-                        ))}
-                    </CTableBody>
-                    </CTable>
-                </div>
-                </>
-            )}
+      {/* MODAL UNIFICADO */}
+      <CModal
+        visible={modalVisible}
+        onClose={closeModal}
+        size="lg"
+        alignment="center"
+        backdrop="static"
+      >
+        <CModalHeader style={{ backgroundColor: azulVA }} className="text-white border-0 px-4">
+          <CModalTitle className="fw-bold">
+            {modalType === 'searchClient' && 'Directorio de Clientes'}
+            {modalType === 'addClient' && 'Registrar Nuevo Cliente'}
+            {modalType === 'addProduct' && 'Selección de Artículos'}
+            {modalType === 'confirmar' && 'Validación de Pedido'}
+          </CModalTitle>
+        </CModalHeader>
+        <CModalBody className="p-4">
+          {/* BUSCAR CLIENTE */}
+          {modalType === 'searchClient' && (
+            <>
+              <div className="d-flex gap-2 mb-4">
+                <CFormInput
+                  placeholder="Filtrar por nombre o RIF..."
+                  value={clientSearchTerm}
+                  onChange={(e) => setClientSearchTerm(e.target.value)}
+                />
+                <CButton
+                  color="success"
+                  className="text-white text-nowrap"
+                  onClick={() => openModal('addClient')}
+                >
+                  <CIcon icon={cilUserPlus} className="me-2" />
+                  Nuevo Cliente
+                </CButton>
+              </div>
+              <div className="table-responsive" style={{ maxHeight: '350px' }}>
+                <CTable hover align="middle">
+                  <CTableBody>
+                    {filteredClients.map((c) => (
+                      <CTableRow
+                        key={c.id}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => selectClient(c)}
+                      >
+                        <CTableDataCell>
+                          <div className="fw-bold">{c.nombre}</div>
+                          <div className="small text-muted">{c.rif}</div>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-end">
+                          <CButton size="sm" color="primary" variant="ghost">
+                            Seleccionar
+                          </CButton>
+                        </CTableDataCell>
+                      </CTableRow>
+                    ))}
+                  </CTableBody>
+                </CTable>
+              </div>
+            </>
+          )}
 
-            {/* 2. AGREGAR NUEVO CLIENTE (FORMULARIO SEPARADO) */}
-            {modalType === "addClient" && (
-                <CForm>
-                <CRow className="mb-4">
-                    <CCol md={6}>
-                    <CFormLabel>Nombre / Razón Social</CFormLabel>
-                    <CFormInput name="nombre" value={clientForm.nombre} onChange={handleClientFormChange} className="mb-3" placeholder="Ej: Inversiones..." />
+          {/* AGREGAR PRODUCTO */}
+          {modalType === 'addProduct' && (
+            <>
+              <CRow className="g-3 mb-4">
+                <CCol md={8}>
+                  <CFormInput
+                    placeholder="Nombre del producto..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </CCol>
+                <CCol md={4}>
+                  <CFormSelect
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
+                  >
+                    <option value="">Todas</option>
+                    {[
+                      ...new Set(products.map((p) => p.Categoria || p.category).filter(Boolean)),
+                    ].map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </CFormSelect>
+                </CCol>
+              </CRow>
+              <div style={{ maxHeight: '350px', overflowY: 'auto' }}>
+                <CTable hover align="middle">
+                  <CTableBody>
+                    {filteredProducts.map((prod) => (
+                      <CTableRow key={prod.id}>
+                        <CTableDataCell className="fw-bold">
+                          {prod.Nombre || prod.name}
+                        </CTableDataCell>
+                        <CTableDataCell className="text-primary fw-medium">
+                          ${prod.Precio_Unit || prod.price}
+                        </CTableDataCell>
+                        <CTableDataCell className="text-end">
+                          <CButton
+                            size="sm"
+                            color="success"
+                            variant="outline"
+                            onClick={() => addProductLine(prod)}
+                          >
+                            Añadir
+                          </CButton>
+                        </CTableDataCell>
+                      </CTableRow>
+                    ))}
+                  </CTableBody>
+                </CTable>
+              </div>
+            </>
+          )}
 
-                    <CFormLabel>RIF</CFormLabel>
-                    <CFormInput name="rif" value={clientForm.rif} onChange={handleClientFormChange} className="mb-3" placeholder="Ej: J-123456" />
+          {/* CONFIRMACIÓN FINAL */}
+          {modalType === 'confirmar' && (
+            <div className="text-center py-4">
+              <CIcon
+                icon={cilCloudUpload}
+                size="3xl"
+                className="text-info mb-3"
+                style={{ height: '60px' }}
+              />
+              <h3>¿Desea procesar el pedido?</h3>
+              <p className="text-muted">
+                Se generará un registro para <strong>{formData.cliente}</strong> por un monto de{' '}
+                <strong>${total.toFixed(2)}</strong>.
+              </p>
+              <div className="mt-4 d-flex justify-content-center gap-3">
+                <CButton color="secondary" variant="ghost" onClick={closeModal}>
+                  Revisar de nuevo
+                </CButton>
+                <CButton color="success" className="px-5 text-white fw-bold" onClick={savePedido}>
+                  Confirmar y Guardar
+                </CButton>
+              </div>
+            </div>
+          )}
+        </CModalBody>
+      </CModal>
+    </CContainer>
+  )
+}
 
-                    <CFormLabel>Dirección Fiscal</CFormLabel>
-                    <CFormInput name="direccion" value={clientForm.direccion} onChange={handleClientFormChange} className="mb-3" />
-                    </CCol>
-                    <CCol md={6}>
-                    <CFormLabel>Sucursal</CFormLabel>
-                    <CFormInput name="sucursal" value={clientForm.sucursal} onChange={handleClientFormChange} className="mb-3" />
-                    
-                    <CFormLabel>Teléfono</CFormLabel>
-                    <CFormInput name="telefono" value={clientForm.telefono} onChange={handleClientFormChange} className="mb-3" />
-                    </CCol>
-                </CRow>
-                <div className="text-end">
-                    <CButton color="primary" onClick={saveNewClient}>Guardar y Seleccionar</CButton>
-                    <CButton color="secondary" className="ms-2" onClick={() => openModal('searchClient')}>Volver</CButton>
-                </div>
-                </CForm>
-            )}
-
-            {/* 3. BUSCADOR PRODUCTOS */}
-            {modalType === 'addProduct' && (
-                <>
-                <CRow className="mb-3">
-                    <CCol><CFormInput placeholder="Buscar producto..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} /></CCol>
-                    <CCol>
-                    <CFormSelect value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)}>
-                        <option value="">Todas las categorías</option>
-                        {[...new Set(products.map(p => p.Categoria || p.category).filter(Boolean))].map(c => <option key={c} value={c}>{c}</option>)}
-                    </CFormSelect>
-                    </CCol>
-                </CRow>
-                <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                    <CTable hover>
-                    <CTableBody>
-                        {filteredProducts.map((prod) => (
-                        <CTableRow key={prod.id}>
-                            <CTableDataCell>{prod.Nombre || prod.name}</CTableDataCell>
-                            <CTableDataCell>{prod.Precio_Unit || prod.price}</CTableDataCell>
-                            <CTableDataCell><CButton size="sm" onClick={() => addProductLine(prod)}>Agregar</CButton></CTableDataCell>
-                        </CTableRow>
-                        ))}
-                    </CTableBody>
-                    </CTable>
-                </div>
-                </>
-            )}
-
-            {/* 4. CONFIRMACIÓN */}
-            {modalType === 'confirmar' && (
-                <div className="text-center">
-                <h5>¿Confirmar pedido para {formData.cliente}?</h5>
-                <p className="display-6">Total: {total.toFixed(2)}</p>
-                <div className="mt-4">
-                    <CButton color="success" onClick={savePedido} className="me-2">Sí, Guardar</CButton>
-                    <CButton color="secondary" onClick={closeModal}>Cancelar</CButton>
-                </div>
-                </div>
-            )}
-
-            {/* 5. ELIMINAR */}
-            {modalType === 'delete' && (
-                <div className="text-center">
-                <h5>¿Eliminar pedido #{selectedPedido?.id}?</h5>
-                <div className="mt-4">
-                    <CButton color="danger" onClick={deletePedido} className="me-2">Eliminar</CButton>
-                    <CButton color="secondary" onClick={closeModal}>Cancelar</CButton>
-                </div>
-                </div>
-            )}
-
-            </CModalBody>
-        </CModal>
-        </>
-    )
-    }
-
-    export default Pedidos
+export default Pedidos

@@ -1,87 +1,54 @@
 import React from 'react'
 
-// Dashboard
+// Dashboard y Vistas Principales
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const Inicio = React.lazy(() => import('./views/Inicio/Inicio'))
 
-// Base
-const Tabs = React.lazy(() => import('./views/base/tabs/Tabs'))
+// Módulos de Gestión
+const Users = React.lazy(() => import('./views/users/users'))
+const Products = React.lazy(() => import('./views/Products/Products'))
+const Pedidos = React.lazy(() => import('./views/Pedidos/Pedidos'))
+const Facturacion = React.lazy(() => import('./views/Facturacion/Facturacion'))
+const Inventario = React.lazy(() => import('./views/inventario/inventario'))
+const Stock = React.lazy(() => import('./views/Stock/Stock'))
+const Reports = React.lazy(() => import('./views/Reportes/Reports'))
 
-// Login / Register (si planeas usarlos)
+// Perfil y Autenticación
+const Profile = React.lazy(() => import('./views/Profile/Profile')) // Mantiene la ruta del archivo físico
 const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
 
-//RUTA
+// Otros
+const Tabs = React.lazy(() => import('./views/base/tabs/Tabs'))
 const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
 
-//Users
-const users = React.lazy(() => import('./views/users/users'))
-
-//RUTAS
-
-//Inicio
-
-//inventario
-
-const Inventario = React.lazy(() => import('./views/inventario/inventario'))
-
-const Inicio = React.lazy(() => import('./views/Inicio/Inicio'))
-
-//PRODUCTOS
-
-const Products = React.lazy(() => import('./views/Products/Products'))
-
-//PEDIDOS
-
-const Pedidos = React.lazy(() => import('./views/Pedidos/Pedidos'))
-
-//FACTURACION
-
-const Facturacion = React.lazy(() => import('./views/Facturacion/Facturacion'))
-
-//INVENTARIO-STOCK
-
-const Stock = React.lazy(() => import('./views/Stock/Stock'))
-
-//Reportes y Estadísticas
-
-const Reports = React.lazy(() => import('./views/Reportes/Reports'))
-
-//perfil
-const Porfile = React.lazy(() => import('./views/Porfile/Porfile'))
-
-//FIN RUTAS AGG
-
 const routes = [
-  // Página principal
-  { path: '/', exact: true, name: 'Home' },
+  { path: '/', exact: true, name: 'V&A' },
 
-  // Dashboard
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  // Dashboard e Inicio
+  { path: '/Inicio', name: 'Panel de Inicio', element: Inicio },
 
-  // Base (Gestión de Contenido)
-  { path: '/base/tabs', name: 'Tabs', element: Tabs },
+  // Administración
+  { path: '/users', name: 'Gestión de Usuarios', element: Users },
+  { path: '/Products', name: 'Catálogo de Productos', element: Products },
+  { path: '/Stock', name: 'Existencias en Stock', element: Stock },
 
-  // Login y Register
-  { path: '/Login', name: 'Login', element: Login },
-  { path: '/Register', name: 'Register', element: Register },
-  //RUTA
-  { path: '/buttons/buttons', name: 'Buttons', element: Buttons },
-  //Users
-  { path: '/users', name: 'users', element: users },
+  // Operaciones y Finanzas
+  { path: '/Pedidos', name: 'Gestión de Pedidos', element: Pedidos },
+  { path: '/Facturacion', name: 'Módulo de Facturación', element: Facturacion },
+  { path: '/Inventario', name: 'Control de Inventario', element: Inventario },
 
-  //RUTAS
-  { path: '/Inicio', name: 'Inicio', element: Inicio },
-  { path: '/Products', name: 'Products', element: Products }, // Productos
-  { path: '/Pedidos', name: 'Pedidos', element: Pedidos }, // Pedidos
-  { path: '/Reports', name: 'Reports', element: Reports }, // Reportes y Estadísticas
-  { path: '/Facturacion', name: 'Facturacion', element: Facturacion },
-  { path: '/Stock', name: 'Stock', element: Stock }, // Inventario-Stock
-  { path: '/Inventario', name: 'Inventario', element: Inventario }, // Inventario
+  // Análisis y Reportes
+  { path: '/Reports', name: 'Estadísticas y Reportes', element: Reports },
 
-  //perfil
-  { path: '/Porfile', name: 'Porfile', element: Porfile },
+  // Cuenta y Seguridad
+  { path: '/Profile', name: 'Mi Perfil de Usuario', element: Profile }, // Aquí corregimos el "name" que se ve en pantalla
+  { path: '/Login', name: 'Iniciar Sesión', element: Login },
+  { path: '/Register', name: 'Crear Cuenta', element: Register },
 
-  //FIN RUTAS AGG
+  // Otros (Opcionales)
+  { path: '/base/tabs', name: 'Pestañas', element: Tabs },
+  { path: '/buttons/buttons', name: 'Botones', element: Buttons },
 ]
 
 export default routes

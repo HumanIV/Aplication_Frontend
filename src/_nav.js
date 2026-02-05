@@ -3,65 +3,59 @@ import CIcon from '@coreui/icons-react'
 import {
   cilHome,
   cilLibraryBuilding,
-  cilBook,
   cilReportSlash,
   cilStar,
   cilPencil,
-  cilSatelite,
-  cilCart,
-  cilDollar,
-  cilCash,
   cilUser,
+  cilCart,
+  cilCash,
   cilLibraryAdd,
+  cilSatelite,
 } from '@coreui/icons'
-import { CNav, CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
   {
     component: CNavItem,
-    name: 'INICIO',
+    name: 'Panel de Inicio',
     to: '/Inicio',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
   },
 
   {
     component: CNavTitle,
-    name: 'MODULES',
+    name: 'Gestión Administrativa',
   },
 
   {
     component: CNavItem,
-    name: 'Users',
+    name: 'Control de Usuarios',
+    to: '/users',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-    to: '/Users',
   },
 
   {
     component: CNavGroup,
-    name: 'Productos',
+    name: 'Catálogo y Productos',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Productos',
+        name: 'Lista de Productos',
         to: '/Products',
       },
-      {
-        component: CNavItem,
-        name: 'USERS',
-        to: '/users',
-      },
+      // ELIMINADO: Ya no está el duplicado de usuarios aquí
     ],
   },
 
   {
     component: CNavGroup,
-    name: 'Pedidos',
+    name: 'Ventas y Pedidos',
     icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Pedidos',
+        name: 'Gestión de Pedidos',
         to: '/Pedidos',
       },
     ],
@@ -69,24 +63,25 @@ const _nav = [
 
   {
     component: CNavGroup,
-    name: 'Facturacion',
+    name: 'Finanzas',
     icon: <CIcon icon={cilCash} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Facturacion',
+        name: 'Módulo de Facturación',
         to: '/Facturacion',
       },
     ],
   },
+
   {
     component: CNavGroup,
-    name: 'Inventario',
+    name: 'Bodega Central',
     icon: <CIcon icon={cilLibraryBuilding} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Inventario',
+        name: 'Control de Inventario',
         to: '/Inventario',
       },
     ],
@@ -94,38 +89,47 @@ const _nav = [
 
   {
     component: CNavItem,
-    name: 'Stock',
+    name: 'Existencias (Stock)',
     icon: <CIcon icon={cilLibraryAdd} customClassName="nav-icon" />,
     to: '/Stock',
   },
 
   {
+    component: CNavTitle,
+    name: 'Reportes e Inteligencia',
+  },
+
+  {
     component: CNavGroup,
-    name: 'Reportes y Estadísticas',
+    name: 'Estadísticas',
     icon: <CIcon icon={cilReportSlash} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Ver Reportes',
+        name: 'Reportes Generales',
         to: '/Reports',
       },
     ],
   },
 
-  //Provisional Falta implementar esta logica
+  {
+    component: CNavTitle,
+    name: 'Configuración de Acceso',
+  },
+
   {
     component: CNavGroup,
-    name: 'Login',
+    name: 'Seguridad',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: 'Login',
+        name: 'Iniciar Sesión',
         to: '/login',
       },
       {
         component: CNavItem,
-        name: 'Register',
+        name: 'Crear Cuenta',
         to: '/register',
       },
     ],
@@ -133,9 +137,9 @@ const _nav = [
 
   {
     component: CNavItem,
-    name: 'Porfile',
+    name: 'Mi Perfil de Usuario',
     icon: <CIcon icon={cilSatelite} customClassName="nav-icon" />,
-    to: '/Porfile',
+    to: '/Profile',
   },
 ]
 

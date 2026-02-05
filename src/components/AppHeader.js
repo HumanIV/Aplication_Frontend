@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-
 import {
   CContainer,
   CDropdown,
@@ -16,15 +14,7 @@ import {
   useColorModes,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {
-  cilBell,
-  cilContrast,
-  cilEnvelopeOpen,
-  cilList,
-  cilMenu,
-  cilMoon,
-  cilSun,
-} from '@coreui/icons'
+import { cilBell, cilContrast, cilEnvelopeOpen, cilMenu, cilMoon, cilSun } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
@@ -37,107 +27,85 @@ const AppHeader = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   useEffect(() => {
-    document.addEventListener('scroll', () => {
+    const handleScroll = () => {
       headerRef.current &&
         headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0)
-    })
+    }
+    document.addEventListener('scroll', handleScroll)
+    return () => document.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Definimos colores dinámicos basados en el tema
+  const isDark = colorMode === 'dark'
+
+  const headerStyle = {
+    backgroundColor: isDark ? '#000430' : '#ffffff',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.3s ease-in-out',
+  }
+
   return (
-    <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
-      <CContainer className="border-bottom px-4" fluid>
+    <CHeader position="sticky" className="mb-4 p-0 border-0" ref={headerRef} style={headerStyle}>
+      <CContainer className="px-4" fluid style={{ height: '64px' }}>
         <CHeaderToggler
           onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
-          style={{ marginInlineStart: '-14px' }}
+          style={{ marginInlineStart: '-14px', color: isDark ? '#fff' : '#000' }}
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
-        <CHeaderNav className="d-none d-md-flex">
+
+        <CHeaderNav className="ms-auto align-items-center">
+          {/* Notificaciones */}
           <CNavItem>
-            <CNavLink to="/dashboard" as={NavLink}>
-              Dashboard
+            <CNavLink href="#" className="py-0">
+              <CIcon
+                icon={cilBell}
+                size="lg"
+                style={{ color: isDark ? 'rgb(255, 255, 255)' : '#000' }}
+              />
             </CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink to="/users" as={NavLink}>
-              Users
-            </CNavLink>
-            <CNavLink to="/users" as={NavLink}>
-              Porfile
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
-          </CNavItem>
-        </CHeaderNav>
-        <CHeaderNav className="ms-auto">
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilBell} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilList} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav>
-        <CHeaderNav>
-          <li className="nav-item py-1">
-            <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
-          </li>
+
+          <div
+            className={`vr mx-3 ${isDark ? 'text-white' : 'text-dark'} opacity-25`}
+            style={{ height: '20px' }}
+          ></div>
+
+          {/* Selector de Tema */}
           <CDropdown variant="nav-item" placement="bottom-end">
-            <CDropdownToggle caret={false}>
-              {colorMode === 'dark' ? (
-                <CIcon icon={cilMoon} size="lg" />
-              ) : colorMode === 'auto' ? (
-                <CIcon icon={cilContrast} size="lg" />
+            <CDropdownToggle caret={false} className="py-0 border-0 bg-transparent">
+              {isDark ? (
+                <CIcon icon={cilMoon} size="lg" style={{ color: '#58cc7d' }} /> // Verde del logo
               ) : (
-                <CIcon icon={cilSun} size="lg" />
+                <CIcon icon={cilSun} size="lg" style={{ color: '#002d72' }} /> // Azul del logo
               )}
             </CDropdownToggle>
             <CDropdownMenu>
-              <CDropdownItem
-                active={colorMode === 'light'}
-                className="d-flex align-items-center"
-                as="button"
-                type="button"
-                onClick={() => setColorMode('light')}
-              >
-                <CIcon className="me-2" icon={cilSun} size="lg" /> Light
+              <CDropdownItem active={colorMode === 'light'} onClick={() => setColorMode('light')}>
+                <CIcon className="me-2" icon={cilSun} /> Light
               </CDropdownItem>
-              <CDropdownItem
-                active={colorMode === 'dark'}
-                className="d-flex align-items-center"
-                as="button"
-                type="button"
-                onClick={() => setColorMode('dark')}
-              >
-                <CIcon className="me-2" icon={cilMoon} size="lg" /> Dark
-              </CDropdownItem>
-              <CDropdownItem
-                active={colorMode === 'auto'}
-                className="d-flex align-items-center"
-                as="button"
-                type="button"
-                onClick={() => setColorMode('auto')}
-              >
-                <CIcon className="me-2" icon={cilContrast} size="lg" /> Auto
+              <CDropdownItem active={colorMode === 'dark'} onClick={() => setColorMode('dark')}>
+                <CIcon className="me-2" icon={cilMoon} /> Dark
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
-          <li className="nav-item py-1">
-            <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
-          </li>
+
+          <div
+            className={`vr mx-3 ${isDark ? 'text-white' : 'text-dark'} opacity-25`}
+            style={{ height: '20px' }}
+          ></div>
+
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>
-      <CContainer className="px-4" fluid>
+
+      {/* Línea divisoria y Breadcrumbs */}
+      <CContainer
+        className={`px-4 border-top ${isDark ? 'border-light border-opacity-10' : 'border-dark border-opacity-10'} py-2`}
+        fluid
+      >
         <AppBreadcrumb />
       </CContainer>
     </CHeader>

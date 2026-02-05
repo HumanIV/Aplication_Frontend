@@ -48,7 +48,7 @@ import {
   CAccordionBody,
   CProgressBar,
   CTooltip,
-  CSpinner
+  CSpinner,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -88,7 +88,7 @@ import {
   cilZoom,
   cilSync,
   cilCash,
-  cilDollar
+  cilDollar,
 } from '@coreui/icons'
 
 const InventarioAlmacen = () => {
@@ -114,7 +114,7 @@ const InventarioAlmacen = () => {
       descripcion: 'Laptop empresarial de alto rendimiento',
       ubicacion: 'Almacén A - Estantería 3',
       proveedor: 'Dell Technologies',
-      precioCompra: 1250.00,
+      precioCompra: 1250.0,
       precioVenta: 1899.99,
       stockActual: 15,
       stockMinimo: 5,
@@ -123,7 +123,7 @@ const InventarioAlmacen = () => {
       sku: 'DLXPS15-2024',
       estado: 'Disponible',
       fechaIngreso: '2025-01-15',
-      ultimaActualizacion: '2025-01-28'
+      ultimaActualizacion: '2025-01-28',
     },
     {
       id: 2,
@@ -134,7 +134,7 @@ const InventarioAlmacen = () => {
       descripcion: 'Monitor profesional 4K UHD',
       ubicacion: 'Almacén B - Estantería 1',
       proveedor: 'Samsung Electronics',
-      precioCompra: 350.00,
+      precioCompra: 350.0,
       precioVenta: 549.99,
       stockActual: 8,
       stockMinimo: 3,
@@ -143,7 +143,7 @@ const InventarioAlmacen = () => {
       sku: 'SMN274K-2024',
       estado: 'Stock Bajo',
       fechaIngreso: '2025-01-10',
-      ultimaActualizacion: '2025-01-25'
+      ultimaActualizacion: '2025-01-25',
     },
     {
       id: 3,
@@ -154,7 +154,7 @@ const InventarioAlmacen = () => {
       descripcion: 'Silla ergonómica para ejecutivos',
       ubicacion: 'Almacén C - Área 2',
       proveedor: 'Office Pro',
-      precioCompra: 280.00,
+      precioCompra: 280.0,
       precioVenta: 449.99,
       stockActual: 25,
       stockMinimo: 10,
@@ -163,7 +163,7 @@ const InventarioAlmacen = () => {
       sku: 'SCHEG-2024',
       estado: 'Disponible',
       fechaIngreso: '2025-01-05',
-      ultimaActualizacion: '2025-01-20'
+      ultimaActualizacion: '2025-01-20',
     },
     {
       id: 4,
@@ -174,7 +174,7 @@ const InventarioAlmacen = () => {
       descripcion: 'Resma de papel bond tamaño A4',
       ubicacion: 'Almacén A - Estantería 5',
       proveedor: 'Paper Corp',
-      precioCompra: 8.50,
+      precioCompra: 8.5,
       precioVenta: 15.99,
       stockActual: 120,
       stockMinimo: 50,
@@ -183,7 +183,7 @@ const InventarioAlmacen = () => {
       sku: 'PPA4-500',
       estado: 'Disponible',
       fechaIngreso: '2025-01-12',
-      ultimaActualizacion: '2025-01-26'
+      ultimaActualizacion: '2025-01-26',
     },
     {
       id: 5,
@@ -194,7 +194,7 @@ const InventarioAlmacen = () => {
       descripcion: 'Proyector profesional 1080p',
       ubicacion: 'Almacén B - Estantería 2',
       proveedor: 'Epson',
-      precioCompra: 450.00,
+      precioCompra: 450.0,
       precioVenta: 699.99,
       stockActual: 3,
       stockMinimo: 2,
@@ -203,8 +203,8 @@ const InventarioAlmacen = () => {
       sku: 'EPPL1080',
       estado: 'Stock Crítico',
       fechaIngreso: '2025-01-18',
-      ultimaActualizacion: '2025-01-29'
-    }
+      ultimaActualizacion: '2025-01-29',
+    },
   ])
 
   const [movimientos, setMovimientos] = useState([
@@ -219,7 +219,7 @@ const InventarioAlmacen = () => {
       motivo: 'Compra normal',
       usuario: 'Admin Sistema',
       fecha: '2025-01-15 10:30:00',
-      referencia: 'OC-2025-001'
+      referencia: 'OC-2025-001',
     },
     {
       id: 2,
@@ -232,7 +232,7 @@ const InventarioAlmacen = () => {
       motivo: 'Asignación equipo nuevo',
       usuario: 'Jefe IT',
       fecha: '2025-01-20 14:15:00',
-      referencia: 'REQ-IT-001'
+      referencia: 'REQ-IT-001',
     },
     {
       id: 3,
@@ -245,7 +245,7 @@ const InventarioAlmacen = () => {
       motivo: 'Conteo físico diferencial',
       usuario: 'Auditor Inventario',
       fecha: '2025-01-25 09:00:00',
-      referencia: 'AJ-2025-001'
+      referencia: 'AJ-2025-001',
     },
     {
       id: 4,
@@ -258,8 +258,8 @@ const InventarioAlmacen = () => {
       motivo: 'Mobiliario nuevo gerencial',
       usuario: 'Admin Oficinas',
       fecha: '2025-01-22 11:45:00',
-      referencia: 'TRF-GER-001'
-    }
+      referencia: 'TRF-GER-001',
+    },
   ])
 
   const [proveedores, setProveedores] = useState([
@@ -273,7 +273,7 @@ const InventarioAlmacen = () => {
       direccion: 'Av. Tecnológica 123',
       categoria: 'Tecnología',
       estado: 'Activo',
-      rating: 4.8
+      rating: 4.8,
     },
     {
       id: 2,
@@ -285,7 +285,7 @@ const InventarioAlmacen = () => {
       direccion: 'Zona Industrial Norte',
       categoria: 'Tecnología',
       estado: 'Activo',
-      rating: 4.6
+      rating: 4.6,
     },
     {
       id: 3,
@@ -297,8 +297,8 @@ const InventarioAlmacen = () => {
       direccion: 'Centro Comercial Plaza',
       categoria: 'Mobiliario',
       estado: 'Activo',
-      rating: 4.3
-    }
+      rating: 4.3,
+    },
   ])
 
   const [categorias, setCategorias] = useState([
@@ -306,14 +306,38 @@ const InventarioAlmacen = () => {
     { id: 2, nombre: 'Mobiliario', descripcion: 'Muebles y equipamiento', productos: 32 },
     { id: 3, nombre: 'Papelería', descripcion: 'Material de oficina', productos: 87 },
     { id: 4, nombre: 'Limpieza', descripcion: 'Productos de limpieza', productos: 23 },
-    { id: 5, nombre: 'Seguridad', descripcion: 'Equipos de seguridad', productos: 15 }
+    { id: 5, nombre: 'Seguridad', descripcion: 'Equipos de seguridad', productos: 15 },
   ])
 
   const [ubicaciones, setUbicaciones] = useState([
-    { id: 1, nombre: 'Almacén A', capacidad: '1000 m²', ocupacion: '65%', responsable: 'Luis Martínez' },
-    { id: 2, nombre: 'Almacén B', capacidad: '800 m²', ocupacion: '45%', responsable: 'Ana Rodríguez' },
-    { id: 3, nombre: 'Almacén C', capacidad: '1200 m²', ocupacion: '75%', responsable: 'Pedro Sánchez' },
-    { id: 4, nombre: 'Bodega Central', capacidad: '2000 m²', ocupacion: '85%', responsable: 'Carmen López' }
+    {
+      id: 1,
+      nombre: 'Almacén A',
+      capacidad: '1000 m²',
+      ocupacion: '65%',
+      responsable: 'Luis Martínez',
+    },
+    {
+      id: 2,
+      nombre: 'Almacén B',
+      capacidad: '800 m²',
+      ocupacion: '45%',
+      responsable: 'Ana Rodríguez',
+    },
+    {
+      id: 3,
+      nombre: 'Almacén C',
+      capacidad: '1200 m²',
+      ocupacion: '75%',
+      responsable: 'Pedro Sánchez',
+    },
+    {
+      id: 4,
+      nombre: 'Bodega Central',
+      capacidad: '2000 m²',
+      ocupacion: '85%',
+      responsable: 'Carmen López',
+    },
   ])
 
   const [ordenesCompra, setOrdenesCompra] = useState([
@@ -323,10 +347,8 @@ const InventarioAlmacen = () => {
       proveedor: 'Dell Technologies',
       fecha: '2025-01-10',
       estado: 'Completada',
-      total: 12500.00,
-      productos: [
-        { nombre: 'Laptop Dell XPS 15', cantidad: 10, precio: 1250.00 }
-      ]
+      total: 12500.0,
+      productos: [{ nombre: 'Laptop Dell XPS 15', cantidad: 10, precio: 1250.0 }],
     },
     {
       id: 2,
@@ -334,17 +356,36 @@ const InventarioAlmacen = () => {
       proveedor: 'Samsung Electronics',
       fecha: '2025-01-12',
       estado: 'En Proceso',
-      total: 2800.00,
-      productos: [
-        { nombre: 'Monitor 27" 4K Samsung', cantidad: 8, precio: 350.00 }
-      ]
-    }
+      total: 2800.0,
+      productos: [{ nombre: 'Monitor 27" 4K Samsung', cantidad: 8, precio: 350.0 }],
+    },
   ])
 
   const [alertas, setAlertas] = useState([
-    { id: 1, tipo: 'stock_bajo', producto: 'Proyector Epson PowerLite', mensaje: 'Stock por debajo del mínimo', fecha: '2025-01-29', prioridad: 'alta' },
-    { id: 2, tipo: 'vencimiento', producto: 'Tinta Impresora HP', mensaje: 'Producto próximo a vencer', fecha: '2025-01-28', prioridad: 'media' },
-    { id: 3, tipo: 'movimiento', producto: 'Monitor 27" 4K Samsung', mensaje: 'Movimiento inusual detectado', fecha: '2025-01-27', prioridad: 'baja' }
+    {
+      id: 1,
+      tipo: 'stock_bajo',
+      producto: 'Proyector Epson PowerLite',
+      mensaje: 'Stock por debajo del mínimo',
+      fecha: '2025-01-29',
+      prioridad: 'alta',
+    },
+    {
+      id: 2,
+      tipo: 'vencimiento',
+      producto: 'Tinta Impresora HP',
+      mensaje: 'Producto próximo a vencer',
+      fecha: '2025-01-28',
+      prioridad: 'media',
+    },
+    {
+      id: 3,
+      tipo: 'movimiento',
+      producto: 'Monitor 27" 4K Samsung',
+      mensaje: 'Movimiento inusual detectado',
+      fecha: '2025-01-27',
+      prioridad: 'baja',
+    },
   ])
 
   const [conteosFisicos, setConteosFisicos] = useState([
@@ -356,7 +397,7 @@ const InventarioAlmacen = () => {
       productosContados: 45,
       productosTotales: 50,
       diferencia: 5,
-      estado: 'Completado'
+      estado: 'Completado',
     },
     {
       id: 2,
@@ -366,8 +407,8 @@ const InventarioAlmacen = () => {
       productosContados: 30,
       productosTotales: 35,
       diferencia: 5,
-      estado: 'En Proceso'
-    }
+      estado: 'En Proceso',
+    },
   ])
 
   /* ------------------ ESTADOS DE FORMULARIOS ------------------ */
@@ -386,7 +427,7 @@ const InventarioAlmacen = () => {
     stockMaximo: '',
     unidadMedida: '',
     sku: '',
-    estado: 'Disponible'
+    estado: 'Disponible',
   })
 
   const [formMovimiento, setFormMovimiento] = useState({
@@ -396,7 +437,7 @@ const InventarioAlmacen = () => {
     ubicacionOrigen: '',
     ubicacionDestino: '',
     motivo: '',
-    referencia: ''
+    referencia: '',
   })
 
   const [formProveedor, setFormProveedor] = useState({
@@ -407,13 +448,13 @@ const InventarioAlmacen = () => {
     email: '',
     direccion: '',
     categoria: '',
-    estado: 'Activo'
+    estado: 'Activo',
   })
 
   const [formOrdenCompra, setFormOrdenCompra] = useState({
     proveedorId: '',
     fecha: new Date().toISOString().split('T')[0],
-    productos: []
+    productos: [],
   })
 
   /* ------------------ EFECTOS ------------------ */
@@ -439,7 +480,7 @@ const InventarioAlmacen = () => {
       productos,
       movimientos,
       proveedores,
-      alertas
+      alertas,
     }
     try {
       localStorage.setItem('inventarioAlmacen', JSON.stringify(datos))
@@ -451,19 +492,27 @@ const InventarioAlmacen = () => {
   /* ------------------ CÁLCULOS Y MÉTRICAS ------------------ */
   const metricas = useMemo(() => {
     const totalProductos = productos.length
-    const valorTotalInventario = productos.reduce((sum, p) => sum + (p.precioCompra * p.stockActual), 0)
-    const productosStockBajo = productos.filter(p => p.stockActual <= p.stockMinimo).length
-    const productosStockCritico = productos.filter(p => p.stockActual <= p.stockMinimo * 0.5).length
-    const rotacionPromedio = totalProductos > 0 ? 
-      movimientos.reduce((sum, m) => sum + m.cantidad, 0) / totalProductos : 0
-    
-    const estadoStock = productos.reduce((acc, p) => {
-      if (p.stockActual <= p.stockMinimo * 0.5) acc.critico++
-      else if (p.stockActual <= p.stockMinimo) acc.bajo++
-      else if (p.stockActual >= p.stockMaximo * 0.9) acc.alto++
-      else acc.normal++
-      return acc
-    }, { critico: 0, bajo: 0, normal: 0, alto: 0 })
+    const valorTotalInventario = productos.reduce(
+      (sum, p) => sum + p.precioCompra * p.stockActual,
+      0,
+    )
+    const productosStockBajo = productos.filter((p) => p.stockActual <= p.stockMinimo).length
+    const productosStockCritico = productos.filter(
+      (p) => p.stockActual <= p.stockMinimo * 0.5,
+    ).length
+    const rotacionPromedio =
+      totalProductos > 0 ? movimientos.reduce((sum, m) => sum + m.cantidad, 0) / totalProductos : 0
+
+    const estadoStock = productos.reduce(
+      (acc, p) => {
+        if (p.stockActual <= p.stockMinimo * 0.5) acc.critico++
+        else if (p.stockActual <= p.stockMinimo) acc.bajo++
+        else if (p.stockActual >= p.stockMaximo * 0.9) acc.alto++
+        else acc.normal++
+        return acc
+      },
+      { critico: 0, bajo: 0, normal: 0, alto: 0 },
+    )
 
     return {
       totalProductos,
@@ -472,27 +521,38 @@ const InventarioAlmacen = () => {
       productosStockCritico,
       rotacionPromedio,
       estadoStock,
-      ocupacionTotal: ubicaciones.reduce((sum, u) => sum + parseInt(u.ocupacion), 0) / ubicaciones.length
+      ocupacionTotal:
+        ubicaciones.reduce((sum, u) => sum + parseInt(u.ocupacion), 0) / ubicaciones.length,
     }
   }, [productos, movimientos, ubicaciones])
 
   const getEstadoColor = (estado) => {
-    switch(estado) {
-      case 'Disponible': return 'success'
-      case 'Stock Bajo': return 'warning'
-      case 'Stock Crítico': return 'danger'
-      case 'Agotado': return 'secondary'
-      default: return 'info'
+    switch (estado) {
+      case 'Disponible':
+        return 'success'
+      case 'Stock Bajo':
+        return 'warning'
+      case 'Stock Crítico':
+        return 'danger'
+      case 'Agotado':
+        return 'secondary'
+      default:
+        return 'info'
     }
   }
 
   const getTipoMovimientoColor = (tipo) => {
-    switch(tipo) {
-      case 'Entrada': return 'success'
-      case 'Salida': return 'danger'
-      case 'Transferencia': return 'info'
-      case 'Ajuste': return 'warning'
-      default: return 'secondary'
+    switch (tipo) {
+      case 'Entrada':
+        return 'success'
+      case 'Salida':
+        return 'danger'
+      case 'Transferencia':
+        return 'info'
+      case 'Ajuste':
+        return 'warning'
+      default:
+        return 'secondary'
     }
   }
 
@@ -529,11 +589,11 @@ const InventarioAlmacen = () => {
       sku: formProducto.sku,
       estado: formProducto.estado,
       fechaIngreso: new Date().toISOString().split('T')[0],
-      ultimaActualizacion: new Date().toISOString().split('T')[0]
+      ultimaActualizacion: new Date().toISOString().split('T')[0],
     }
 
     setProductos([...productos, nuevoProducto])
-    
+
     // Registrar movimiento de entrada
     const nuevoMovimiento = {
       id: movimientos.length + 1,
@@ -546,7 +606,7 @@ const InventarioAlmacen = () => {
       motivo: 'Alta de nuevo producto',
       usuario: 'Administrador',
       fecha: new Date().toLocaleString(),
-      referencia: 'ALTA-PROD'
+      referencia: 'ALTA-PROD',
     }
 
     setMovimientos([nuevoMovimiento, ...movimientos])
@@ -565,17 +625,17 @@ const InventarioAlmacen = () => {
       stockMaximo: '',
       unidadMedida: '',
       sku: '',
-      estado: 'Disponible'
+      estado: 'Disponible',
     })
-    
+
     handleCloseModal()
     alert('✅ Producto agregado exitosamente')
   }
 
   const registrarMovimiento = (e) => {
     e.preventDefault()
-    
-    const producto = productos.find(p => p.id === parseInt(formMovimiento.productoId))
+
+    const producto = productos.find((p) => p.id === parseInt(formMovimiento.productoId))
     if (!producto) {
       alert('❌ Producto no encontrado')
       return
@@ -592,30 +652,37 @@ const InventarioAlmacen = () => {
       motivo: formMovimiento.motivo,
       usuario: 'Usuario Actual',
       fecha: new Date().toLocaleString(),
-      referencia: formMovimiento.referencia || 'MOV-' + Date.now()
+      referencia: formMovimiento.referencia || 'MOV-' + Date.now(),
     }
 
     // Actualizar stock del producto
-    const nuevoStock = formMovimiento.tipo === 'Entrada' 
-      ? producto.stockActual + parseInt(formMovimiento.cantidad)
-      : producto.stockActual - parseInt(formMovimiento.cantidad)
+    const nuevoStock =
+      formMovimiento.tipo === 'Entrada'
+        ? producto.stockActual + parseInt(formMovimiento.cantidad)
+        : producto.stockActual - parseInt(formMovimiento.cantidad)
 
     if (nuevoStock < 0) {
       alert('❌ Stock insuficiente para realizar la salida')
       return
     }
 
-    setProductos(productos.map(p => 
-      p.id === producto.id 
-        ? { 
-            ...p, 
-            stockActual: nuevoStock,
-            estado: nuevoStock <= p.stockMinimo ? 'Stock Bajo' : 
-                   nuevoStock <= p.stockMinimo * 0.5 ? 'Stock Crítico' : 'Disponible',
-            ultimaActualizacion: new Date().toISOString().split('T')[0]
-          }
-        : p
-    ))
+    setProductos(
+      productos.map((p) =>
+        p.id === producto.id
+          ? {
+              ...p,
+              stockActual: nuevoStock,
+              estado:
+                nuevoStock <= p.stockMinimo
+                  ? 'Stock Bajo'
+                  : nuevoStock <= p.stockMinimo * 0.5
+                    ? 'Stock Crítico'
+                    : 'Disponible',
+              ultimaActualizacion: new Date().toISOString().split('T')[0],
+            }
+          : p,
+      ),
+    )
 
     setMovimientos([nuevoMovimiento, ...movimientos])
     setFormMovimiento({
@@ -625,16 +692,16 @@ const InventarioAlmacen = () => {
       ubicacionOrigen: '',
       ubicacionDestino: '',
       motivo: '',
-      referencia: ''
+      referencia: '',
     })
-    
+
     handleCloseModal()
     alert('✅ Movimiento registrado exitosamente')
   }
 
   const agregarProveedor = (e) => {
     e.preventDefault()
-    
+
     const nuevoProveedor = {
       id: proveedores.length + 1,
       nombre: formProveedor.nombre,
@@ -645,7 +712,7 @@ const InventarioAlmacen = () => {
       direccion: formProveedor.direccion,
       categoria: formProveedor.categoria,
       estado: formProveedor.estado,
-      rating: 4.0
+      rating: 4.0,
     }
 
     setProveedores([...proveedores, nuevoProveedor])
@@ -657,16 +724,16 @@ const InventarioAlmacen = () => {
       email: '',
       direccion: '',
       categoria: '',
-      estado: 'Activo'
+      estado: 'Activo',
     })
-    
+
     handleCloseModal()
     alert('✅ Proveedor agregado exitosamente')
   }
 
   const eliminarProducto = (id) => {
     if (window.confirm('¿Estás seguro de eliminar este producto?')) {
-      setProductos(productos.filter(p => p.id !== id))
+      setProductos(productos.filter((p) => p.id !== id))
       alert('✅ Producto eliminado exitosamente')
     }
   }
@@ -685,16 +752,17 @@ const InventarioAlmacen = () => {
 
   /* ------------------ FILTROS Y BÚSQUEDA ------------------ */
   const productosFiltrados = useMemo(() => {
-    return productos.filter(producto => {
-      const matchesSearch = !searchTerm || 
+    return productos.filter((producto) => {
+      const matchesSearch =
+        !searchTerm ||
         producto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
         producto.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
         producto.sku.toLowerCase().includes(searchTerm.toLowerCase())
-      
+
       const matchesCategory = !selectedCategory || producto.categoria === selectedCategory
       const matchesLocation = !selectedLocation || producto.ubicacion.includes(selectedLocation)
       const matchesStatus = !selectedStatus || producto.estado === selectedStatus
-      
+
       return matchesSearch && matchesCategory && matchesLocation && matchesStatus
     })
   }, [productos, searchTerm, selectedCategory, selectedLocation, selectedStatus])
@@ -718,8 +786,12 @@ const InventarioAlmacen = () => {
               Reportes
             </CDropdownToggle>
             <CDropdownMenu>
-              <CDropdownItem onClick={() => generarReporte('Stock Actual')}>Stock Actual</CDropdownItem>
-              <CDropdownItem onClick={() => generarReporte('Movimientos')}>Movimientos</CDropdownItem>
+              <CDropdownItem onClick={() => generarReporte('Stock Actual')}>
+                Stock Actual
+              </CDropdownItem>
+              <CDropdownItem onClick={() => generarReporte('Movimientos')}>
+                Movimientos
+              </CDropdownItem>
               <CDropdownItem onClick={() => generarReporte('Valuación')}>Valuación</CDropdownItem>
               <CDropdownItem onClick={() => generarReporte('Rotación')}>Rotación</CDropdownItem>
             </CDropdownMenu>
@@ -780,10 +852,16 @@ const InventarioAlmacen = () => {
               <div className="flex-grow-1">
                 <h6 className="mb-1">Alertas del Sistema</h6>
                 <div className="d-flex gap-3">
-                  {alertas.slice(0, 3).map(alerta => (
-                    <CBadge 
-                      key={alerta.id} 
-                      color={alerta.prioridad === 'alta' ? 'danger' : alerta.prioridad === 'media' ? 'warning' : 'info'}
+                  {alertas.slice(0, 3).map((alerta) => (
+                    <CBadge
+                      key={alerta.id}
+                      color={
+                        alerta.prioridad === 'alta'
+                          ? 'danger'
+                          : alerta.prioridad === 'media'
+                            ? 'warning'
+                            : 'info'
+                      }
                       className="px-3 py-2"
                     >
                       <CIcon icon={cilWarning} className="me-1" />
@@ -910,19 +988,24 @@ const InventarioAlmacen = () => {
                             </CTableRow>
                           </CTableHead>
                           <CTableBody>
-                            {categorias.map(cat => {
-                              const productosCat = productos.filter(p => p.categoria === cat.nombre)
-                              const valorCat = productosCat.reduce((sum, p) => sum + (p.precioCompra * p.stockActual), 0)
-                              const stockBajoCat = productosCat.filter(p => p.stockActual <= p.stockMinimo).length
-                              
+                            {categorias.map((cat) => {
+                              const productosCat = productos.filter(
+                                (p) => p.categoria === cat.nombre,
+                              )
+                              const valorCat = productosCat.reduce(
+                                (sum, p) => sum + p.precioCompra * p.stockActual,
+                                0,
+                              )
+                              const stockBajoCat = productosCat.filter(
+                                (p) => p.stockActual <= p.stockMinimo,
+                              ).length
+
                               return (
                                 <CTableRow key={cat.id}>
                                   <CTableDataCell className="fw-semibold">
                                     {cat.nombre}
                                   </CTableDataCell>
-                                  <CTableDataCell>
-                                    {productosCat.length} productos
-                                  </CTableDataCell>
+                                  <CTableDataCell>{productosCat.length} productos</CTableDataCell>
                                   <CTableDataCell className="fw-bold">
                                     ${valorCat.toLocaleString()}
                                   </CTableDataCell>
@@ -954,8 +1037,11 @@ const InventarioAlmacen = () => {
                     </CCardHeader>
                     <CCardBody>
                       <CListGroup>
-                        {movimientos.slice(0, 5).map(mov => (
-                          <CListGroupItem key={mov.id} className="d-flex justify-content-between align-items-center">
+                        {movimientos.slice(0, 5).map((mov) => (
+                          <CListGroupItem
+                            key={mov.id}
+                            className="d-flex justify-content-between align-items-center"
+                          >
                             <div>
                               <div className="fw-semibold">{mov.producto}</div>
                               <small className="text-muted">
@@ -985,15 +1071,30 @@ const InventarioAlmacen = () => {
                         <h3 className="fw-bold">{metricas.totalProductos}</h3>
                         <small className="text-muted">Productos Totales</small>
                       </div>
-                      <CProgress className="mb-3" color="success" value={metricas.estadoStock.normal} 
-                        max={metricas.totalProductos} />
-                      <CProgress className="mb-3" color="warning" value={metricas.estadoStock.bajo} 
-                        max={metricas.totalProductos} />
-                      <CProgress className="mb-3" color="danger" value={metricas.estadoStock.critico} 
-                        max={metricas.totalProductos} />
-                      <CProgress color="info" value={metricas.estadoStock.alto} 
-                        max={metricas.totalProductos} />
-                      
+                      <CProgress
+                        className="mb-3"
+                        color="success"
+                        value={metricas.estadoStock.normal}
+                        max={metricas.totalProductos}
+                      />
+                      <CProgress
+                        className="mb-3"
+                        color="warning"
+                        value={metricas.estadoStock.bajo}
+                        max={metricas.totalProductos}
+                      />
+                      <CProgress
+                        className="mb-3"
+                        color="danger"
+                        value={metricas.estadoStock.critico}
+                        max={metricas.totalProductos}
+                      />
+                      <CProgress
+                        color="info"
+                        value={metricas.estadoStock.alto}
+                        max={metricas.totalProductos}
+                      />
+
                       <div className="mt-3">
                         <div className="d-flex justify-content-between mb-1">
                           <small className="text-success">Normal</small>
@@ -1020,16 +1121,22 @@ const InventarioAlmacen = () => {
                       <h6 className="mb-0">Ocupación de Almacenes</h6>
                     </CCardHeader>
                     <CCardBody>
-                      {ubicaciones.map(ubic => (
+                      {ubicaciones.map((ubic) => (
                         <div key={ubic.id} className="mb-3">
                           <div className="d-flex justify-content-between mb-1">
                             <span className="fw-semibold">{ubic.nombre}</span>
                             <span>{ubic.ocupacion}</span>
                           </div>
-                          <CProgress value={parseInt(ubic.ocupacion)} color={
-                            parseInt(ubic.ocupacion) > 80 ? 'danger' : 
-                            parseInt(ubic.ocupacion) > 60 ? 'warning' : 'success'
-                          } />
+                          <CProgress
+                            value={parseInt(ubic.ocupacion)}
+                            color={
+                              parseInt(ubic.ocupacion) > 80
+                                ? 'danger'
+                                : parseInt(ubic.ocupacion) > 60
+                                  ? 'warning'
+                                  : 'success'
+                            }
+                          />
                           <small className="text-muted">{ubic.responsable}</small>
                         </div>
                       ))}
@@ -1065,8 +1172,10 @@ const InventarioAlmacen = () => {
                     style={{ width: '150px' }}
                   >
                     <option value="">Todas las categorías</option>
-                    {categorias.map(cat => (
-                      <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
+                    {categorias.map((cat) => (
+                      <option key={cat.id} value={cat.nombre}>
+                        {cat.nombre}
+                      </option>
                     ))}
                   </CFormSelect>
                   <CFormSelect
@@ -1103,13 +1212,22 @@ const InventarioAlmacen = () => {
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {productosFiltrados.map(producto => {
+                    {productosFiltrados.map((producto) => {
                       const porcentajeStock = (producto.stockActual / producto.stockMaximo) * 100
                       const esStockBajo = producto.stockActual <= producto.stockMinimo
                       const esStockCritico = producto.stockActual <= producto.stockMinimo * 0.5
-                      
+
                       return (
-                        <CTableRow key={producto.id} className={esStockCritico ? 'table-danger-light' : esStockBajo ? 'table-warning-light' : ''}>
+                        <CTableRow
+                          key={producto.id}
+                          className={
+                            esStockCritico
+                              ? 'table-danger-light'
+                              : esStockBajo
+                                ? 'table-warning-light'
+                                : ''
+                          }
+                        >
                           <CTableDataCell>
                             <div className="fw-semibold">{producto.codigo}</div>
                             <small className="text-muted">{producto.sku}</small>
@@ -1124,13 +1242,13 @@ const InventarioAlmacen = () => {
                           </CTableDataCell>
                           <CTableDataCell>
                             <div className="mb-1">
-                              <strong>{producto.stockActual}</strong> / {producto.stockMaximo} {producto.unidadMedida}
+                              <strong>{producto.stockActual}</strong> / {producto.stockMaximo}{' '}
+                              {producto.unidadMedida}
                             </div>
-                            <CProgress 
-                              value={porcentajeStock} 
+                            <CProgress
+                              value={porcentajeStock}
                               color={
-                                esStockCritico ? 'danger' : 
-                                esStockBajo ? 'warning' : 'success'
+                                esStockCritico ? 'danger' : esStockBajo ? 'warning' : 'success'
                               }
                               className="mb-1"
                             />
@@ -1203,7 +1321,9 @@ const InventarioAlmacen = () => {
                     <CIcon icon={cilTruck} className="me-2" />
                     Registro de Movimientos
                   </h5>
-                  <p className="text-muted mb-0">Historial completo de entradas, salidas y transferencias</p>
+                  <p className="text-muted mb-0">
+                    Historial completo de entradas, salidas y transferencias
+                  </p>
                 </div>
                 <div className="d-flex gap-2">
                   <CButton color="success" onClick={() => handleOpenModal('movimiento')}>
@@ -1231,24 +1351,20 @@ const InventarioAlmacen = () => {
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {movimientos.map(mov => (
+                    {movimientos.map((mov) => (
                       <CTableRow key={mov.id}>
                         <CTableDataCell>
                           <div>{mov.fecha.split(' ')[0]}</div>
                           <small className="text-muted">{mov.fecha.split(' ')[1]}</small>
                         </CTableDataCell>
                         <CTableDataCell>
-                          <CBadge color={getTipoMovimientoColor(mov.tipo)}>
-                            {mov.tipo}
-                          </CBadge>
+                          <CBadge color={getTipoMovimientoColor(mov.tipo)}>{mov.tipo}</CBadge>
                         </CTableDataCell>
                         <CTableDataCell>
                           <div className="fw-semibold">{mov.producto}</div>
                           <small className="text-muted">{mov.codigoProducto}</small>
                         </CTableDataCell>
-                        <CTableDataCell className="fw-bold">
-                          {mov.cantidad} unidades
-                        </CTableDataCell>
+                        <CTableDataCell className="fw-bold">{mov.cantidad} unidades</CTableDataCell>
                         <CTableDataCell>
                           <div className="small">
                             <div>Origen: {mov.ubicacionOrigen}</div>
@@ -1286,7 +1402,7 @@ const InventarioAlmacen = () => {
               </div>
 
               <CRow>
-                {proveedores.map(prov => (
+                {proveedores.map((prov) => (
                   <CCol md={4} key={prov.id} className="mb-4">
                     <CCard className="h-100">
                       <CCardBody>
@@ -1297,7 +1413,7 @@ const InventarioAlmacen = () => {
                           <h5 className="fw-bold mb-1">{prov.nombre}</h5>
                           <small className="text-muted">RUC: {prov.ruc}</small>
                         </div>
-                        
+
                         <div className="mb-3">
                           <div className="d-flex align-items-center mb-2">
                             <CIcon icon={cilTags} className="me-2 text-muted" />
@@ -1316,7 +1432,7 @@ const InventarioAlmacen = () => {
                             <span>Rating: {prov.rating}/5.0</span>
                           </div>
                         </div>
-                        
+
                         <div className="d-flex justify-content-between align-items-center">
                           <CBadge color={prov.estado === 'Activo' ? 'success' : 'secondary'}>
                             {prov.estado}
@@ -1367,18 +1483,14 @@ const InventarioAlmacen = () => {
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {ordenesCompra.map(orden => (
+                    {ordenesCompra.map((orden) => (
                       <CTableRow key={orden.id}>
-                        <CTableDataCell className="fw-semibold">
-                          {orden.numero}
-                        </CTableDataCell>
+                        <CTableDataCell className="fw-semibold">{orden.numero}</CTableDataCell>
                         <CTableDataCell>
                           <div>{orden.proveedor}</div>
                           <small className="text-muted">ID: {orden.id}</small>
                         </CTableDataCell>
-                        <CTableDataCell>
-                          {orden.fecha}
-                        </CTableDataCell>
+                        <CTableDataCell>{orden.fecha}</CTableDataCell>
                         <CTableDataCell>
                           <div className="small">
                             {orden.productos.map((p, idx) => (
@@ -1433,20 +1545,28 @@ const InventarioAlmacen = () => {
               </div>
 
               <CRow>
-                {ubicaciones.map(ubic => {
-                  const productosUbic = productos.filter(p => p.ubicacion.includes(ubic.nombre))
-                  const valorUbic = productosUbic.reduce((sum, p) => sum + (p.precioCompra * p.stockActual), 0)
-                  
+                {ubicaciones.map((ubic) => {
+                  const productosUbic = productos.filter((p) => p.ubicacion.includes(ubic.nombre))
+                  const valorUbic = productosUbic.reduce(
+                    (sum, p) => sum + p.precioCompra * p.stockActual,
+                    0,
+                  )
+
                   return (
                     <CCol md={6} key={ubic.id} className="mb-4">
                       <CCard className="h-100">
                         <CCardHeader>
                           <div className="d-flex justify-content-between align-items-center">
                             <h6 className="mb-0">{ubic.nombre}</h6>
-                            <CBadge color={
-                              parseInt(ubic.ocupacion) > 80 ? 'danger' : 
-                              parseInt(ubic.ocupacion) > 60 ? 'warning' : 'success'
-                            }>
+                            <CBadge
+                              color={
+                                parseInt(ubic.ocupacion) > 80
+                                  ? 'danger'
+                                  : parseInt(ubic.ocupacion) > 60
+                                    ? 'warning'
+                                    : 'success'
+                              }
+                            >
                               {ubic.ocupacion} ocupado
                             </CBadge>
                           </div>
@@ -1457,12 +1577,18 @@ const InventarioAlmacen = () => {
                               <small>Capacidad</small>
                               <small>{ubic.capacidad}</small>
                             </div>
-                            <CProgress value={parseInt(ubic.ocupacion)} color={
-                              parseInt(ubic.ocupacion) > 80 ? 'danger' : 
-                              parseInt(ubic.ocupacion) > 60 ? 'warning' : 'success'
-                            } />
+                            <CProgress
+                              value={parseInt(ubic.ocupacion)}
+                              color={
+                                parseInt(ubic.ocupacion) > 80
+                                  ? 'danger'
+                                  : parseInt(ubic.ocupacion) > 60
+                                    ? 'warning'
+                                    : 'success'
+                              }
+                            />
                           </div>
-                          
+
                           <div className="row mb-3">
                             <div className="col-6">
                               <div className="text-center p-2 border rounded">
@@ -1477,18 +1603,18 @@ const InventarioAlmacen = () => {
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="small text-muted">
                             <div className="d-flex align-items-center mb-1">
                               <CIcon icon={cilPeople} className="me-2" />
                               <span>Responsable: {ubic.responsable}</span>
                             </div>
                           </div>
-                          
+
                           <div className="mt-3">
-                            <CButton 
-                              color="primary" 
-                              size="sm" 
+                            <CButton
+                              color="primary"
+                              size="sm"
                               className="w-100"
                               onClick={() => realizarConteoFisico(ubic)}
                             >
@@ -1534,18 +1660,24 @@ const InventarioAlmacen = () => {
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {conteosFisicos.map(conteo => (
+                    {conteosFisicos.map((conteo) => (
                       <CTableRow key={conteo.id}>
                         <CTableDataCell>{conteo.fecha}</CTableDataCell>
-                        <CTableDataCell className="fw-semibold">
-                          {conteo.ubicacion}
-                        </CTableDataCell>
+                        <CTableDataCell className="fw-semibold">{conteo.ubicacion}</CTableDataCell>
                         <CTableDataCell>{conteo.responsable}</CTableDataCell>
                         <CTableDataCell>
-                          <div>{conteo.productosContados} de {conteo.productosTotales}</div>
-                          <CProgress value={(conteo.productosContados / conteo.productosTotales) * 100} />
+                          <div>
+                            {conteo.productosContados} de {conteo.productosTotales}
+                          </div>
+                          <CProgress
+                            value={(conteo.productosContados / conteo.productosTotales) * 100}
+                          />
                         </CTableDataCell>
-                        <CTableDataCell className={conteo.diferencia > 0 ? 'text-danger fw-bold' : 'text-success fw-bold'}>
+                        <CTableDataCell
+                          className={
+                            conteo.diferencia > 0 ? 'text-danger fw-bold' : 'text-success fw-bold'
+                          }
+                        >
                           {conteo.diferencia > 0 ? `+${conteo.diferencia}` : conteo.diferencia}
                         </CTableDataCell>
                         <CTableDataCell>
@@ -1590,8 +1722,8 @@ const InventarioAlmacen = () => {
                       </div>
                       <h5 className="fw-bold">Reporte de Stock</h5>
                       <p className="text-muted mb-4">Estado actual de inventario con valores</p>
-                      <CButton 
-                        color="primary" 
+                      <CButton
+                        color="primary"
                         className="mt-auto"
                         onClick={() => generarReporte('Stock Actual')}
                         disabled={loading}
@@ -1610,8 +1742,8 @@ const InventarioAlmacen = () => {
                       </div>
                       <h5 className="fw-bold">Movimientos</h5>
                       <p className="text-muted mb-4">Historial completo de transacciones</p>
-                      <CButton 
-                        color="success" 
+                      <CButton
+                        color="success"
                         className="mt-auto"
                         onClick={() => generarReporte('Movimientos')}
                         disabled={loading}
@@ -1630,8 +1762,8 @@ const InventarioAlmacen = () => {
                       </div>
                       <h5 className="fw-bold">Rotación</h5>
                       <p className="text-muted mb-4">Análisis de rotación de inventario</p>
-                      <CButton 
-                        color="warning" 
+                      <CButton
+                        color="warning"
                         className="mt-auto"
                         onClick={() => generarReporte('Rotación')}
                         disabled={loading}
@@ -1650,8 +1782,8 @@ const InventarioAlmacen = () => {
                       </div>
                       <h5 className="fw-bold">Valuación</h5>
                       <p className="text-muted mb-4">Valoración económica del inventario</p>
-                      <CButton 
-                        color="info" 
+                      <CButton
+                        color="info"
                         className="mt-auto"
                         onClick={() => generarReporte('Valuación')}
                         disabled={loading}
@@ -1670,8 +1802,8 @@ const InventarioAlmacen = () => {
                       </div>
                       <h5 className="fw-bold">Alertas</h5>
                       <p className="text-muted mb-4">Reporte de productos con stock bajo</p>
-                      <CButton 
-                        color="danger" 
+                      <CButton
+                        color="danger"
                         className="mt-auto"
                         onClick={() => generarReporte('Alertas')}
                         disabled={loading}
@@ -1690,8 +1822,8 @@ const InventarioAlmacen = () => {
                       </div>
                       <h5 className="fw-bold">Conteos</h5>
                       <p className="text-muted mb-4">Resultados de conteos físicos</p>
-                      <CButton 
-                        color="secondary" 
+                      <CButton
+                        color="secondary"
                         className="mt-auto"
                         onClick={() => generarReporte('Conteos')}
                         disabled={loading}
@@ -1708,10 +1840,16 @@ const InventarioAlmacen = () => {
       </CCard>
 
       {/* Modales */}
-      <CModal 
-        visible={visibleModal} 
+      <CModal
+        visible={visibleModal}
         onClose={handleCloseModal}
-        size={modalType === 'detalle' || modalType === 'orden' ? 'lg' : modalType === 'conteo' ? 'xl' : 'md'}
+        size={
+          modalType === 'detalle' || modalType === 'orden'
+            ? 'lg'
+            : modalType === 'conteo'
+              ? 'xl'
+              : 'md'
+        }
       >
         <CModalHeader closeButton>
           <CModalTitle>
@@ -1758,12 +1896,16 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Categoría</CFormLabel>
                   <CFormSelect
                     value={formProducto.categoria}
-                    onChange={(e) => setFormProducto({ ...formProducto, categoria: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, categoria: e.target.value })
+                    }
                     required
                   >
                     <option value="">Seleccionar categoría</option>
-                    {categorias.map(cat => (
-                      <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
+                    {categorias.map((cat) => (
+                      <option key={cat.id} value={cat.nombre}>
+                        {cat.nombre}
+                      </option>
                     ))}
                   </CFormSelect>
                 </CCol>
@@ -1771,7 +1913,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Subcategoría</CFormLabel>
                   <CFormInput
                     value={formProducto.subcategoria}
-                    onChange={(e) => setFormProducto({ ...formProducto, subcategoria: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, subcategoria: e.target.value })
+                    }
                     placeholder="Subcategoría"
                   />
                 </CCol>
@@ -1780,7 +1924,9 @@ const InventarioAlmacen = () => {
                   <CFormTextarea
                     rows={3}
                     value={formProducto.descripcion}
-                    onChange={(e) => setFormProducto({ ...formProducto, descripcion: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, descripcion: e.target.value })
+                    }
                     placeholder="Descripción detallada del producto"
                   />
                 </CCol>
@@ -1788,12 +1934,16 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Ubicación</CFormLabel>
                   <CFormSelect
                     value={formProducto.ubicacion}
-                    onChange={(e) => setFormProducto({ ...formProducto, ubicacion: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, ubicacion: e.target.value })
+                    }
                     required
                   >
                     <option value="">Seleccionar ubicación</option>
-                    {ubicaciones.map(ubic => (
-                      <option key={ubic.id} value={ubic.nombre}>{ubic.nombre}</option>
+                    {ubicaciones.map((ubic) => (
+                      <option key={ubic.id} value={ubic.nombre}>
+                        {ubic.nombre}
+                      </option>
                     ))}
                   </CFormSelect>
                 </CCol>
@@ -1801,11 +1951,15 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Proveedor</CFormLabel>
                   <CFormSelect
                     value={formProducto.proveedor}
-                    onChange={(e) => setFormProducto({ ...formProducto, proveedor: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, proveedor: e.target.value })
+                    }
                   >
                     <option value="">Seleccionar proveedor</option>
-                    {proveedores.map(prov => (
-                      <option key={prov.id} value={prov.nombre}>{prov.nombre}</option>
+                    {proveedores.map((prov) => (
+                      <option key={prov.id} value={prov.nombre}>
+                        {prov.nombre}
+                      </option>
                     ))}
                   </CFormSelect>
                 </CCol>
@@ -1817,7 +1971,9 @@ const InventarioAlmacen = () => {
                       type="number"
                       step="0.01"
                       value={formProducto.precioCompra}
-                      onChange={(e) => setFormProducto({ ...formProducto, precioCompra: e.target.value })}
+                      onChange={(e) =>
+                        setFormProducto({ ...formProducto, precioCompra: e.target.value })
+                      }
                       placeholder="0.00"
                       required
                     />
@@ -1831,7 +1987,9 @@ const InventarioAlmacen = () => {
                       type="number"
                       step="0.01"
                       value={formProducto.precioVenta}
-                      onChange={(e) => setFormProducto({ ...formProducto, precioVenta: e.target.value })}
+                      onChange={(e) =>
+                        setFormProducto({ ...formProducto, precioVenta: e.target.value })
+                      }
                       placeholder="0.00"
                       required
                     />
@@ -1841,7 +1999,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Unidad de Medida</CFormLabel>
                   <CFormInput
                     value={formProducto.unidadMedida}
-                    onChange={(e) => setFormProducto({ ...formProducto, unidadMedida: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, unidadMedida: e.target.value })
+                    }
                     placeholder="Unidad, Kilo, Litro..."
                   />
                 </CCol>
@@ -1850,7 +2010,9 @@ const InventarioAlmacen = () => {
                   <CFormInput
                     type="number"
                     value={formProducto.stockActual}
-                    onChange={(e) => setFormProducto({ ...formProducto, stockActual: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, stockActual: e.target.value })
+                    }
                     placeholder="0"
                     required
                   />
@@ -1860,7 +2022,9 @@ const InventarioAlmacen = () => {
                   <CFormInput
                     type="number"
                     value={formProducto.stockMinimo}
-                    onChange={(e) => setFormProducto({ ...formProducto, stockMinimo: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, stockMinimo: e.target.value })
+                    }
                     placeholder="0"
                     required
                   />
@@ -1870,7 +2034,9 @@ const InventarioAlmacen = () => {
                   <CFormInput
                     type="number"
                     value={formProducto.stockMaximo}
-                    onChange={(e) => setFormProducto({ ...formProducto, stockMaximo: e.target.value })}
+                    onChange={(e) =>
+                      setFormProducto({ ...formProducto, stockMaximo: e.target.value })
+                    }
                     placeholder="0"
                     required
                   />
@@ -1921,11 +2087,13 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Producto</CFormLabel>
                   <CFormSelect
                     value={formMovimiento.productoId}
-                    onChange={(e) => setFormMovimiento({ ...formMovimiento, productoId: e.target.value })}
+                    onChange={(e) =>
+                      setFormMovimiento({ ...formMovimiento, productoId: e.target.value })
+                    }
                     required
                   >
                     <option value="">Seleccionar producto</option>
-                    {productos.map(prod => (
+                    {productos.map((prod) => (
                       <option key={prod.id} value={prod.id}>
                         {prod.codigo} - {prod.nombre} (Stock: {prod.stockActual})
                       </option>
@@ -1937,7 +2105,9 @@ const InventarioAlmacen = () => {
                   <CFormInput
                     type="number"
                     value={formMovimiento.cantidad}
-                    onChange={(e) => setFormMovimiento({ ...formMovimiento, cantidad: e.target.value })}
+                    onChange={(e) =>
+                      setFormMovimiento({ ...formMovimiento, cantidad: e.target.value })
+                    }
                     placeholder="0"
                     required
                   />
@@ -1946,7 +2116,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Referencia</CFormLabel>
                   <CFormInput
                     value={formMovimiento.referencia}
-                    onChange={(e) => setFormMovimiento({ ...formMovimiento, referencia: e.target.value })}
+                    onChange={(e) =>
+                      setFormMovimiento({ ...formMovimiento, referencia: e.target.value })
+                    }
                     placeholder="OC-2025-001, REQ-001, etc."
                   />
                 </CCol>
@@ -1954,7 +2126,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Ubicación Origen</CFormLabel>
                   <CFormInput
                     value={formMovimiento.ubicacionOrigen}
-                    onChange={(e) => setFormMovimiento({ ...formMovimiento, ubicacionOrigen: e.target.value })}
+                    onChange={(e) =>
+                      setFormMovimiento({ ...formMovimiento, ubicacionOrigen: e.target.value })
+                    }
                     placeholder="Almacén A, Proveedor, etc."
                     required
                   />
@@ -1963,7 +2137,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Ubicación Destino</CFormLabel>
                   <CFormInput
                     value={formMovimiento.ubicacionDestino}
-                    onChange={(e) => setFormMovimiento({ ...formMovimiento, ubicacionDestino: e.target.value })}
+                    onChange={(e) =>
+                      setFormMovimiento({ ...formMovimiento, ubicacionDestino: e.target.value })
+                    }
                     placeholder="Almacén B, Departamento, etc."
                     required
                   />
@@ -1973,7 +2149,9 @@ const InventarioAlmacen = () => {
                   <CFormTextarea
                     rows={3}
                     value={formMovimiento.motivo}
-                    onChange={(e) => setFormMovimiento({ ...formMovimiento, motivo: e.target.value })}
+                    onChange={(e) =>
+                      setFormMovimiento({ ...formMovimiento, motivo: e.target.value })
+                    }
                     placeholder="Descripción del motivo del movimiento"
                     required
                   />
@@ -2017,7 +2195,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Contacto</CFormLabel>
                   <CFormInput
                     value={formProveedor.contacto}
-                    onChange={(e) => setFormProveedor({ ...formProveedor, contacto: e.target.value })}
+                    onChange={(e) =>
+                      setFormProveedor({ ...formProveedor, contacto: e.target.value })
+                    }
                     placeholder="Persona de contacto"
                     required
                   />
@@ -2026,7 +2206,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Teléfono</CFormLabel>
                   <CFormInput
                     value={formProveedor.telefono}
-                    onChange={(e) => setFormProveedor({ ...formProveedor, telefono: e.target.value })}
+                    onChange={(e) =>
+                      setFormProveedor({ ...formProveedor, telefono: e.target.value })
+                    }
                     placeholder="Número de teléfono"
                     required
                   />
@@ -2045,7 +2227,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Dirección</CFormLabel>
                   <CFormInput
                     value={formProveedor.direccion}
-                    onChange={(e) => setFormProveedor({ ...formProveedor, direccion: e.target.value })}
+                    onChange={(e) =>
+                      setFormProveedor({ ...formProveedor, direccion: e.target.value })
+                    }
                     placeholder="Dirección completa"
                     required
                   />
@@ -2054,7 +2238,9 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Categoría</CFormLabel>
                   <CFormSelect
                     value={formProveedor.categoria}
-                    onChange={(e) => setFormProveedor({ ...formProveedor, categoria: e.target.value })}
+                    onChange={(e) =>
+                      setFormProveedor({ ...formProveedor, categoria: e.target.value })
+                    }
                     required
                   >
                     <option value="">Seleccionar categoría</option>
@@ -2108,13 +2294,17 @@ const InventarioAlmacen = () => {
                 <CCol md={6}>
                   <div className="border rounded p-3">
                     <small className="text-muted">Código / SKU</small>
-                    <div className="fw-bold">{selectedItem.codigo} / {selectedItem.sku}</div>
+                    <div className="fw-bold">
+                      {selectedItem.codigo} / {selectedItem.sku}
+                    </div>
                   </div>
                 </CCol>
                 <CCol md={6}>
                   <div className="border rounded p-3">
                     <small className="text-muted">Categoría</small>
-                    <div className="fw-bold">{selectedItem.categoria} - {selectedItem.subcategoria}</div>
+                    <div className="fw-bold">
+                      {selectedItem.categoria} - {selectedItem.subcategoria}
+                    </div>
                   </div>
                 </CCol>
                 <CCol md={6}>
@@ -2145,7 +2335,9 @@ const InventarioAlmacen = () => {
                 <CCol md={4}>
                   <div className="border rounded p-3 text-center">
                     <small className="text-muted">Precio Venta</small>
-                    <div className="fw-bold h4 mb-0 text-success">${selectedItem.precioVenta.toFixed(2)}</div>
+                    <div className="fw-bold h4 mb-0 text-success">
+                      ${selectedItem.precioVenta.toFixed(2)}
+                    </div>
                   </div>
                 </CCol>
                 <CCol md={6}>
@@ -2178,12 +2370,17 @@ const InventarioAlmacen = () => {
                 <h6 className="mb-3">Historial de Movimientos</h6>
                 <CListGroup>
                   {movimientos
-                    .filter(m => m.codigoProducto === selectedItem.codigo)
+                    .filter((m) => m.codigoProducto === selectedItem.codigo)
                     .slice(0, 5)
-                    .map(mov => (
-                      <CListGroupItem key={mov.id} className="d-flex justify-content-between align-items-center">
+                    .map((mov) => (
+                      <CListGroupItem
+                        key={mov.id}
+                        className="d-flex justify-content-between align-items-center"
+                      >
                         <div>
-                          <div className="fw-semibold">{mov.tipo} - {mov.fecha}</div>
+                          <div className="fw-semibold">
+                            {mov.tipo} - {mov.fecha}
+                          </div>
                           <small className="text-muted">{mov.motivo}</small>
                         </div>
                         <CBadge color={getTipoMovimientoColor(mov.tipo)}>
@@ -2198,7 +2395,10 @@ const InventarioAlmacen = () => {
                 <CButton color="secondary" onClick={handleCloseModal}>
                   Cerrar
                 </CButton>
-                <CButton color="primary" onClick={() => handleOpenModal('movimiento', selectedItem)}>
+                <CButton
+                  color="primary"
+                  onClick={() => handleOpenModal('movimiento', selectedItem)}
+                >
                   <CIcon icon={cilTruck} className="me-2" />
                   Registrar Movimiento
                 </CButton>
@@ -2210,7 +2410,8 @@ const InventarioAlmacen = () => {
             <div>
               <CAlert color="info" className="mb-4">
                 <CIcon icon={cilInfo} className="me-2" />
-                <strong>Conteo Físico:</strong> Registre la cantidad real de productos en el almacén seleccionado.
+                <strong>Conteo Físico:</strong> Registre la cantidad real de productos en el almacén
+                seleccionado.
               </CAlert>
 
               <CRow className="g-3">
@@ -2218,8 +2419,10 @@ const InventarioAlmacen = () => {
                   <CFormLabel>Ubicación</CFormLabel>
                   <CFormSelect>
                     <option value="">Seleccionar ubicación</option>
-                    {ubicaciones.map(ubic => (
-                      <option key={ubic.id} value={ubic.nombre}>{ubic.nombre}</option>
+                    {ubicaciones.map((ubic) => (
+                      <option key={ubic.id} value={ubic.nombre}>
+                        {ubic.nombre}
+                      </option>
                     ))}
                   </CFormSelect>
                 </CCol>
@@ -2246,15 +2449,13 @@ const InventarioAlmacen = () => {
                       </CTableRow>
                     </CTableHead>
                     <CTableBody>
-                      {productos.slice(0, 5).map(prod => (
+                      {productos.slice(0, 5).map((prod) => (
                         <CTableRow key={prod.id}>
                           <CTableDataCell>
                             <div className="small">{prod.nombre}</div>
                             <small className="text-muted">{prod.codigo}</small>
                           </CTableDataCell>
-                          <CTableDataCell className="fw-bold">
-                            {prod.stockActual}
-                          </CTableDataCell>
+                          <CTableDataCell className="fw-bold">{prod.stockActual}</CTableDataCell>
                           <CTableDataCell>
                             <CFormInput type="number" placeholder="0" size="sm" />
                           </CTableDataCell>
@@ -2289,22 +2490,22 @@ const InventarioAlmacen = () => {
           padding: 20px;
           background: #f8f9fa;
         }
-        
+
         .text-gradient-primary {
           background: linear-gradient(135deg, #20c997 0%, #17a2b8 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
         }
-        
+
         .table-danger-light {
           background-color: rgba(220, 53, 69, 0.05);
         }
-        
+
         .table-warning-light {
           background-color: rgba(255, 193, 7, 0.05);
         }
-        
+
         .nav-tabs .nav-link {
           border: none;
           color: #6c757d;
@@ -2312,59 +2513,59 @@ const InventarioAlmacen = () => {
           padding: 0.75rem 1.5rem;
           transition: all 0.3s;
         }
-        
+
         .nav-tabs .nav-link.active {
           color: #20c997;
           border-bottom: 3px solid #20c997;
           background: transparent;
         }
-        
+
         .nav-tabs .nav-link:hover {
           color: #17a2b8;
           background: rgba(32, 201, 151, 0.1);
         }
-        
+
         .card {
           border-radius: 12px;
           overflow: hidden;
           border: 1px solid #e9ecef;
           transition: transform 0.3s;
         }
-        
+
         .card:hover {
           transform: translateY(-2px);
         }
-        
+
         .progress {
           height: 8px;
           border-radius: 4px;
         }
-        
+
         .btn-group-sm .btn {
           padding: 0.25rem 0.5rem;
           font-size: 0.75rem;
         }
-        
+
         .widget-stats-f {
           transition: transform 0.3s;
         }
-        
+
         .widget-stats-f:hover {
           transform: translateY(-2px);
         }
-        
+
         .modal-content {
           border-radius: 15px;
         }
-        
+
         .border-dashed {
           border-style: dashed !important;
         }
-        
+
         .cursor-pointer {
           cursor: pointer;
         }
-        
+
         .hover-shadow:hover {
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
         }

@@ -1,22 +1,18 @@
-@use "@coreui/coreui/scss/coreui" as * with ( 
-  $enable-deprecation-messages: false,
+@use '@coreui/coreui/scss/coreui' as * with (
+  $enable-deprecation-messages: false
 );
-@use "@coreui/chartjs/scss/coreui-chartjs";
-@use "vendors/simplebar";
-
-
-
-
+@use '@coreui/chartjs/scss/coreui-chartjs';
+@use 'vendors/simplebar';
 
 body {
-  background-color: var(--cui-tertiary-bg);
+  background-color: #f3f4f7 !important;
 }
 
 .wrapper {
   width: 100%;
   padding-inline: var(--cui-sidebar-occupy-start, 0) var(--cui-sidebar-occupy-end, 0);
   will-change: auto;
-  @include transition(padding .15s);
+  @include transition(padding 0.15s);
 }
 
 .header > .container-fluid,
@@ -62,7 +58,7 @@ body {
 
 @include color-mode(dark) {
   body {
-    background-color: var(--cui-dark-bg-subtle);
+    background-color: #000b1a !important; /* Un azul casi negro para que resalte el Verde V&A */
   }
 
   .footer {
