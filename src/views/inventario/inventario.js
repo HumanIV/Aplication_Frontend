@@ -769,7 +769,7 @@ const InventarioAlmacen = () => {
 
   /* ------------------ RENDER ------------------ */
   return (
-    <div className="inventario-almacen">
+    <div className="inventario-almacen" style={{ backgroundColor: 'black' }}>
       {/* Header Principal */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
@@ -2488,7 +2488,13 @@ const InventarioAlmacen = () => {
         .inventario-almacen {
           min-height: 100vh;
           padding: 20px;
-          background: #f8f9fa;
+          background: #1e2128 !important;
+        }
+
+        .bg.inventario-almacen {
+          min-height: 100vh;
+          background: #ffffff;
+          transition: background 0.3s ease;
         }
 
         .text-gradient-primary {

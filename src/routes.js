@@ -15,12 +15,12 @@ const Reports = React.lazy(() => import('./views/Reportes/Reports'))
 
 // Perfil y Autenticación
 const Profile = React.lazy(() => import('./views/Profile/Profile')) // Mantiene la ruta del archivo físico
-const Login = React.lazy(() => import('./views/pages/login/Login'))
-const Register = React.lazy(() => import('./views/pages/register/Register'))
+//const Login = React.lazy(() => import('./views/pages/login/Login'))
+//const Register = React.lazy(() => import('./views/pages/register/Register'))
 
 // Otros
-const Tabs = React.lazy(() => import('./views/base/tabs/Tabs'))
-const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
+//const Tabs = React.lazy(() => import('./views/base/tabs/Tabs'))
+//const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
 
 const routes = [
   { path: '/', exact: true, name: 'V&A' },
@@ -43,12 +43,12 @@ const routes = [
 
   // Cuenta y Seguridad
   { path: '/Profile', name: 'Mi Perfil de Usuario', element: Profile }, // Aquí corregimos el "name" que se ve en pantalla
-  { path: '/Login', name: 'Iniciar Sesión', element: Login },
-  { path: '/Register', name: 'Crear Cuenta', element: Register },
+  //{ path: '/Login', name: 'Iniciar Sesión', element: Login },
+  //{ path: '/Register', name: 'Crear Cuenta', element: Register },
 
   // Otros (Opcionales)
-  { path: '/base/tabs', name: 'Pestañas', element: Tabs },
-  { path: '/buttons/buttons', name: 'Botones', element: Buttons },
+  //{ path: '/base/tabs', name: 'Pestañas', element: Tabs },
+  //{ path: '/buttons/buttons', name: 'Botones', element: Buttons },
 ]
 
 export default routes
