@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+// src/components/AppHeader.js (CORREGIDO)
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   CContainer,
   CDropdown,
   CDropdownItem,
+  CDropdownDivider, // ← AÑADE ESTE IMPORT
   CDropdownMenu,
   CDropdownToggle,
   CHeader,
@@ -13,100 +15,82 @@ import {
   CNavItem,
   useColorModes,
 } from '@coreui/react'
+import { useDispatch, useSelector } from 'react-redux'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilContrast, cilEnvelopeOpen, cilMenu, cilMoon, cilSun } from '@coreui/icons'
+import {
+  cilContrast,
+  cilEnvelopeOpen,
+  cilMenu,
+  cilUser,
+} from '@coreui/icons'
 
-import { AppBreadcrumb } from './index'
-import { AppHeaderDropdown } from './header/index'
-
-const AppHeader = () => {
-  const headerRef = useRef()
-  const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
-
+const AppHeader = ({ userData, onRoleRefresh }) => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
 
-  useEffect(() => {
-    const handleScroll = () => {
-      headerRef.current &&
-        headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0)
-    }
-    document.addEventListener('scroll', handleScroll)
-    return () => document.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Definimos colores dinámicos basados en el tema
-  const isDark = colorMode === 'dark'
-
-  const headerStyle = {
-    backgroundColor: isDark ? '#000430' : '#ffffff',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(0, 0, 0, 0.1)',
-    transition: 'all 0.3s ease-in-out',
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('user')
+    window.location.href = '/login'
   }
 
   return (
-    <CHeader position="sticky" className="mb-4 p-0 border-0" ref={headerRef} style={headerStyle}>
-      <CContainer className="px-4" fluid style={{ height: '64px' }}>
+    <CHeader position="sticky" className="mb-4">
+      <CContainer fluid>
         <CHeaderToggler
+          className="ps-1"
           onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
-          style={{ marginInlineStart: '-14px', color: isDark ? '#fff' : '#000' }}
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
 
-        <CHeaderNav className="ms-auto align-items-center">
-          {/* Notificaciones */}
+        <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink href="#" className="py-0">
-              <CIcon
-                icon={cilBell}
-                size="lg"
-                style={{ color: isDark ? 'rgb(255, 255, 255)' : '#000' }}
-              />
+            <CNavLink to="/dashboard" component={NavLink}>
+              Dashboard
             </CNavLink>
           </CNavItem>
+        </CHeaderNav>
 
-          <div
-            className={`vr mx-3 ${isDark ? 'text-white' : 'text-dark'} opacity-25`}
-            style={{ height: '20px' }}
-          ></div>
-
-          {/* Selector de Tema */}
+        <CHeaderNav>
+          <li className="nav-item py-1">
+            <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
+          </li>
           <CDropdown variant="nav-item" placement="bottom-end">
-            <CDropdownToggle caret={false} className="py-0 border-0 bg-transparent">
-              {isDark ? (
-                <CIcon icon={cilMoon} size="lg" style={{ color: '#58cc7d' }} /> // Verde del logo
-              ) : (
-                <CIcon icon={cilSun} size="lg" style={{ color: '#002d72' }} /> // Azul del logo
-              )}
+            <CDropdownToggle caret={false}>
+              <div className="d-flex align-items-center">
+                <CIcon icon={cilUser} className="me-2" />
+                <span>{userData?.username || 'Usuario'}</span>
+                <small className="text-muted ms-2">
+                  ({userData?.tipo_rol || 'Sin rol'})
+                </small>
+              </div>
             </CDropdownToggle>
             <CDropdownMenu>
-              <CDropdownItem active={colorMode === 'light'} onClick={() => setColorMode('light')}>
-                <CIcon className="me-2" icon={cilSun} /> Light
+              <CDropdownItem href="#/profile">
+                <CIcon icon={cilUser} className="me-2" />
+                Perfil
               </CDropdownItem>
-              <CDropdownItem active={colorMode === 'dark'} onClick={() => setColorMode('dark')}>
-                <CIcon className="me-2" icon={cilMoon} /> Dark
+              <CDropdownItem onClick={onRoleRefresh}>
+                <CIcon icon={cilContrast} className="me-2" />
+                Actualizar permisos
+              </CDropdownItem>
+              
+              {/* REEMPLAZA ESTA LÍNCA: */}
+              {/* <CDropdownItem divider /> ← ❌ PROBLEMA */}
+              
+              {/* CON ESTO: */}
+              <CDropdownDivider /> {/* ← ✅ SOLUCIÓN */}
+              
+              <CDropdownItem onClick={handleLogout}>
+                <CIcon icon={cilEnvelopeOpen} className="me-2" />
+                Cerrar sesión
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
-
-          <div
-            className={`vr mx-3 ${isDark ? 'text-white' : 'text-dark'} opacity-25`}
-            style={{ height: '20px' }}
-          ></div>
-
-          <AppHeaderDropdown />
         </CHeaderNav>
-      </CContainer>
-
-      {/* Línea divisoria y Breadcrumbs */}
-      <CContainer
-        className={`px-4 border-top ${isDark ? 'border-light border-opacity-10' : 'border-dark border-opacity-10'} py-2`}
-        fluid
-      >
-        <AppBreadcrumb />
       </CContainer>
     </CHeader>
   )

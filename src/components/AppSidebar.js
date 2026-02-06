@@ -1,3 +1,4 @@
+// src/components/AppSidebar.js (MODIFICADO)
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -12,13 +13,9 @@ import {
 import CIcon from '@coreui/icons-react'
 
 import { AppSidebarNav } from './AppSidebarNav'
-
 import logoPersonalizado from '../assets/images/LogoCM.png'
 
-// sidebar nav config
-import navigation from '../_nav'
-
-const AppSidebar = () => {
+const AppSidebar = ({ navigation = [] }) => { // <-- AGREGAR ESTA PROP
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
@@ -91,7 +88,6 @@ const AppSidebar = () => {
 
       <CSidebar
         className="shadow-lg border-0"
-        // Esto hace que el esquema cambie automáticamente con el tema global
         colorScheme={useSelector((state) => (state.theme === 'dark' ? 'dark' : 'light'))}
         position="fixed"
         unfoldable={unfoldable}
@@ -102,7 +98,7 @@ const AppSidebar = () => {
       >
         <CSidebarHeader className="border-bottom border-secondary border-opacity-25">
           <CSidebarBrand
-            to="/"
+            to="/dashboard"
             className="d-flex justify-content-center align-items-center w-100 py-4"
           >
             <img
@@ -119,7 +115,8 @@ const AppSidebar = () => {
           />
         </CSidebarHeader>
 
-        <AppSidebarNav items={navigation} />
+        {/* Usar la navegación pasada como prop */}
+        <AppSidebarNav items={navigation || []} />
 
         <CSidebarFooter className="border-top border-secondary border-opacity-25 d-none d-lg-flex">
           <CSidebarToggler

@@ -1,0 +1,550 @@
+[33m79486f9[m[33m ([m[1;31morigin/Valentina[m[33m)[m Ultimos cambios
+[33m70186a9[m Diseño completo de la página
+[33m174ad0a[m Conflictos resueltos
+[33m9372712[m agregado el componente inventario
+[33mbbaeb8a[m cambios hasta el dia de hoy
+[33m4717cea[m CORRECCIÓN DE ERRORES
+[33m06e0c3a[m Refactor rutas de usuarios y corrige la URL de la API
+[33m65b61d0[m Correcciones en rutas y ajustes en la API de usuarios y facturación
+[33mde80398[m Avances antes de cambiar de rama
+[33m5ebe78b[m Cambios dashboard,reports
+[33m0a7ed82[m[33m ([m[1;31morigin/angel[m[33m)[m Commit global antes de presentacion
+[33m9ac02ae[m Commit para posteo en la pagina
+[33mc3c12dc[m COMMIT SOBRE EL LOGIN Y REGISTER TAMBIEN LA PSEUDO CREACION D EUN MODULO DE INICIO FALTAN MEJORAS
+[33m0c91267[m Se agregaron instrucciones de como ejecutar los npm para echar andar el proyecto
+[33m88ac8c0[m Commit de los 3 modulos con el crud funcional hasta cierto punto
+[33m15febc9[m commit basado en el modulo de facturacion y culminacion del modlo de pedidos
+[33mfc00d99[m Primer commith oficial
+[33m0589d8e[m release: v5.5.0
+[33m54b88c4[m docs: update the list of available components
+[33m309219e[m refactor: reorder links in the sidebar navigation
+[33m969f1d7[m chore: update dependencies and devDependencies
+[33m1064cbb[m release: v5.4.0
+[33mcadbd96[m refactor: migrate to Sass modules and migrate to CSS logical properties and values
+[33mb78e444[m release: v5.3.0
+[33m69269e8[m chore: update dependencies and devDependencies
+[33m74b0aaf[m refactor: migrate to CSS logical properties and values
+[33m6374dae[m chore: update the year to 2025
+[33m06dd9de[m chore: update dependencies and devDependencies
+[33m2218a64[m refactor: migrate ESLint to version 9 with a flat configuration
+[33m58075ff[m refactor: upgrade React to v19
+[33m3d673a9[m build: upgrade Vite to 6.x
+[33mf9c3612[m refactor: improve syntax
+[33m775ef42[m chore: update dependencies and devDependencies
+[33m6024429[m docs: update link to documentation
+[33m0b70545[m build: update vite configuration
+[33m5938768[m refactor: update sidebar links
+[33m478299f[m docs: update links to documentation
+[33m2f2c5ee[m chore: clean-up
+[33m96c340f[m refactor: update examples
+[33mc7d747e[m release: v5.2.0
+[33mcdec09f[m build: silence Sass deprecation warnings
+[33m0aaa363[m chore: update dependencies and devDependencies
+[33m09f012b[m release: v5.1.0
+[33m33ed377[m feat: add new tabs component
+[33mceedef2[m chore: update dependencies and devDependencies
+[33mcf53983[m chore: clean-up
+[33m9406f8d[m docs: update links to PRO versions
+[33m422944f[m Merge pull request #423 from PedroGSantos/fix/env
+[33mf54554c[m Fix: removing process env
+[33m62621e1[m fix: add missing styles for charts tooltips
+[33mb819b81[m release: v5.0.0
+[33m9b759a0[m chore: update dependencies and devDependencies
+[33m49af407[m release: v5.0.0-rc.1
+[33mcc07a04[m docs: update README
+[33m0a7196f[m chore: update dependencies and devDependencies
+[33mb570485[m chore: clean-up
+[33m1d05bd4[m refactor: migrate from CRA to Vite
+[33m6c7dc12[m chore: update current year
+[33m0486637[m refactor(Sidebar): update color scheme
+[33m54891c7[m chore: update dependencies and devDependencies
+[33maa6d363[m chore: update dependencies and devDependencies
+[33mef4b3f0[m refactor: update `CNavLink` and `CDropdownItem` syntax to the latest version of CoreUI
+[33mdf49387[m refactor: update the sidebar to show scrollbar properly
+[33m14d9d2d[m refactor: update examples
+[33me506dd2[m chore: clean-up
+[33mcb9e0be[m refactor: improve the layout
+[33mb17a28a[m refactor: improve styles
+[33m5c7720a[m chore: update dependencies and devDependencies
+[33mcf60635[m refactor: update responsive behavior
+[33m2b18af5[m fix: add proper class names
+[33m20b3798[m styles: remove whitespaces
+[33m30f8ee0[m release: v5.0.0-rc.0
+[33m0040307[m chore: update dependencies and devDependencies
+[33mf8d4f9f[m refactor: improve responsive behavior
+[33m8f55012[m refactor: resolve deprecation warning
+[33m6cb34cf[m fix: make the sidebar close button visible under the `lg` breakpoint
+[33m1328195[m refactor: update examples
+[33m2539b12[m chore: update dependencies and devDependencies
+[33mc438637[m docs: update README
+[33macdfb92[m docs: update README
+[33ma97e326[m refactor: update examples
+[33m4d798c2[m docs: update link to license
+[33mb29e61d[m chore: clean-up
+[33m88cb35c[m refactor: update examples
+[33m452725a[m refactor: improve layout
+[33m956133b[m refactor: improve styles
+[33m30d931d[m chore: update dependencies and devDependencies
+[33m8af3a4e[m refactor: update charts
+[33m04ade81[m release: v5.0.0-beta.0
+[33m620fb22[m chore: update dependencies and devDependencies
+[33ma41187b[m refactor: update colors
+[33m350ec47[m refactor: update styles
+[33md0cb2e7[m refactor: update footer color
+[33m48c1f16[m chore: clean-up
+[33mf4e9410[m refactor: improve sidebar nav
+[33m7801ae0[m refactor: update layout
+[33mcd8ee87[m refactor: change `.text-medium-emphasis` to `.text-body-secondary`
+[33m26982f8[m chore: update dependencies and devDependencies
+[33ma1e9db0[m release: v4.6.0-beta.0
+[33m746e061[m refactor: update examples
+[33m00fffd1[m refactor: update color modeshandling
+[33mf4f5743[m chore: update dependencies and devDependencies
+[33ma1f2012[m refactor: update color modes support
+[33mcfe2ebd[m refactor: improve color modes handling
+[33mf399a30[m refactor: update main view
+[33m615f933[m refactor: improve color modes handling
+[33mefec578[m chore: update dependencies and devDependencies
+[33me92d6ac[m Merge branch 'v4-next' of https://github.com/coreui/coreui-free-react-admin-template into v4-next
+[33m3411c2f[m refactor: update SimpleBar to v3
+[33m63978da[m refactor: update SimpleBar to v3
+[33mc553316[m refactor: add color modes support
+[33m3504643[m refactor: move useColorModes
+[33m307e9f5[m chore: update dependencies and devDependencies
+[33mccd3674[m chore: update dependencies
+[33m88df73a[m refactor: improve theme switch
+[33mb454195[m refactor: update main chart
+[33mef6012e[m chore: clean-up
+[33m0613a3a[m docs: update comments
+[33mfa93c9a[m feat: add dark mode support
+[33m0878d75[m release: v4.5.0
+[33mdc9f2a9[m chore: update year
+[33mc21ea77[m chore: clean-up
+[33me8fafb4[m Merge branch 'main' of https://github.com/coreui/coreui-free-react-admin-template
+[33m5b71f94[m chore: update dependencies and devDependencies
+[33mba42b5b[m Update README.md
+[33m385856e[m chore: update dependencies and devDependencies
+[33m49aa826[m Merge pull request #390 from zandiarash/patch-1
+[33m88735ba[m Update index.js
+[33m4ca8dfc[m release: v4.4.0
+[33mf0f79cf[m chore: clean-uo
+[33m8700f05[m refactor: add link to documenation
+[33m07d038a[m refactor: remove docs version from urls
+[33m31e296e[m chore: update dependencies and devDependencies
+[33mb7f962a[m Update FUNDING.yml
+[33md836f71[m docs: update README
+[33m79e7307[m docs: update README
+[33m49899f9[m build: update workflows
+[33m959da66[m Update npm.yml
+[33m196bea7[m Update npm.yml
+[33mee3a388[m Update npm.yml
+[33m7f4c460[m build: update build tools
+[33m9da9881[m build: update build tools
+[33mc09a979[m build: update build tools
+[33maf4a324[m chore: update dependencies and devDependencies
+[33mb68f1d9[m release: v4.3.1
+[33m5a4c930[m chore: update depenencies and devDependencies
+[33m9dfbd12[m Update FUNDING.yml
+[33mb72fdaa[m release: v4.3.0
+[33mcf4c16d[m feat: update @coreui/coreui @coreui/react
+[33mc3d059e[m fix: charts animations
+[33m5057460[m chore: clean-up
+[33m0a9cd7b[m release: v4.2.0
+[33m027c69a[m build: update build tools
+[33mc56acc8[m refactor: migrate to Create React App v5
+[33m6edcbe7[m chore(CFooter): update copyrights
+[33mb86d4f6[m fix(AppBreadcrumb): add support for dynamic paths
+[33mc416d0b[m chore: update dependencies and devDependencies
+[33me017fda[m Merge pull request #364 from lbz-life/update-react-router-dom-6.2.1
+[33mda16cc4[m Update AppSidebarNav.js
+[33m81252fe[m Update AppHeader.js
+[33mc4193b6[m refactor: renmaed component to element to align better with react-router-dom v6.2.1
+[33mb5cdc45[m refactor: renamed Switch to Routes, renamed render to element, and replaced Redirect with Navigate
+[33mc2dd4e7[m refactor: renamed Switch, component, / to *, and added Suspense to import to clean-up jsx.
+[33m30a2c54[m refector: updated react-router-dom version
+[33m96122c6[m Create stale.yml
+[33m7c87593[m Delete stale.yml
+[33m56d6a3b[m Create stale.yml
+[33m138b0d3[m release: v4.1.1
+[33ma4f354c[m fix: Node 17 openssl issue
+[33md732633[m release: v4.1.0
+[33m7f74c32[m feat: add horizontal collapse
+[33mb8f4bb4[m feat: add placeholder component
+[33m65aaaa3[m chore: update dependencies and devDependencies
+[33mdbf3a40[m build: update homepage
+[33m5df5ebe[m release: v4.0.0
+[33m42d823d[m chore: update dependencies and devDependencies
+[33m1a6c3e1[m refactor: update examples
+[33m0a4941e[m docs: update md files;
+[33m85220c5[m refactor: update edashboar view
+[33m26cdcf8[m chore: update dependencies and devDependencies
+[33m6428da6[m chore: update dependencies and devDependencies
+[33md985d04[m chore: update dependencies and devDependencies
+[33m31bd2b8[m release: v4.0.0-rc.4
+[33ma21075d[m refactor: update dashboard view
+[33md6764b7[m chore: update dependencies and devDependencies
+[33m85b218b[m refactor: update examples structure and views.
+[33mba50130[m chore: update dependencies and devDependencies
+[33m7900193[m release: v4.0.0-rc.3
+[33m877bc0e[m fix: react-scripts build ParserError
+[33m1f619ad[m release: v4.0.0-rc.2
+[33mc84e419[m refactor: update examples to latest version of @coreui/react
+[33m3c2bb54[m release: v4.0.0-rc.1
+[33m3d8cb81[m refactor(AppSidebar): update responsive behavior
+[33mdd9b9d5[m refactor: update images
+[33m7b04a68[m release: v4.0.0-rc.0
+[33mc41bb25[m refactor: update to @coreui/react@v4.0.0-rc.0
+[33me345476[m release: v4.0.0-beta.2
+[33m75ed32f[m fix: remove deprecated props
+[33m11f92a2[m refactor: update `CIcons`
+[33m62b93d7[m docs: update md files
+[33m0823068[m refactor: improve syntax
+[33m7108efc[m refactor: update `CIcon`s
+[33m9ee8467[m docs: update md files
+[33me9077a9[m refactor: update logos
+[33mfcbf9b8[m refactor: update `CIcon`s
+[33m9b847ae[m refactor: update examples
+[33mac31229[m chore: clean-up
+[33m88f4316[m fix: change `2xl` icons size to `xxl`
+[33m18e90a4[m release: v4.0.0-beta.1
+[33m934b70a[m chore: bump version of @coreui/react
+[33medbda35[m refactor: update widgets
+[33ma36f5d4[m chore: clean-up
+[33md85bf9a[m refactor: move components from `reusable` to `components`
+[33m7c0862a[m chore: update dependencies and devDependencies
+[33m3db0405[m docs: update migration guide
+[33m69c6d61[m refactor: update toggler paddings
+[33mf4b2570[m refactor: update views
+[33m8828ecc[m refactor: update Popovers and Tooltips placements
+[33md948582[m refactor: set `sidebarShow` to `true`
+[33mc115cf0[m refactor: update toggler classname
+[33m5ee17f8[m feat: add sidebar nav generator
+[33mff42ed7[m release: v4.0.0-beta.0
+[33m29984fc[m chore: update dependencies and devDependencies
+[33mf689c07[m refactor: update views
+[33mc00d01b[m chore: clean-up
+[33m3a96c33[m style: improve syntax
+[33m314f12c[m chore: clean-up
+[33m04f87de[m feat(CSidebarNav): add custom scrollbar
+[33mf33746d[m refactor: change `progress-xs` className to `thin` property
+[33m5ad8098[m refactor: update app components structure
+[33m5cee527[m chore: clean-up
+[33mdcd0905[m build: update scripts to support windows
+[33m4694023[m fix: enforce Unix newlines
+[33m2d448ea[m build: change `node-sass` to `sass`
+[33m065807e[m fix: add href to links
+[33me23f6c6[m refactor: add list of available variables
+[33m926174d[m refactor: update routes
+[33m05cbb82[m refactor: update examples
+[33m0f6f87b[m chore: clean-up
+[33m632c849[m refactor: remove ie11 polyfills
+[33m392c511[m tests: update base test
+[33m46c9289[m build: add @coreui/react library version
+[33ma4ec5f3[m refactor: update wrapper styles
+[33mc16267d[m chore: clean-up
+[33m9adc776[m refactor: update example views
+[33m2d75b27[m chore: backup old files, will be removed them when final version be ready
+[33mbccae41[m build: update build tools
+[33m379cf4b[m refactor: update layout
+[33mc721407[m chore: update dependencies
+[33md7c4c3b[m refactor: update example views
+[33m730bd30[m build: update build tools
+[33m40f1b9a[m chore: update date
+[33mf6c6e15[m chore: update dependencies and devDependencies
+[33me86fc11[m refactor: add custom tooltips
+[33mdd64f3c[m refactor: update views
+[33m9842172[m refactor: update text color classNames
+[33mb922dad[m refactor: update avatars
+[33mc542171[m refactor: update example views
+[33m35be1ea[m refactor: update components examples
+[33m323e9b9[m refactor: add form components examples
+[33m2e1d16d[m refactor: update routes
+[33mcaa46b8[m refactor: import components from '@coreui/react' instead of '@coreui/react-ts'
+[33m0de0637[m chore: update dependencies and devDependencies
+[33md1a87d2[m refactor: update to v4
+[33m2f793d1[m styles: improve syntax using prettier
+[33mf502f58[m refactor: update to CoreUI v4
+[33m2a2fc79[m refactor: update components to CoreUI 4
+[33m9870bfd[m refactor: update to the latest version of @coreui/react
+[33me95c7e3[m refactor: update some components to v4
+[33m76da5c5[m refactor: migrate to CoreUI v4
+[33me484c60[m refactor: migrate to CoreUI v4
+[33md5ba135[m refactor: migrate part of components to CoreUI v4
+[33m9d5ba97[m chore: 3.2.0 release for React 17
+[33mf3f91c5[m test: refactor, import temp update
+[33med83c9a[m fix(_nav): no anonymous default export
+[33mf0c0585[m fix(BrandButtons): minor temp fixes with stylings
+[33m9522ade[m refactor: polyfills cleanup
+[33mf6a710f[m chore: React 17 and dependencies update
+[33mf9f1927[m chore: changelog update
+[33m081b957[m chore: 3.1.1 release
+[33mba21e00[m chore: .gitignore cleanup
+[33m5b70904[m chore: dependencies update
+[33mb661344[m chore: add migration docs
+[33m6ac9a1d[m chore: limit changelog to version 3
+[33mde605cc[m chore: add changelog
+[33mcd23931[m Merge branch 'master' of https://github.com/coreui/coreui-free-react-admin-template
+[33m92f55b8[m chore: 3.1.0 release - update dependencies
+[33mb31e452[m feat: add CSwitch examples to forms
+[33meef84db[m refactor: add reusable folder with DocsLink component
+[33mbe5d1f0[m refactor: add CIcon example in _nav.js
+[33m68ce41d[m fix: fix template testing
+[33mb7d8029[m docs(readme): CoreUI react theme setup with laravel tutorial link add into readme (#226)
+[33m52163bb[m Merge branch 'master' of https://github.com/coreui/coreui-free-react-admin-template
+[33mfd5236d[m chore: 3.0.0 version release - update dependencies
+[33mdb85786[m docs: add license
+[33m82a4351[m docs: README cleanup
+[33m188e0b1[m docs: README update
+[33m98f8b67[m feat: add query parameters to Users view
+[33m8e4fbc2[m refactor: update icons to version 2, rtl fixes
+[33m1df8c15[m refacotor: template updates
+[33m1777a09[m fix: fix Icons views
+[33m9fed168[m refactor: optimize icon bundle size, update icons
+[33m8c0deee[m refactor: turn logos extensions from svg to js
+[33m75138b0[m refactor: update folder casing to kebab-case
+[33mcb4433a[m refactor: temporarily delete views folder
+[33m5aa0cc3[m chore: update react.md
+[33md940f92[m chore: 3.0.0-beta.1 release
+[33m1ee0561[m fix: delete unneded icons, aside, fix readme.md
+[33m0e6506e[m fix: fix accordion, delete aside
+[33me236aad[m chore: clear packages
+[33mbfc79da[m refactor: rename containers from 'Default' to 'The', small fixes
+[33mf479a5d[m fix: delete obsolete files, fix logos
+[33mcc79542[m feat: update template to version 3
+[33m0350bfd[m Ship: v2.6.1
+[33m01f3555[m chore: dependencies update
+[33m5e57e2a[m refactor(polyfill): cleanup
+[33m41f1d26[m fix(Dropdowns): DropdownMenu right
+[33mef25cc4[m fix(Dashboard): scales.[x/y]Axes.barPercentage is deprecated, use dataset.barPercentage instead
+[33mb9626a8[m v2.6.0 version bump
+[33m08b932d[m Merge pull request #184 from coreui/dev-v2.6
+[33m987c94f[m Merge pull request #182 from BrunoSette/master
+[33md142eff[m Ship: v2.6.0
+[33m770cfcf[m fix(DefaultHeader): replace `AppHeaderDropdown` with `UncontrolledDropdown`
+[33m969bc85[m refactor: add ie polyfills
+[33mf99dfd7[m chore: dependencies update
+[33m720c760[m Readme Typo
+[33me115106[m chore: changelog v2.5.0 update
+[33mdbe9ec9[m Merge pull request #181 from coreui/dev-router-5
+[33m25c8f9f[m Ship: v2.5.0
+[33m349393e[m refactor: update to react router v5
+[33m5fcef7e[m Merge pull request #180 from coreui/dev-vnext
+[33m5f3380d[m Ship: v2.1.7
+[33m76bd4a7[m chore: dependencies update
+[33m3490bba[m fix(Popovers): add trigger=legacy
+[33md40ce7e[m chore: add package-lock.json with updated tar dependency
+[33me5d84e0[m Merge branch 'reactbits-fix-circular-dependency'
+[33m0576d18[m Ship: v2.1.6
+[33m921519f[m chore: dependencies update
+[33m24666f6[m refactor(Forms): move to InputGroupButtonDropdown where applicable
+[33m7ad00e6[m refactor(DefaultHeader): move to ReactRouter NavLink
+[33m988b240[m fix(routes): add Home to routes - breadcrumb issue
+[33mded4437[m refactor(App): change to render in Route
+[33m68c2cce[m fix: remove redundant react-loadable
+[33m691d0cd[m remove redundant react-loadable
+[33m987c047[m fix circular dependency
+[33m1ab1326[m Merge pull request #162 from aaabramov/patch-1
+[33m3dc462c[m Fix typo
+[33m43a941e[m Merge pull request #155 from coreui/dev-vnext
+[33mfca29cf[m Ship: v2.1.5
+[33mbcc28e1[m Merge pull request #152 from coreui/dev-vnext
+[33m1c65d9e[m Ship v2.1.4
+[33m4af6e9b[m refactor(DefaultHeader): Dashboard router link
+[33mc860888[m chore: dependencies update
+[33mf74a369[m Merge pull request #144 from coreui/dev-vnext
+[33md595e85[m Ship: v2.1.3
+[33m98c79bc[m chore: dependencies update
+[33m2a9a23d[m fix(Collapse): add `mb-0` to accordion cards
+[33mfa7d429[m fix(ButtonGroups): misplaced dropdownOpen
+[33mbc45324[m Merge pull request #134 from coreui/dev-testing
+[33m310fa60[m test: add coverage
+[33m52a6886[m refactor(Tabs): cleanup, test coverage
+[33m7632881[m test: more coverage
+[33m1cff070[m Merge pull request #133 from coreui/dev-vnext
+[33m1fb2478[m Ship: v2.1.2
+[33m5d9be44[m chore: update `@coreui/react` to `^2.1.1`
+[33meb18566[m fix(scss): floating footer ie11 issue
+[33m7489ecb[m Merge pull request #132 from coreui/dev-lazy-loading
+[33maeccb70[m Ship: v2.1.1
+[33mc324997[m refactor(Dashboard): tweak lazy and Suspense for Widget03
+[33m05d0d7f[m refactor(Login): add router link to Register button
+[33m3910499[m refactor(Register): add margins to social-media buttons
+[33m450fc30[m chore: update `@coreui/coreui` to `^2.1.1`
+[33m77f87cf[m refactor(DefaultHeader): add react-router Link to /users
+[33mf0bcbab[m refactor(DefaultLayout) code splitting with `React.lazy`
+[33m2e8c6c1[m refactor(App.js) code splitting with `react-loadable`
+[33mdf3b3e2[m chore: disable eslint warning for href="#" attribute
+[33m37be56a[m chore: dependencies update
+[33mc9f9bfd[m Merge pull request #128 from coreui/dev-vnext
+[33m4e5d693[m ship: v2.1.0
+[33m7b358c4[m feat(SidebarNav): navLink `attributes` - optional JS object with valid JS API naming
+[33m6c3acb3[m fix(Cards): `card-header-actions` add to `CardHeader` for `rtl` support
+[33m6a477be[m chore: dependencies update
+[33m3e8763a[m Merge pull request #127 from coreui/dev-vnext
+[33m4370de1[m ship: v2.0.14
+[33m2636edd[m chore: dependencies update
+[33m71cd428[m Merge pull request #122 from coreui/dev-vnext
+[33m1c86c3e[m Ship: v2.0.13
+[33m0728cda[m chore: remove unused `vendors/charts.js/` directory
+[33m5bc9ccc[m refactor: import from `node_modules/` with `~` prefix
+[33mabeea78[m refactor: move `App.js` import styles to `App.scss`
+[33me93dc62[m chore: package.json cleanup
+[33md7f4f57[m chore: dependencies update
+[33m07c7d3d[m Merge pull request #120 from coreui/dev-vnext
+[33ma05cfda[m Ship: v2.0.12
+[33m1424b6c[m fix(DefaultAside): `ListGroup` with `tag="div"` works better with `rtl`
+[33m8e2132e[m fix(DefaultLayout): `AppAside` remove deprecated `hidden` prop
+[33m51169d1[m chore: dependencies update
+[33mcc7b690[m Merge pull request #118 from coreui/dev-cra-2
+[33mf400c0a[m chore: move to Create React App 2.0
+[33m50eff2a[m Merge pull request #117 from coreui/dev-vnext
+[33me6a32ae[m chore: dependencies update
+[33m7542458[m add gtag
+[33m612986a[m Merge pull request #110 from coreui/dev-vnext
+[33mfda5fbc[m chore: dependencies update
+[33m2d5ffff[m docs(readme): CoreUI Vue link fix
+[33m902bf67[m Merge pull request #103 from coreui/chore-dependencies
+[33m3c1e65d[m chore: dependencies update
+[33m8af3ee6[m Merge pull request #102 from coreui/dev-vnext
+[33m3b7c4c7[m chore(ship): v2.0.8
+[33m989daa9[m chore: dependencies update
+[33mbad2801[m chore(Switch): add missing Pro badges
+[33m9cc60d0[m fix(User): add missing unique key prop
+[33m0ab11ea[m fix(Register): add missing form and autoComplete
+[33m9f9eb65[m fix(Login): add missing form and autoComplete
+[33m26be744[m update: coreui to 2.0.4
+[33mf02aca2[m Merge pull request #95 from coreui/dev-users-example
+[33m6bf0920[m chore(ship) v2.0.5
+[33mcea4da0[m chore: add .env file
+[33mc870094[m chore: dependencies update
+[33m05c18d0[m feat(router): Users/User Breadcrumb example with `/users/:id`
+[33me7ff49c[m Merge pull request #91 from coreui/dev-v2.0.4
+[33m0a6aec7[m chore: dependencies update
+[33m12b76ee[m refactor: toggleFade
+[33m9e9d218[m refactor(Cards): toggleFade
+[33m68b19fb[m refactor(Forms): toggleFade
+[33m2582877[m feat(Forms): FormFeedback valid
+[33meeaccc4[m feat(Forms): FormFeedback valid
+[33mae534b9[m Merge pull request #84 from coreui/dev-v2.0.3
+[33m73f5f14[m chore: v2.0.3 changelog update
+[33m9d6dddc[m chore(release): v2.0.3
+[33m4c2de2f[m chore: babel-jest update to v22.4.4
+[33m96d21c9[m refactor: CoreUI Icons v0.2.0
+[33m6c9ead5[m fix(routes): mismatched SimpleLineIcons dynamic  import
+[33m227552f[m refactor: disable ServiceWorker by default
+[33m429f837[m chore(release): dependencies update
+[33m646b3c1[m Merge pull request #79 from coreui/fix-component-names
+[33mefc28fb[m ship: v2.0.1
+[33m86cba46[m chore: update node-sass-chokidar to v1.3.0
+[33m2efca30[m fix: update component names in package.json
+[33m689778f[m Merge pull request #77 from coreui/dev-code-splitting
+[33m49e86ad[m chore: switches view rearrange
+[33md1d3887[m refactor: code splitting via dynamic import
+[33m7756e1e[m Merge pull request #76 from coreui/dev-v2-coreui-icons
+[33m97f6ab6[m feat: new CoreUI Icons set
+[33m0a030ec[m chore: dependencies update
+[33ma37c832[m Merge pull request #75 from coreui/dev-v2-rc-0
+[33m697e49b[m chore: update @coreui/react dependency
+[33m22774fd[m refactor(switches): cleanup
+[33mf75010f[m chore: dependencies update, version bump
+[33m245263a[m fix(styles): ie temp fix align-items-center
+[33m0c88adc[m refactor(widgets): add missing line charts to Widget03
+[33m59d43f7[m refactor(modals view): button margins
+[33m5eb8a4a[m refactor: buttons view
+[33m3869f17[m fix: ie pages align-items-center issue temp fix
+[33mff1194a[m chore: update `reactstrap` to `v6.0.1`
+[33m74ac142[m Merge pull request #73 from coreui/dev-2.0.0-beta.3
+[33m45ead1e[m chore: cleanup
+[33m15fc553[m refactor: import logo and sygnet
+[33meee1f0a[m chore: update Bootstrap to `4.1.1`
+[33m20770f5[m refactor: polyfills for IE11 based on `core-js`
+[33m1010c5b[m refactor: add some `autocomplete` attributes to forms input
+[33mcc70b1c[m refactor: rename Full container to DefaultLayout
+[33mae6ebc7[m Merge branch 'master' into dev-2.0.0-beta.3
+[33m6fe77db[m chore: dependencies update
+[33mf2fd4a4[m Merge branch 'master' of https://github.com/coreui/coreui-free-react-admin-template
+[33mb7cb78f[m fix: ie card charts issue
+[33mc976291[m refactor: IE polyfills and import utilities from @coreui/coreui
+[33m5b4bc46[m Merge pull request #71 from coreui/temp-fix-dropup
+[33m3218b64[m chore: fix css build scripts
+[33mffbfda3[m Merge pull request #70 from coreui/temp-fix-dropup
+[33m4518f54[m fix: temp hotfix ButtonDropdown up
+[33mea2944f[m Merge pull request #69 from coreui/dev-v2-tooltips
+[33m0e28db8[m feat: chart.js custom tooltips plugin
+[33m1282b02[m Merge branch 'master' into dev-v2-tooltips
+[33mdb92bfb[m feat(charts): CustomTooltips
+[33ma44b204[m Merge branch 'master' of https://github.com/mrholek/CoreUI-React
+[33m5d59116[m refactor: update logo &sygnet
+[33mc12a0fc[m Merge pull request #66 from coreui/dev-v2
+[33m7faaa9f[m chore: ship v2.0.0-beta.1
+[33ma7aabf0[m refactor(Switches): cleanup imports Input, Label
+[33mc1bd216[m refactor(Switches): move to AppSwitch component
+[33mfbad174[m refactor: fixed typo
+[33m3f7db41[m Merge pull request #63 from coreui/dev-v2
+[33m5a63629[m chore: cleanup
+[33m469b5c0[m Merge branch 'dev-v2'
+[33m3ec289c[m chore: dependencies
+[33mc4f4012[m Merge pull request #62 from coreui/v2.0.0
+[33me587d44[m docs: add CONTRINUTONG.md and ISSUE_TEMPLATE.md
+[33m9943227[m docs: update readme
+[33m3ed7037[m chore: add editor config
+[33me1a2be4[m docs: update name and urls
+[33mcb73aa6[m Merge pull request #61 from mrholek/v2.0.0
+[33m50061ab[m Merge branch 'master' into v2.0.0
+[33m4af282e[m chore: v2.0.0-beta
+[33m1892c40[m refactor: v2.0.0-alpha.3
+[33m71b1911[m refactor: minor fixes
+[33mb1ba7d8[m refactor(FullAside): ListGroup (deprecate callout)
+[33mf7cd054[m refactor: styles from @coreui/coreui
+[33meeb7a56[m refactor: Colors
+[33mc46cb84[m v2.0.0-alpha.2
+[33me1b0c8d[m fix: revert dependency to @coreui/react: next
+[33ma287b30[m fix: temporary add dependency to git @coreui/react
+[33m90e9a61[m Update README.md
+[33m09a02cc[m fix: Dashboard charts swap
+[33m9fda463[m fix: add className='card-header-action'
+[33md66b150[m test: add simple smoke test
+[33m77f8096[m refactor: Dashboard.js, README.md
+[33mde8d1a8[m CoreUI-React add README.md
+[33m28669be[m CoreUI-React initial commit v2.0.0-alpha.1
+[33m154bd26[m Update README.md
+[33md1c1987[m refactor: new project structure
+[33m101ccc3[m chore: rename folders
+[33m464b5fc[m chore: rename folders
+[33m48541f0[m add assets
+[33m25cb307[m clean-up
+[33mdf584f4[m Initial release
+[33m6f7ccbf[m v1.0.10
+[33ma8ddd22[m Merge pull request #51 from mrholek/v1.0.10
+[33mdb35210[m v1.0.10
+[33mbe9e2ab[m Merge pull request #45 from mrholek/v1.0.9
+[33mcef091d[m v1.0.9 with Bootstrap 4.0.0
+[33me009616[m Merge pull request #44 from mrholek/v1.0.8
+[33mf9e8e14[m v1.0.8
+[33m97282bb[m Merge pull request #24 from viniciusCamargo/patch-2
+[33m9e3b039[m Update to 1.0.6
+[33m5cabefb[m Update _nav.scss
+[33me8b83ef[m Update to 1.0.5
+[33m2de530f[m Update README.md
+[33mc869183[m  change style of the cursor on nav link
+[33m338d579[m update to 1.0.4
+[33m8b49e36[m - update: Bootstrap version to v4.0.0-beta.2 - refactor: Remove old SCSS variables - refactor: Breadcrumb Menu styles - fix: External links issue - fix: Mobile sidebar-nav height issue
+[33m1d5a143[m - `HeaderDropdown` component example extracted out of `Header` - Fix height and position problems with .fixed-footer - Fix mobile sidebar height - Fix mobile breadcrumb position with .fixed-breadcrumb - Add new navbar toggler icon - Update old bootstrap classes ex. `hidden-sm-down` - Add gulp-autoprefixer
+[33m5766d28[m Merge pull request #20 from mrholek/react-v16
+[33m5fef51f[m React v16, Reactstrap v5
+[33m6571acf[m v1.0.0
+[33m950c51c[m v1.0.0
+[33mc5cc339[m v1.0.0
+[33m7ca12d7[m Merge pull request #7 from xidedix/master
+[33m5ec6ba7[m minor tweaks
+[33m5178845[m Merge pull request #6 from xidedix/master
+[33ma10a3aa[m Merge branch 'hotfix/readme-demo-link'
+[33m9b027ef[m Readme fix closes #5
+[33m1560e0b[m Merge pull request #4 from xidedix/master-dist
+[33m68692ad[m webpack.config env.prod added & build scripts modified
+[33m2aa3baa[m minor fixes chart-wrapper & dropdown-menu-right & components
+[33mb7ffd29[m update readme
+[33m0026398[m update package.json
+[33m50cf20a[m update README.md
+[33mfdf71c1[m update README.md
+[33mc3354fa[m Hello World!

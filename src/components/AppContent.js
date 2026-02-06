@@ -1,14 +1,17 @@
+// src/components/AppContent.js (NUEVO - necesario)
 import React, { Suspense } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { CContainer, CSpinner } from '@coreui/react'
-
-// routes config
+import { Routes, Route } from 'react-router-dom'
 import routes from '../routes'
+import { CSpinner } from '@coreui/react'
 
 const AppContent = () => {
   return (
-    <CContainer className="px-4" lg>
-      <Suspense fallback={<CSpinner color="primary" />}>
+    <div className="content-wrapper">
+      <Suspense fallback={
+        <div className="text-center">
+          <CSpinner color="primary" variant="grow" />
+        </div>
+      }>
         <Routes>
           {routes.map((route, idx) => {
             return (
@@ -23,10 +26,9 @@ const AppContent = () => {
               )
             )
           })}
-          <Route path="/" element={<Navigate to="dashboard" replace />} />
         </Routes>
       </Suspense>
-    </CContainer>
+    </div>
   )
 }
 

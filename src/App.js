@@ -1,11 +1,12 @@
-import React, { Suspense, useEffect } from 'react'
-import { HashRouter, Route, Routes, Navigate } from 'react-router-dom'
+// src/App.js (VERSIÓN SIMPLIFICADA)
+import React, { Suspense } from 'react'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import { CSpinner, useColorModes } from '@coreui/react'
-import './scss/style.scss'
+import ProtectedRoute from './components/ProtectedRoute'
+import PublicRoute from './components/publicRoute'
 
-// We use those styles to show code examples, you should remove them in your application.
+import './scss/style.scss'
 import './scss/examples.scss'
 
 // Containers
@@ -13,15 +14,13 @@ const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
-const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
-const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
   const storedTheme = useSelector((state) => state.theme)
 
-  useEffect(() => {
+  React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.href.split('?')[1])
     const theme = urlParams.get('theme') && urlParams.get('theme').match(/^[A-Za-z0-9\s]+/)[0]
     if (theme) {
@@ -33,7 +32,7 @@ const App = () => {
     }
 
     setColorMode(storedTheme)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <HashRouter>
@@ -45,15 +44,29 @@ const App = () => {
         }
       >
         <Routes>
-          <Route exact path="/login" name="Login Page" element={<Login />} />
-          <Route exact path="/register" name="Register Page" element={<Register />} />
-          <Route exact path="/404" name="Page 404" element={<Page404 />} />
-          <Route exact path="/500" name="Page 500" element={<Page500 />} />
-          {/* Cuando el usuario entre a la raíz, lo mandamos al Inicio */}
-          <Route path="/" element={<Navigate to="/Inicio" replace />} />
-
-          {/* El resto de las páginas se cargan dentro del DefaultLayout */}
-          <Route path="*" name="Home" element={<DefaultLayout />} />
+          {/* Ruta pública para login */}
+          <Route path="/login" element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } />
+          
+          {/* Ruta raíz redirige a login */}
+          <Route path="/" element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } />
+          
+          {/* 404 */}
+          <Route path="/404" element={<Page404 />} />
+          
+          {/* Todas las demás rutas protegidas pasan por DefaultLayout */}
+          <Route path="/*" element={
+            <ProtectedRoute>
+              <DefaultLayout />
+            </ProtectedRoute>
+          } />
         </Routes>
       </Suspense>
     </HashRouter>
