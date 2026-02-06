@@ -31,16 +31,25 @@ const Login = () => {
   const [success, setSuccess] = useState('')
   const [backendStatus, setBackendStatus] = useState('checking')
 
-  // Función auxiliar para convertir tipo_rol a rol inglés
+  // Función para convertir id_role numérico a rol inglés
+  const getEnglishRoleFromIdRole = (idRole) => {
+    // Mapeo basado en el valor numérico de id_role
+    const roleMap = {
+      1: 'admin',        // Administrador
+      2: 'gerente',      // Gerente
+      3: 'empleado',     // Empleado  
+      4: 'cliente',      // Cliente
+    }
+    return roleMap[idRole] || 'cliente' // Por defecto cliente
+  }
+
+  // Función auxiliar para convertir tipo_rol a rol inglés (como fallback)
   const getEnglishRoleFromSpanish = (tipoRol) => {
     const map = {
       'Administrador': 'admin',
       'Gerente': 'gerente', 
       'Empleado': 'empleado',
       'Cliente': 'cliente',
-      'Docente': 'docente', // Por si acaso
-      'Representante': 'representante', // Por si acaso
-      'Estudiante': 'estudiante' // Por si acaso
     }
     return map[tipoRol] || 'cliente'
   }
@@ -72,7 +81,15 @@ const Login = () => {
     if (token && user) {
       try {
         const userData = JSON.parse(user)
-        const userRole = userData.rol || getEnglishRoleFromSpanish(userData.tipo_rol) || 'cliente'
+        // Usar id_role primero si existe, luego tipo_rol
+        let userRole = 'cliente'
+        if (userData.id_role) {
+          userRole = getEnglishRoleFromIdRole(userData.id_role)
+        } else if (userData.tipo_rol) {
+          userRole = getEnglishRoleFromSpanish(userData.tipo_rol)
+        } else {
+          userRole = userData.rol || 'cliente'
+        }
         
         // Redirigir según rol
         const redirectPath = getRedirectPathByRole(userRole)
@@ -92,9 +109,12 @@ const Login = () => {
       return savedPath
     }
     
-    // Redirección por defecto según rol
-    switch (roleName) {
+    // Redirección por defecto según rol (CONSIDERA MINÚSCULAS/MAYÚSCULAS)
+    const roleLower = roleName.toLowerCase()
+    
+    switch (roleLower) {
       case 'admin':
+      case 'administrador':
         console.log('⚙️ Redirigiendo ADMIN a Inicio')
         return '/Inicio'
         
@@ -111,7 +131,7 @@ const Login = () => {
         return '/cliente/compras'
         
       default:
-        console.log('🔀 Redirigiendo a inicio por defecto')
+        console.log(`🔀 Redirigiendo a inicio por defecto (rol: ${roleName})`)
         return '/Inicio'
     }
   }
@@ -171,16 +191,46 @@ const Login = () => {
       })
 
       if (response.ok && response.accessToken && response.user) {
+        // DEBUG DETALLADO - Verificar TODOS los campos del usuario
+        console.log('🔍 DEBUG Usuario completo del backend:', {
+          id: response.user.id,
+          id_role: response.user.id_role,
+          tipo_rol: response.user.tipo_rol,
+          rol: response.user.rol,
+          username: response.user.username,
+          email: response.user.email
+        })
+        
+        // Determinar rol usando id_role PRIMERO (LO MÁS IMPORTANTE)
+        let userRole = 'cliente' // Valor por defecto
+        
+        if (response.user.id_role !== undefined && response.user.id_role !== null) {
+          // Mapear id_role numérico a string de rol
+          userRole = getEnglishRoleFromIdRole(response.user.id_role)
+          console.log(`🎯 Rol determinado por id_role ${response.user.id_role}: ${userRole}`)
+        } else if (response.user.tipo_rol) {
+          // Fallback a tipo_rol si no hay id_role
+          userRole = getEnglishRoleFromSpanish(response.user.tipo_rol)
+          console.log(`🎯 Rol determinado por tipo_rol "${response.user.tipo_rol}": ${userRole}`)
+        } else if (response.user.rol) {
+          // Usar rol directamente si existe
+          userRole = response.user.rol
+          console.log(`🎯 Usando rol directo: ${userRole}`)
+        } else {
+          console.log('⚠️ No se encontró rol en la respuesta, usando "cliente" por defecto')
+        }
+        
         // Asegurar que el usuario tenga la propiedad 'rol' en inglés
         const userWithRole = {
           ...response.user,
-          rol: response.user.rol || getEnglishRoleFromSpanish(response.user.tipo_rol) || 'cliente'
+          rol: userRole, // Asignar el rol determinado
+          id_role: response.user.id_role // Preservar id_role si existe
         }
         
         console.log('✅ Usuario procesado para guardar:', {
           rol: userWithRole.rol,
           tipo_rol: userWithRole.tipo_rol,
-          Id_rol: userWithRole.Id_rol
+          id_role: userWithRole.id_role
         })
         
         // Guardar tokens y datos del usuario
@@ -192,15 +242,17 @@ const Login = () => {
         const savedUser = JSON.parse(localStorage.getItem('user'))
         console.log('💾 Usuario guardado en localStorage:', {
           rol: savedUser?.rol,
-          tipo_rol: savedUser?.tipo_rol
+          tipo_rol: savedUser?.tipo_rol,
+          id_role: savedUser?.id_role,
+          username: savedUser?.username
         })
         
         setSuccess(`Bienvenido ${response.user.username || response.user.email}`)
         
         // Redirigir según rol
-        const userRole = userWithRole.rol
-        const redirectPath = getRedirectPathByRole(userRole)
-        console.log('🚀 Redirigiendo a:', redirectPath, 'para rol:', userRole)
+        const userRoleToRedirect = userWithRole.rol
+        const redirectPath = getRedirectPathByRole(userRoleToRedirect)
+        console.log('🚀 Redirigiendo a:', redirectPath, 'para rol:', userRoleToRedirect)
         
         // Pequeño delay para mostrar mensaje de éxito
         setTimeout(() => {

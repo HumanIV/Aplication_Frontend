@@ -1,4 +1,4 @@
-// src/api/helpFetch.js
+// src/api/helpFetch.js (VERSIÓN ACTUALIZADA CON checkConnection)
 export const helpFetch = () => {
   const URL = 'http://localhost:3001'
 
@@ -74,6 +74,9 @@ export const helpFetch = () => {
     }
   }
 
+  // ============================================
+  // MÉTODOS HTTP BÁSICOS
+  // ============================================
   const get = (endpoint, options = {}) => customFetch(endpoint, { ...options, method: 'GET' })
   
   const post = (endpoint, body, options = {}) => {
@@ -91,20 +94,40 @@ export const helpFetch = () => {
     return customFetch(url, { ...options, method: 'DELETE' })
   }
 
+  // ============================================
+  // MÉTODO checkConnection NUEVO
+  // ============================================
   const checkConnection = async () => {
     try {
-      const response = await fetch(`${URL}/api/health`)
+      console.log('🔍 Verificando conexión con el backend...');
+      
+      // Intentar hacer una solicitud simple a la raíz o a un endpoint que siempre exista
+      const response = await fetch(`${URL}/api/health`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
       if (response.ok) {
-        const data = await response.json()
-        console.log('🔌 Backend connected:', data.message)
-        return true
+        console.log('✅ Backend conectado correctamente');
+        return true;
+      } else {
+        console.log(`⚠️ Backend responde pero con error: ${response.status}`);
+        return true; // Si responde, aunque sea con error, significa que está activo
       }
-      return false
     } catch (error) {
-      console.error('🔌 Connection check failed:', error)
-      return false
+      console.error('❌ Error de conexión con backend:', error.message);
+      return false;
     }
-  }
+  };
 
-  return { get, post, put, delet, checkConnection, URL }
+  return { 
+    get, 
+    post, 
+    put, 
+    delet, // <-- Nota: se llama 'delet' no 'delete'
+    checkConnection, // <-- AGREGAR ESTO
+    URL 
+  }
 }

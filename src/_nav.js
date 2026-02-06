@@ -92,7 +92,7 @@ const _nav = [
     ],
   },
 
-  // INVENTARIO (admin, gerente, empleados)
+  /* // INVENTARIO (admin, gerente, empleados)
   {
     component: CNavGroup,
     name: 'Bodega Central',
@@ -106,7 +106,7 @@ const _nav = [
         roles: ['admin', 'gerente', 'empleado']
       },
     ],
-  },
+  },*/
 
   // STOCK (admin, gerente, empleados)
   {
@@ -123,7 +123,7 @@ const _nav = [
     roles: ['admin', 'gerente']
   },
 
-  // REPORTES (admin y gerente)
+ /* // REPORTES (admin y gerente)
   {
     component: CNavGroup,
     name: 'Estadísticas',
@@ -143,9 +143,9 @@ const _nav = [
     component: CNavTitle,
     name: 'Configuración de Acceso',
     roles: ['admin', 'gerente', 'empleado', 'cliente']
-  },
+  },*/
 
-  // SEGURIDAD (todos)
+  /*// SEGURIDAD (todos)
   {
     component: CNavGroup,
     name: 'Seguridad',
@@ -165,7 +165,7 @@ const _nav = [
         roles: ['cliente'] // Solo clientes pueden registrarse
       },
     ],
-  },
+  },*/
 
   // PERFIL (todos)
   {
@@ -176,7 +176,7 @@ const _nav = [
     roles: ['admin', 'gerente', 'empleado', 'cliente']
   },
 
-  // PANEL CLIENTE (solo clientes)
+ /* // PANEL CLIENTE (solo clientes)
   {
     component: CNavGroup,
     name: 'Panel Cliente',
@@ -196,9 +196,9 @@ const _nav = [
         roles: ['cliente']
       }
     ],
-  },
+  },*/
 
-  // PANEL EMPLEADO (solo empleados)
+ /* // PANEL EMPLEADO (solo empleados)
   {
     component: CNavGroup,
     name: 'Panel Empleado',
@@ -218,7 +218,7 @@ const _nav = [
         roles: ['empleado']
       }
     ],
-  },
+  },*/
 
   // PANEL GERENTE (solo gerente)
   {
