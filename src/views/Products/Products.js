@@ -301,13 +301,41 @@ const Products = () => {
     }))
   }
 
-  const handleSubmit = () => {
-    if (modalType === 'create') {
-      handleCreateProduct()
-    } else if (modalType === 'edit') {
-      handleUpdateProduct()
+  // Función de validación por paso
+  const validateStep = (step) => {
+    switch(step) {
+      case 1:
+        return formData.Nombre.trim() !== '';
+      case 2:
+        const price = parseFloat(formData.Precio_Unit);
+        return !isNaN(price) && price > 0;
+      default:
+        return true;
     }
-  }
+  };
+
+  const handleSubmit = () => {
+    // Validaciones finales antes de enviar
+    if (!formData.Nombre.trim()) {
+      showToast('danger', 'El nombre del producto es requerido');
+      setStep(1); // Regresar al paso 1
+      return;
+    }
+    
+    const price = parseFloat(formData.Precio_Unit);
+    if (isNaN(price) || price <= 0) {
+      showToast('danger', 'El precio debe ser mayor a 0');
+      setStep(2); // Regresar al paso 2
+      return;
+    }
+    
+    // Si pasa todas las validaciones, proceder
+    if (modalType === 'create') {
+      handleCreateProduct();
+    } else if (modalType === 'edit') {
+      handleUpdateProduct();
+    }
+  };
 
   // ---------------------- RENDER ---------------------- //
   return (
@@ -601,6 +629,11 @@ const Products = () => {
                           placeholder="Ej: Laptop Dell Inspiron 15"
                           required
                         />
+                        {!formData.Nombre.trim() && step === 1 && (
+                          <div className="text-danger small mt-1">
+                            Este campo es requerido
+                          </div>
+                        )}
                       </CCol>
                       <CCol md={12}>
                         <CFormLabel>Categoría</CFormLabel>
@@ -646,6 +679,11 @@ const Products = () => {
                           placeholder="0.00"
                           required
                         />
+                        {formData.Precio_Unit && parseFloat(formData.Precio_Unit) <= 0 && (
+                          <div className="text-danger small mt-1">
+                            El precio debe ser mayor a 0
+                          </div>
+                        )}
                       </CCol>
                       <CCol md={6}>
                         <CFormLabel>Cantidad Inicial</CFormLabel>
@@ -701,8 +739,23 @@ const Products = () => {
                   <CButton
                     style={{ backgroundColor: azulVA }}
                     className="text-white px-4"
-                    onClick={() => setStep(step + 1)}
-                    disabled={!formData.Nombre || !formData.Precio_Unit}
+                    onClick={() => {
+                      // Validaciones específicas por paso
+                      if (step === 1 && !formData.Nombre.trim()) {
+                        showToast('warning', 'Por favor ingresa el nombre del producto');
+                        return;
+                      }
+                      if (step === 2) {
+                        const price = parseFloat(formData.Precio_Unit);
+                        if (isNaN(price) || price <= 0) {
+                          showToast('warning', 'El precio debe ser mayor a 0');
+                          return;
+                        }
+                      }
+                      setStep(step + 1);
+                    }}
+                    // Solo deshabilitar si es el paso 1 y no tiene nombre
+                    disabled={step === 1 && !formData.Nombre.trim()}
                   >
                     Siguiente
                   </CButton>

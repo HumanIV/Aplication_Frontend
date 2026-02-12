@@ -1,4 +1,4 @@
-// src/api/helpFetch.js (VERSIÓN ACTUALIZADA CON checkConnection)
+// src/api/helpFetch.js (VERSIÓN ACTUALIZADA CON UPLOAD)
 export const helpFetch = () => {
   const URL = 'http://localhost:3001'
 
@@ -19,7 +19,8 @@ export const helpFetch = () => {
       ...(options.headers || {}),
     }
 
-    if (options.body) {
+    // NO stringify body si es FormData
+    if (options.body && !(options.body instanceof FormData)) {
       options.body = JSON.stringify(options.body)
     }
 
@@ -30,10 +31,8 @@ export const helpFetch = () => {
       
       console.log(`📡 Response status: ${response.status} ${response.statusText}`)
       
-      // Leer la respuesta como texto primero
       const text = await response.text()
       
-      // Si no hay contenido, retornar objeto vacío
       if (!text || text.trim() === '') {
         console.log('✅ Response vacía')
         return { ok: response.ok, _ok: response.ok, _status: response.status }
@@ -41,7 +40,6 @@ export const helpFetch = () => {
       
       let data
       try {
-        // Intentar parsear como JSON
         data = JSON.parse(text)
         console.log(`✅ JSON Response:`, data)
       } catch (jsonError) {
@@ -49,7 +47,6 @@ export const helpFetch = () => {
         data = { text, ok: response.ok, _ok: response.ok, _status: response.status }
       }
       
-      // **IMPORTANTE: Siempre agregar propiedades de estado**
       if (!data._ok) {
         data._ok = response.ok
       }
@@ -95,13 +92,75 @@ export const helpFetch = () => {
   }
 
   // ============================================
-  // MÉTODO checkConnection NUEVO
+  // MÉTODO UPLOAD PARA FORM-DATA (ARCHIVOS)
+  // ============================================
+  const upload = async (endpoint, formData, options = {}) => {
+    console.log('📤 Upload - Iniciando subida de archivo...')
+    
+    const token = localStorage.getItem('accessToken')
+    
+    // Configurar headers específicos para FormData
+    const headers = {}
+    if (token) {
+      headers.Authorization = `Bearer ${token}`
+    }
+    // NO establecer 'Content-Type' para FormData, fetch lo hará automáticamente
+    // con el boundary correcto
+    
+    try {
+      const response = await fetch(`${URL}${endpoint}`, {
+        method: 'POST',
+        headers: headers,
+        body: formData,
+        ...options
+      })
+      
+      console.log(`📡 Upload Response status: ${response.status}`)
+      
+      const text = await response.text()
+      
+      if (!text || text.trim() === '') {
+        console.log('✅ Upload - Response vacía')
+        return { ok: response.ok, _ok: response.ok, _status: response.status }
+      }
+      
+      let data
+      try {
+        data = JSON.parse(text)
+        console.log('✅ Upload - Response JSON:', data)
+      } catch (jsonError) {
+        console.log(`⚠️ Upload - Response no es JSON:`, text)
+        data = { text, ok: response.ok, _ok: response.ok, _status: response.status }
+      }
+      
+      if (!data._ok) {
+        data._ok = response.ok
+      }
+      if (!data._status) {
+        data._status = response.status
+      }
+      
+      return data
+      
+    } catch (error) {
+      console.error('❌ Upload - Network error:', error.message)
+      return {
+        ok: false,
+        message: 'Error de conexión con el servidor',
+        _ok: false,
+        _status: 0,
+        _statusText: 'Network Error'
+      }
+    }
+  }
+
+  // ============================================
+  // MÉTODO checkConnection
   // ============================================
   const checkConnection = async () => {
     try {
       console.log('🔍 Verificando conexión con el backend...');
       
-      // Intentar hacer una solicitud simple a la raíz o a un endpoint que siempre exista
       const response = await fetch(`${URL}/api/health`, {
         method: 'GET',
         headers: {
@@ -114,7 +173,7 @@ export const helpFetch = () => {
         return true;
       } else {
         console.log(`⚠️ Backend responde pero con error: ${response.status}`);
-        return true; // Si responde, aunque sea con error, significa que está activo
+        return true;
       }
     } catch (error) {
       console.error('❌ Error de conexión con backend:', error.message);
@@ -126,8 +185,9 @@ export const helpFetch = () => {
     get, 
     post, 
     put, 
-    delet, // <-- Nota: se llama 'delet' no 'delete'
-    checkConnection, // <-- AGREGAR ESTO
+    delet,
+    upload, // <-- AGREGAR ESTA LÍNEA
+    checkConnection,
     URL 
   }
 }

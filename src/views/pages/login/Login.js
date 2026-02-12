@@ -18,6 +18,8 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser, cilWarning, cilCheckCircle } from '@coreui/icons'
 import { helpFetch } from '../../../api/helpFetch'
+import logoPersonalizado from '../../../assets/images/LogoCM.png'
+
 
 const api = helpFetch()
 
@@ -313,44 +315,19 @@ const Login = () => {
                 {/* Logo */}
                 <div className="mb-4 text-center">
                   <div className="sidebar-logo-circle-premium mx-auto mb-3">
-                    <img 
-                      src="/favicon.png" 
-                      alt="Logo V&A" 
-                      className="img-fluid" 
-                      style={{ maxWidth: '85px' }} 
-                    />
+            <img
+              src={logoPersonalizado}
+              height={110}
+              alt="Logo V&A"
+              style={{ filter: 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2))' }}
+            />
                   </div>
                   <h1 className="text-white h3 fw-medium mb-1">V&A SISTEMA</h1>
                   <p className="text-white-50 fw-regular small mb-0">Sistema de Gestión</p>
                   
                   {/* Estado de conexión con BACKEND */}
                   <div className="mt-3">
-                    {backendStatus === 'checking' && (
-                      <div className="d-flex align-items-center justify-content-center text-warning">
-                        <CSpinner size="sm" className="me-2" />
-                        <small className="text-white-50">Conectando al servidor...</small>
-                      </div>
-                    )}
-                    {backendStatus === 'connected' && (
-                      <div className="d-flex align-items-center justify-content-center text-success">
-                        <CIcon icon={cilCheckCircle} className="me-2" />
-                        <small className="text-white-50">Conectado al servidor</small>
-                      </div>
-                    )}
-                    {backendStatus === 'error' && (
-                      <div className="d-flex align-items-center justify-content-center text-danger">
-                        <CIcon icon={cilWarning} className="me-2" />
-                        <small className="text-white-50">Error de conexión</small>
-                        <CButton 
-                          size="sm" 
-                          color="link" 
-                          className="text-warning p-0 ms-2"
-                          onClick={handleRetryConnection}
-                        >
-                          Reintentar
-                        </CButton>
-                      </div>
-                    )}
+  
                   </div>
                 </div>
 
@@ -438,42 +415,6 @@ const Login = () => {
                     </CButton>
                   </div>
 
-                  {/* Enlaces adicionales */}
-                  <CRow className="mb-3">
-                    <CCol xs={6}>
-                      <CButton 
-                        color="link" 
-                        className="px-0 w-100 text-start"
-                        onClick={() => navigate('/register')}
-                        disabled={loading}
-                      >
-                        ¿No tienes cuenta? Regístrate
-                      </CButton>
-                    </CCol>
-                    <CCol xs={6} className="text-end">
-                      <CButton 
-                        color="link" 
-                        className="px-0"
-                        onClick={() => navigate('/forgot-password')}
-                        disabled={loading}
-                      >
-                        ¿Olvidaste tu contraseña?
-                      </CButton>
-                    </CCol>
-                  </CRow>
-
-                  {/* Información de desarrollo */}
-                  {process.env.NODE_ENV === 'development' && (
-                    <div className="mt-3 p-3 bg-dark bg-opacity-25 rounded">
-                      <small className="text-white-50 d-block text-center">
-                        Backend: http://localhost:3001
-                      </small>
-                      <small className="text-white-50 d-block text-center mt-1">
-                        Estado: {backendStatus === 'connected' ? '🟢 Conectado' : 
-                                backendStatus === 'error' ? '🔴 Error' : '🟡 Conectando...'}
-                      </small>
-                    </div>
-                  )}
                 </CForm>
               </CCardBody>
             </CCard>
